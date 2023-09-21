@@ -81,10 +81,11 @@ class _InputScreenState extends State<InputScreen> {
                   style: TextStyle(),
                 ))
           ],
-        ),
+        ),//https://shellshock.io/#K7P42NP
         const SizedBox(
           height: 10,
         ),
+        //TODO: Hier findet ein WidgetOverflow statt, fixen!!
         ListView.builder(
           itemCount: tiles.length,
           shrinkWrap: true,
