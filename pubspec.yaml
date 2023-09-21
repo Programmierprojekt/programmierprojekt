@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   kmeans: ^1.0.0
   ml_algo: ^16.17.8
+  fl_chart: ^0.63.0
 
 dev_dependencies:
   flutter_test:
