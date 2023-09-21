@@ -25,17 +25,20 @@ class _InputScreenState extends State<InputScreen> {
               CustomWidgets.CustomElevatedButton(
                   text: "Algorithmus", onPressed: () {}),
               CustomWidgets.CustomElevatedButton(
-                  text: "Export", onPressed: () {}),
+                  buttonBackgroundColor: Colors.lightGreen,
+                  text: "Berechnen", onPressed: () {}),
             ],
           ),
         ),
+        const SizedBox(height: 10,),
         const SizedBox(
           height: 10,
         ),
         ListView.builder(
           itemCount: tiles.length,
           shrinkWrap: true,
-          itemBuilder: (context, index) => const ListTile(
+          itemBuilder: (context, index) =>
+          const ListTile(
             trailing: TextField(
               maxLines: 1,
             ),

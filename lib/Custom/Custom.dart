@@ -5,8 +5,10 @@ class CustomWidgets {
     required String text,
     required Function onPressed,
     Color? foreGroundTextColor,
+    Color? buttonBackgroundColor,
   }) =>
       ElevatedButton(
+        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(buttonBackgroundColor)),
         onPressed: () => onPressed,
         child: Text(
           text,
