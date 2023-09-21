@@ -13,6 +13,8 @@ class _OutputScreenState extends State<OutputScreen> {
   Color greyColor = Colors.grey;
   List<int> selectedSpots = [1, 2, 3, 4, 5, 6, 7];
 
+  double aspectRatioValue = 5;
+
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
@@ -27,7 +29,7 @@ class _OutputScreenState extends State<OutputScreen> {
                 decoration:
                     BoxDecoration(border: Border.all(color: Colors.indigoAccent)),
                 child: AspectRatio(
-                  aspectRatio: 1,
+                  aspectRatio: aspectRatioValue,
                   child: ScatterChart(
                     ScatterChartData(
                       scatterSpots: [
@@ -198,7 +200,7 @@ class _OutputScreenState extends State<OutputScreen> {
                 decoration:
                     BoxDecoration(border: Border.all(color: Colors.indigoAccent)),
                 child: AspectRatio(
-                  aspectRatio: 1,
+                  aspectRatio: aspectRatioValue,
                   child: ScatterChart(
                     ScatterChartData(
                       scatterSpots: [
