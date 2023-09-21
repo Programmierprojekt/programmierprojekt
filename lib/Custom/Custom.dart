@@ -4,6 +4,7 @@ class CustomWidgets {
   static ElevatedButton CustomElevatedButton({
     required String text,
     required Function onPressed,
+    double? textFontSize = 24,
     Color? foreGroundTextColor,
     Color? buttonBackgroundColor,
   }) =>
@@ -12,7 +13,7 @@ class CustomWidgets {
         onPressed: () => onPressed,
         child: Text(
           text,
-          style: TextStyle(fontSize: 24, color: foreGroundTextColor),
+          style: TextStyle(fontSize: textFontSize, color: foreGroundTextColor),
         ),
       );
 }
