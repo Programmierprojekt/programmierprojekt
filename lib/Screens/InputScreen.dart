@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:programmierprojekt/Custom/Custom.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 
@@ -11,7 +10,14 @@ class InputScreen extends StatefulWidget {
 }
 
 class _InputScreenState extends State<InputScreen> {
-  List<DataPointModel> tiles = [];
+  List<DataPointModel> tiles = [
+    DataPointModel(x: 7, y: 8),
+    DataPointModel(x: 7, y: 8),
+    DataPointModel(x: 7, y: 8),
+    DataPointModel(x: 7, y: 8),
+    DataPointModel(x: 7, y: 8),
+    DataPointModel(x: 7, y: 8),
+  ];
   TextEditingController xTextController = TextEditingController();
   TextEditingController yTextController = TextEditingController();
 
@@ -35,7 +41,7 @@ class _InputScreenState extends State<InputScreen> {
             ],
           ),
         ),
-        const Divider(),
+        const Divider(thickness: 8),
         const SizedBox(
           height: 48,
         ),
@@ -81,54 +87,52 @@ class _InputScreenState extends State<InputScreen> {
                   style: TextStyle(),
                 ))
           ],
-        ),//https://shellshock.io/#K7P42NP
+        ),
         const SizedBox(
           height: 10,
         ),
-        //TODO: Hier findet ein WidgetOverflow statt, fixen!!
-        ListView.builder(
-          itemCount: tiles.length,
-          shrinkWrap: true,
-          itemBuilder: (context, index) => ListTile(
-            leading: IconButton(
-                onPressed: () => editItem(index),
-                icon: const Icon(Icons.edit)),
-            title: Row(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 9,
-                  child: TextField(
-                    controller: TextEditingController(
-                        text: tiles[index].x.toString()),
-                    maxLines: 1,
-                    readOnly: true,
-                    enabled: false,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    decoration: const InputDecoration(
-                      labelText: "x",
-                      border: OutlineInputBorder(),
-
+        Expanded(
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 4,
+            ),
+            itemCount: tiles.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) => ListTile(
+              leading: IconButton(
+                  onPressed: () => editItem(index),
+                  icon: const Icon(Icons.edit)),
+              title: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          border: Border.all(color: Colors.blueGrey)),
+                      width: MediaQuery.of(context).size.width / 9,
+                      child: Text(
+                        tiles[index].x.toString(),
+                        maxLines: 1,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 9,
-                  child: TextField(
-                    maxLines: 1,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    enabled: false,
-                    controller: TextEditingController(
-                        text: tiles[index].y.toString()),
-                    readOnly: true,
-                    decoration: const InputDecoration(
-                      labelText: "y",
-                      border: OutlineInputBorder(),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          border: Border.all(color: Colors.blueGrey)),
+                      width: MediaQuery.of(context).size.width / 9,
+                      child: Text(
+                        tiles[index].y.toString(),
+                        maxLines: 1,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         )
@@ -145,15 +149,81 @@ class _InputScreenState extends State<InputScreen> {
 
   void addItem() {
     setState(() {
-      tiles.add(DataPointModel(
-          x: double.parse(xTextController.text),
-          y: double.parse(yTextController.text)));
+      tiles.insert(
+          0,
+          DataPointModel(
+              x: double.parse(xTextController.text),
+              y: double.parse(yTextController.text)));
       xTextController.clear();
       yTextController.clear();
     });
   }
 
-  void editItem(index) {
-    //TODO: Dialog anzeigen wo man die Werte ändern kann
+  void editItem(index) async {
+    TextEditingController xpController =
+        TextEditingController(text: tiles[index].x.toString());
+    TextEditingController ypController =
+        TextEditingController(text: tiles[index].y.toString());
+
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Datenpunkt anpassen"),
+        content: Column(
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 9,
+              child: TextField(
+                maxLines: 1,
+                controller: xpController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(
+                  labelText: "x-Wert",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 9,
+              child: TextField(
+                maxLines: 1,
+                controller: ypController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(
+                  labelText: "y-Wert",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            )
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); //Popup schließen
+            },
+            child: const Text("Abbruch", style: TextStyle(color: Colors.red)),
+          ),
+          TextButton(
+              onPressed: () {
+                tiles[index].x = double.parse(xpController.text);
+                tiles[index].y = double.parse(ypController.text);
+                Navigator.pop(context);
+              },
+              child: const Text(
+                "OK",
+                style: TextStyle(color: Colors.blue),
+              )),
+        ],
+      ),
+    );
+    xpController.dispose();
+    ypController.dispose();
+    setState(() {});
   }
 }
