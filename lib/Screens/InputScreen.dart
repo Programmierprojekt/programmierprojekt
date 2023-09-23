@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kmeans/kmeans.dart';
-import 'package:programmierprojekt/Algorithms/AlgorithmHelper.dart';
 import 'package:programmierprojekt/Custom/Custom.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 
@@ -22,7 +20,6 @@ class _InputScreenState extends State<InputScreen> {
   ];
   TextEditingController xTextController = TextEditingController();
   TextEditingController yTextController = TextEditingController();
-  Clusters? data;
 
   @override
   Widget build(BuildContext context) {
