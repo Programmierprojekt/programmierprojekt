@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kmeans/kmeans.dart';
+import 'package:programmierprojekt/Algorithms/AlgorithmHelper.dart';
 import 'package:programmierprojekt/Custom/Custom.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 
@@ -11,15 +13,16 @@ class InputScreen extends StatefulWidget {
 
 class _InputScreenState extends State<InputScreen> {
   List<DataPointModel> tiles = [
-    DataPointModel(x: 7, y: 8),
-    DataPointModel(x: 7, y: 8),
-    DataPointModel(x: 7, y: 8),
-    DataPointModel(x: 7, y: 8),
-    DataPointModel(x: 7, y: 8),
-    DataPointModel(x: 7, y: 8),
+    DataPointModel(x: 1, y: 2),
+    DataPointModel(x: 2, y: 3),
+    DataPointModel(x: 1, y: 3),
+    DataPointModel(x: 3, y: 1),
+    DataPointModel(x: 2, y: 2),
+    DataPointModel(x: 4, y: 15),
   ];
   TextEditingController xTextController = TextEditingController();
   TextEditingController yTextController = TextEditingController();
+  Clusters? data;
 
   @override
   Widget build(BuildContext context) {

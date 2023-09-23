@@ -19,28 +19,26 @@ class _OutputScreenState extends State<OutputScreen> {
       SfCartesianChart(
         title: ChartTitle(text: "Ohne Clustering"),
         primaryXAxis: NumericAxis(
-          labelIntersectAction: AxisLabelIntersectAction.multipleRows,
-          majorGridLines: const MajorGridLines(width: 1),
-          axisLine: const AxisLine(width: 1)
-        ),
+            labelIntersectAction: AxisLabelIntersectAction.multipleRows,
+            majorGridLines: const MajorGridLines(width: 1),
+            axisLine: const AxisLine(width: 1)),
         primaryYAxis: NumericAxis(
             axisLine: const AxisLine(width: 1),
-          majorGridLines:const MajorGridLines(width: 1)
-        ),
+            majorGridLines: const MajorGridLines(width: 1)),
         tooltipBehavior: TooltipBehavior(enable: true),
       ),
-      const SizedBox(height: 10,),
+      const SizedBox(
+        height: 10,
+      ),
       SfCartesianChart(
         title: ChartTitle(text: "Mit Clustering"),
         primaryXAxis: NumericAxis(
             labelIntersectAction: AxisLabelIntersectAction.multipleRows,
             majorGridLines: const MajorGridLines(width: 1),
-            axisLine: const AxisLine(width: 1)
-        ),
+            axisLine: const AxisLine(width: 1)),
         primaryYAxis: NumericAxis(
             axisLine: const AxisLine(width: 1),
-            majorGridLines:const MajorGridLines(width: 1)
-        ),
+            majorGridLines: const MajorGridLines(width: 1)),
         tooltipBehavior: TooltipBehavior(enable: true),
       ),
     ]);

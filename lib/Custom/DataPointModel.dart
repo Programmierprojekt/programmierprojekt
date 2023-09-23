@@ -1,7 +1,5 @@
-/**
- * Klasse für die Datenpunkte.
- * Beinhaltet die X- und Y-Werte eines Punktes.
- */
+/// Klasse für die Datenpunkte.
+/// Beinhaltet die X- und Y-Werte eines Punktes.
 class DataPointModel {
   ///X-Position
   double x;
@@ -10,4 +8,6 @@ class DataPointModel {
   double y;
 
   DataPointModel({required this.x, required this.y});
+
+  List<double> toKMeansList() => [x,y];
 }

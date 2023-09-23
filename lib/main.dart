@@ -14,9 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "SmartClassificator",
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.dark
-      ),
+      theme: ThemeData(brightness: Brightness.dark),
       home: const MyHomePage(),
     );
   }
@@ -51,8 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: _onNavigationItemClicked,
         currentIndex: _bottomNavigationIndex,
         items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.input), label: "Eingabe"),
+          BottomNavigationBarItem(icon: Icon(Icons.input), label: "Eingabe"),
           BottomNavigationBarItem(icon: Icon(Icons.output), label: "Ausgabe"),
         ],
       ),
