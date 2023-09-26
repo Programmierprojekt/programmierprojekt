@@ -9,7 +9,8 @@ class CustomWidgets {
     Color? buttonBackgroundColor,
   }) =>
       ElevatedButton(
-        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(buttonBackgroundColor)),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(buttonBackgroundColor)),
         onPressed: onPressed,
         child: Text(
           text,

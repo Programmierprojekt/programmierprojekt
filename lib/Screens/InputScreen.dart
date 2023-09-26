@@ -1,20 +1,22 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:programmierprojekt/Custom/Custom.dart';
+import 'package:programmierprojekt/Custom/CustomWidgets.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 
 class InputScreen extends StatefulWidget {
-  const InputScreen({Key? key}) : super(key: key);
+  final DataPoints dataPoints;
+
+  const InputScreen({required this.dataPoints, Key? key}) : super(key: key);
 
   @override
   State<InputScreen> createState() => _InputScreenState();
 }
 
 class _InputScreenState extends State<InputScreen> {
+  //Das sind Testdatenpunkte @cleanup
   List<DataPointModel> tiles = [
     DataPointModel(x: 1, y: 2),
     DataPointModel(x: 2, y: 3),
@@ -23,8 +25,16 @@ class _InputScreenState extends State<InputScreen> {
     DataPointModel(x: 2, y: 2),
     DataPointModel(x: 4, y: 15),
   ];
+  DataPoints? dataPoints;
   TextEditingController xTextController = TextEditingController();
   TextEditingController yTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    dataPoints = widget.dataPoints;
+    dataPoints?.addAll(tiles);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +45,20 @@ class _InputScreenState extends State<InputScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CustomWidgets.CustomElevatedButton(
-                  text: "Import", onPressed: importData),
-              CustomWidgets.CustomElevatedButton(
-                  text: "Algorithmus", onPressed: () {}),
-              CustomWidgets.CustomElevatedButton(
-                  buttonBackgroundColor: Colors.lightGreen,
-                  text: "Berechnen",
-                  onPressed: () {}),
+              Expanded(
+                child: CustomWidgets.CustomElevatedButton(
+                    text: "Import", onPressed: importData),
+              ),
+              Expanded(
+                child: CustomWidgets.CustomElevatedButton(
+                    text: "Algorithmus", onPressed: () {}),
+              ),
+              Expanded(
+                child: CustomWidgets.CustomElevatedButton(
+                    buttonBackgroundColor: Colors.lightGreen,
+                    text: "Berechnen",
+                    onPressed: () {}),
+              ),
             ],
           ),
         ),
@@ -97,49 +113,52 @@ class _InputScreenState extends State<InputScreen> {
           height: 10,
         ),
         Expanded(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 4,
-            ),
-            itemCount: tiles.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) => ListTile(
-              leading: IconButton(
-                  onPressed: () => editItem(index),
-                  icon: const Icon(Icons.edit)),
-              trailing: IconButton(
-                  onPressed: () => deleteItem(index),
-                  icon: const Icon(Icons.delete_forever)),
-              title: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          border: Border.all(color: Colors.blueGrey)),
-                      width: MediaQuery.of(context).size.width / 9,
-                      child: Text(
-                        tiles[index].x.toString(),
-                        maxLines: 1,
+          child: ListenableBuilder(
+            listenable: dataPoints!,
+            builder: (context, child) => GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 4,
+              ),
+              itemCount: dataPoints!.points.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) => ListTile(
+                leading: IconButton(
+                    onPressed: () => editItem(index),
+                    icon: const Icon(Icons.edit)),
+                trailing: IconButton(
+                    onPressed: () => deleteItem(index),
+                    icon: const Icon(Icons.delete_forever)),
+                title: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            border: Border.all(color: Colors.blueGrey)),
+                        width: MediaQuery.of(context).size.width / 9,
+                        child: Text(
+                          dataPoints!.points[index].x.toString(),
+                          maxLines: 1,
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          border: Border.all(color: Colors.blueGrey)),
-                      width: MediaQuery.of(context).size.width / 9,
-                      child: Text(
-                        tiles[index].y.toString(),
-                        maxLines: 1,
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            border: Border.all(color: Colors.blueGrey)),
+                        width: MediaQuery.of(context).size.width / 9,
+                        child: Text(
+                          dataPoints!.points[index].y.toString(),
+                          maxLines: 1,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -156,15 +175,14 @@ class _InputScreenState extends State<InputScreen> {
   }
 
   void addItem() {
-    setState(() {
-      tiles.insert(
-          0,
-          DataPointModel(
-              x: double.parse(xTextController.text),
-              y: double.parse(yTextController.text)));
-      xTextController.clear();
-      yTextController.clear();
-    });
+    dataPoints!.insert(
+        0,
+        DataPointModel(
+            x: double.parse(xTextController.text),
+            y: double.parse(yTextController.text)));
+    xTextController.clear();
+    yTextController.clear();
+    setState(() {});
   }
 
   void deleteItem(index) async {
@@ -173,7 +191,7 @@ class _InputScreenState extends State<InputScreen> {
         builder: (context) => AlertDialog(
               title: const Text("Datenpunkt löschen"),
               content: Text(
-                  "Willst du wirklich den Datenpunkt löschen?\n x = ${tiles[index].x} | y = ${tiles[index].y}"),
+                  "Willst du wirklich den Datenpunkt löschen?\n x = ${dataPoints!.points[index].x} | y = ${dataPoints!.points[index].y}"),
               actions: [
                 TextButton(
                   child:
@@ -183,7 +201,7 @@ class _InputScreenState extends State<InputScreen> {
                 TextButton(
                   child: const Text("Ja", style: TextStyle(color: Colors.red)),
                   onPressed: () {
-                    tiles.removeAt(index);
+                    dataPoints!.removeAt(index);
                     Navigator.of(context).pop();
                   },
                 )
@@ -194,9 +212,9 @@ class _InputScreenState extends State<InputScreen> {
 
   void editItem(index) async {
     TextEditingController xpController =
-        TextEditingController(text: tiles[index].x.toString());
+        TextEditingController(text: dataPoints!.points[index].x.toString());
     TextEditingController ypController =
-        TextEditingController(text: tiles[index].y.toString());
+        TextEditingController(text: dataPoints!.points[index].y.toString());
 
     await showDialog(
       context: context,
@@ -241,7 +259,7 @@ class _InputScreenState extends State<InputScreen> {
                 style: TextStyle(
                     backgroundColor: Colors.red, color: Colors.white)),
             onPressed: () {
-              tiles.removeAt(index);
+              dataPoints!.removeAt(index);
               Navigator.pop(context);
             },
           ),
@@ -253,8 +271,8 @@ class _InputScreenState extends State<InputScreen> {
           ),
           TextButton(
               onPressed: () {
-                tiles[index].x = double.parse(xpController.text);
-                tiles[index].y = double.parse(ypController.text);
+                dataPoints!.modify(index, double.parse(xpController.text),
+                    double.parse(ypController.text));
                 Navigator.pop(context);
               },
               child: const Text(
@@ -280,16 +298,14 @@ class _InputScreenState extends State<InputScreen> {
       List<List<dynamic>> data =
           const CsvToListConverter().convert(decodedData, fieldDelimiter: ";");
       data.removeAt(0);
-      //Funktioniert nicht mit der Map-Funktion --> data.map((e) => ...);
       for (var e in data) {
-        tiles.add(DataPointModel(
-            x: double.tryParse(e.first.toString().replaceAll(',', '.')) ?? -999,
-            y: double.tryParse(e.last.toString().replaceAll(',', '.')) ??
-                -999));
+        if (double.tryParse(e.first.toString().replaceAll(",", ".")) != null &&
+            double.tryParse(e.last.toString().replaceAll(",", ".")) != null) {
+          dataPoints!.add(DataPointModel(
+              x: double.parse(e.first.toString().replaceAll(',', '.')),
+              y: double.parse(e.last.toString().replaceAll(',', '.'))));
+        }
       }
-      //"Fehlerhafte" Datenpunkte entfernen
-      //TODO: Etwas anderes einfallen lassen und evtl. Popup ausgeben, dass Daten fehlerhaft sind?
-      tiles.removeWhere((element) => element.x == -999 || element.y == -999);
       setState(() {});
     } else {
       await _displayInfoDialog();
