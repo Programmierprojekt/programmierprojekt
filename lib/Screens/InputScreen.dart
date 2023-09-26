@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:programmierprojekt/Custom/Custom.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
@@ -31,7 +36,7 @@ class _InputScreenState extends State<InputScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomWidgets.CustomElevatedButton(
-                  text: "Import", onPressed: () {}),
+                  text: "Import", onPressed: importData),
               CustomWidgets.CustomElevatedButton(
                   text: "Algorithmus", onPressed: () {}),
               CustomWidgets.CustomElevatedButton(
@@ -103,6 +108,9 @@ class _InputScreenState extends State<InputScreen> {
               leading: IconButton(
                   onPressed: () => editItem(index),
                   icon: const Icon(Icons.edit)),
+              trailing: IconButton(
+                  onPressed: () => deleteItem(index),
+                  icon: const Icon(Icons.delete_forever)),
               title: Row(
                 children: [
                   Expanded(
@@ -159,6 +167,31 @@ class _InputScreenState extends State<InputScreen> {
     });
   }
 
+  void deleteItem(index) async {
+    await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Datenpunkt löschen"),
+              content: Text(
+                  "Willst du wirklich den Datenpunkt löschen?\n x = ${tiles[index].x} | y = ${tiles[index].y}"),
+              actions: [
+                TextButton(
+                  child:
+                      const Text("Nein", style: TextStyle(color: Colors.blue)),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                TextButton(
+                  child: const Text("Ja", style: TextStyle(color: Colors.red)),
+                  onPressed: () {
+                    tiles.removeAt(index);
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
+    setState(() {});
+  }
+
   void editItem(index) async {
     TextEditingController xpController =
         TextEditingController(text: tiles[index].x.toString());
@@ -204,6 +237,15 @@ class _InputScreenState extends State<InputScreen> {
         ),
         actions: [
           TextButton(
+            child: const Text("Datenpunkt löschen",
+                style: TextStyle(
+                    backgroundColor: Colors.red, color: Colors.white)),
+            onPressed: () {
+              tiles.removeAt(index);
+              Navigator.pop(context);
+            },
+          ),
+          TextButton(
             onPressed: () {
               Navigator.pop(context); //Popup schließen
             },
@@ -225,5 +267,52 @@ class _InputScreenState extends State<InputScreen> {
     xpController.dispose();
     ypController.dispose();
     setState(() {});
+  }
+
+  void importData() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['csv'],
+    );
+    if (result != null) {
+      PlatformFile file = result.files.first;
+      final decodedData = utf8.decode(file.bytes as List<int>);
+      List<List<dynamic>> data =
+          const CsvToListConverter().convert(decodedData, fieldDelimiter: ";");
+      data.removeAt(0);
+      //Funktioniert nicht mit der Map-Funktion --> data.map((e) => ...);
+      for (var e in data) {
+        tiles.add(DataPointModel(
+            x: double.tryParse(e.first.toString().replaceAll(',', '.')) ?? -999,
+            y: double.tryParse(e.last.toString().replaceAll(',', '.')) ??
+                -999));
+      }
+      //"Fehlerhafte" Datenpunkte entfernen
+      //TODO: Etwas anderes einfallen lassen und evtl. Popup ausgeben, dass Daten fehlerhaft sind?
+      tiles.removeWhere((element) => element.x == -999 || element.y == -999);
+      setState(() {});
+    } else {
+      await _displayInfoDialog();
+    }
+  }
+
+  Future _displayInfoDialog() async {
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Import-Abbruch"),
+        content: const Text("Es wurde keine Datei zum importieren ausgewählt!"
+            "Daten können durch den Dateiimport bezogen werden"
+            " oder manuell hinzugefügt werden."),
+        actions: [
+          TextButton(
+            child: const Text("OK"),
+            onPressed: () {
+              if (context.mounted) Navigator.of(context).pop();
+            },
+          )
+        ],
+      ),
+    );
   }
 }

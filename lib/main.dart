@@ -3,6 +3,7 @@ import 'package:programmierprojekt/Screens/InputScreen.dart';
 import 'package:programmierprojekt/Screens/OutputScreen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

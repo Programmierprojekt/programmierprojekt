@@ -38,6 +38,8 @@ dependencies:
   kmeans: ^1.0.0
   ml_algo: ^16.17.8
   syncfusion_flutter_charts: ^23.1.36
+  file_picker: ^5.5.0
+  csv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
