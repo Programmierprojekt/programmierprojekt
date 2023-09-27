@@ -17,4 +17,22 @@ class CustomWidgets {
           style: TextStyle(fontSize: textFontSize, color: foreGroundTextColor),
         ),
       );
+
+  static Widget CustomListTile(
+          {required void Function() onTap,
+          Widget? title,
+          Widget? subtitle,
+          Widget? leading,
+          Widget? trailing,
+          Color? backgroundColor = Colors.blue,
+          Color? foregroundColor = Colors.white}) =>
+      ListTile(
+        onTap: onTap,
+        title: title,
+        subtitle: subtitle,
+        trailing: trailing,
+        leading: leading,
+        tileColor: backgroundColor,
+        textColor: foregroundColor,
+      );
 }

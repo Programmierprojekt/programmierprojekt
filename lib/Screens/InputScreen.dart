@@ -53,19 +53,26 @@ class _InputScreenState extends State<InputScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: CustomWidgets.CustomElevatedButton(
-                    text: Constants.BTN_IMPORT, onPressed: importData),
+                child: CustomWidgets.CustomListTile(
+                    subtitle: const SizedBox(),
+                    title: const Text(Constants.BTN_IMPORT),
+                    onTap: importData,
+                    backgroundColor: Colors.orange.shade700),
               ),
               Expanded(
-                child: CustomWidgets.CustomElevatedButton(
-                    text: Constants.BTN_CHOOSE_ALGORITHM,
-                    onPressed: displayAlgorithmDialog),
+                child: CustomWidgets.CustomListTile(
+                    title: const Text(Constants.BTN_CHOOSE_ALGORITHM),
+                    subtitle:
+                        Text(algo!.algorithm == 0 ? "KMeans" : "Decision Tree"),
+                    onTap: displayAlgorithmDialog,
+                    backgroundColor: Colors.blue.shade700),
               ),
               Expanded(
-                child: CustomWidgets.CustomElevatedButton(
-                    buttonBackgroundColor: Colors.lightGreen,
-                    text: Constants.BTN_CALCULATE,
-                    onPressed: () {}),
+                child: CustomWidgets.CustomListTile(
+                    subtitle: const SizedBox(),
+                    backgroundColor: Colors.green.shade700,
+                    title: const Text(Constants.BTN_CALCULATE),
+                    onTap: () {}),
               ),
             ],
           ),
@@ -229,7 +236,7 @@ class _InputScreenState extends State<InputScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text(Constants.DLG_TITLE_MODIFY_ITEM),
-        content: Column(
+        content: Row(
           children: [
             SizedBox(
               width: MediaQuery.of(context).size.width / 9,
@@ -245,7 +252,7 @@ class _InputScreenState extends State<InputScreen> {
               ),
             ),
             const SizedBox(
-              height: 16,
+              width: 16,
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width / 9,
@@ -259,7 +266,7 @@ class _InputScreenState extends State<InputScreen> {
                   border: OutlineInputBorder(),
                 ),
               ),
-            )
+            ),
           ],
         ),
         actions: [
@@ -363,6 +370,7 @@ class _InputScreenState extends State<InputScreen> {
         ),
       ),
     );
+    setState(() {});
   }
 
   void chooseAlgorithm(int pressedAlgo, context) {

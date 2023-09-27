@@ -38,51 +38,51 @@ class _OutputScreenState extends State<OutputScreen> {
   List<Widget> buildGraphicsRepresentation() {
     if (algo!.algorithm == 0) {
       return [
-            SfCartesianChart(
-              title: ChartTitle(text: "Daten Vorschau"),
-              primaryXAxis: NumericAxis(
-                  majorGridLines: const MajorGridLines(width: 1),
-                  axisLine: const AxisLine(width: 1)),
-              primaryYAxis: NumericAxis(
-                  axisLine: const AxisLine(width: 1),
-                  axisBorderType: AxisBorderType.rectangle,
-                  majorGridLines: const MajorGridLines(width: 1)),
-              tooltipBehavior: TooltipBehavior(enable: true),
-              zoomPanBehavior: ZoomPanBehavior(
-                enablePanning: true,
-                enableMouseWheelZooming: true,
-                enablePinching: true,
-              ),
-              series: [
-                ScatterSeries(
-                  dataSource: dataPoints!.points,
-                  xValueMapper: (singlePoint, index) => singlePoint.x,
-                  yValueMapper: (singlePoint, index) => singlePoint.y,
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SfCartesianChart(
-              title: ChartTitle(text: "Clustered"),
-              primaryXAxis: NumericAxis(
-                  labelIntersectAction: AxisLabelIntersectAction.multipleRows,
-                  majorGridLines: const MajorGridLines(width: 1),
-                  axisLine: const AxisLine(width: 1)),
-              primaryYAxis: NumericAxis(
-                  axisLine: const AxisLine(width: 1),
-                  majorGridLines: const MajorGridLines(width: 1)),
-              tooltipBehavior: TooltipBehavior(enable: true),
-              zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
-            ),
-          ];
+        SfCartesianChart(
+          title: ChartTitle(text: "Daten Vorschau"),
+          primaryXAxis: NumericAxis(
+              majorGridLines: const MajorGridLines(width: 1),
+              axisLine: const AxisLine(width: 1)),
+          primaryYAxis: NumericAxis(
+              axisLine: const AxisLine(width: 1),
+              axisBorderType: AxisBorderType.rectangle,
+              majorGridLines: const MajorGridLines(width: 1)),
+          tooltipBehavior: TooltipBehavior(enable: true),
+          zoomPanBehavior: ZoomPanBehavior(
+            enablePanning: true,
+            enableMouseWheelZooming: true,
+            enablePinching: true,
+          ),
+          series: [
+            ScatterSeries(
+              dataSource: dataPoints!.points,
+              xValueMapper: (singlePoint, index) => singlePoint.x,
+              yValueMapper: (singlePoint, index) => singlePoint.y,
+            )
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        SfCartesianChart(
+          title: ChartTitle(text: "Clustered"),
+          primaryXAxis: NumericAxis(
+              labelIntersectAction: AxisLabelIntersectAction.multipleRows,
+              majorGridLines: const MajorGridLines(width: 1),
+              axisLine: const AxisLine(width: 1)),
+          primaryYAxis: NumericAxis(
+              axisLine: const AxisLine(width: 1),
+              majorGridLines: const MajorGridLines(width: 1)),
+          tooltipBehavior: TooltipBehavior(enable: true),
+          zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
+        ),
+      ];
     } else {
       return [
-            //TODO: BildGrafik anzeigen
-            //Image.file(sourceFile,)
-              const FlutterLogo()
-          ];
+        //TODO: BildGrafik anzeigen
+        //Image.file(sourceFile,)
+        const FlutterLogo()
+      ];
     }
   }
 }
