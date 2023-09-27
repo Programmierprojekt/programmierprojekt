@@ -1,19 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:kmeans/kmeans.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
-
-class Algorithm with ChangeNotifier {
-  int _algorithm = 0;
-
-  int get algorithm => _algorithm;
-
-  Algorithm(this._algorithm);
-
-  void modify(int newVal) {
-    _algorithm = newVal;
-    notifyListeners();
-  }
-}
 
 /// Anwenden der Clustering-Algorithmen lokal
 class AlgorithmHelper {

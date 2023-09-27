@@ -3,17 +3,16 @@ import 'dart:convert';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:programmierprojekt/Algorithms/AlgorithmHelper.dart';
 import 'package:programmierprojekt/Custom/CustomWidgets.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 import 'package:programmierprojekt/Util/Constants.dart';
+import 'package:programmierprojekt/Util/SystemManager.dart';
 
 class InputScreen extends StatefulWidget {
   final DataPoints dataPoints;
-  final Algorithm algorithm;
+  final SystemManager manager;
 
-  const InputScreen(
-      {required this.dataPoints, required this.algorithm, Key? key})
+  const InputScreen({required this.dataPoints, required this.manager, Key? key})
       : super(key: key);
 
   @override
@@ -31,7 +30,7 @@ class _InputScreenState extends State<InputScreen> {
     DataPointModel(x: 4, y: 15),
   ];
   DataPoints? dataPoints;
-  Algorithm? algo;
+  SystemManager? manager;
   TextEditingController xTextController = TextEditingController();
   TextEditingController yTextController = TextEditingController();
 
@@ -40,7 +39,7 @@ class _InputScreenState extends State<InputScreen> {
     super.initState();
     dataPoints = widget.dataPoints;
     dataPoints?.addAll(tiles); //@cleanup, Debug-Daten
-    algo = widget.algorithm;
+    manager = widget.manager;
   }
 
   @override
@@ -62,8 +61,9 @@ class _InputScreenState extends State<InputScreen> {
               Expanded(
                 child: CustomWidgets.CustomListTile(
                     title: const Text(Constants.BTN_CHOOSE_ALGORITHM),
-                    subtitle:
-                        Text(algo!.algorithm == 0 ? "KMeans" : "Decision Tree"),
+                    subtitle: Text(manager!.algorithmType == 0
+                        ? "KMeans"
+                        : "Decision Tree"),
                     onTap: displayAlgorithmDialog,
                     backgroundColor: Colors.blue.shade700),
               ),
@@ -374,7 +374,7 @@ class _InputScreenState extends State<InputScreen> {
   }
 
   void chooseAlgorithm(int pressedAlgo, context) {
-    algo!.modify(pressedAlgo);
+    manager!.changeAlgorithmType(pressedAlgo);
     Navigator.of(context).pop();
   }
 }

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:programmierprojekt/Algorithms/AlgorithmHelper.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
+import 'package:programmierprojekt/Util/SystemManager.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class OutputScreen extends StatefulWidget {
   final DataPoints dataPoints;
-  final Algorithm algorithm;
+  final SystemManager manager;
 
   const OutputScreen(
-      {required this.dataPoints, required this.algorithm, Key? key})
+      {required this.dataPoints, required this.manager, Key? key})
       : super(key: key);
 
   @override
@@ -20,14 +21,14 @@ class OutputScreen extends StatefulWidget {
 class _OutputScreenState extends State<OutputScreen> {
   double aspectRatioValue = 5;
   int displayType = 0;
-  Algorithm? algo;
+  SystemManager? manager;
   DataPoints? dataPoints;
 
   @override
   void initState() {
     super.initState();
     dataPoints = widget.dataPoints;
-    algo = widget.algorithm;
+    manager = widget.manager;
   }
 
   @override
@@ -36,7 +37,7 @@ class _OutputScreenState extends State<OutputScreen> {
   }
 
   List<Widget> buildGraphicsRepresentation() {
-    if (algo!.algorithm == 0) {
+    if (manager!.algorithmType == 0) {
       return [
         SfCartesianChart(
           title: ChartTitle(text: "Daten Vorschau"),

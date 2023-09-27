@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:programmierprojekt/Algorithms/AlgorithmHelper.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 import 'package:programmierprojekt/Screens/InputScreen.dart';
 import 'package:programmierprojekt/Screens/OutputScreen.dart';
+import 'package:programmierprojekt/Util/Constants.dart';
+import 'package:programmierprojekt/Util/SystemManager.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,20 +34,31 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _bottomNavigationIndex = 0;
   DataPoints dataPoints = DataPoints([]);
-  Algorithm algo = Algorithm(0);
+  SystemManager manager = SystemManager(true, 0);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("SmartClassificator"),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.dehaze))],
+        actions: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width / 3,
+            child: ListTile(
+              title: const Text("Modus ändern"),
+              subtitle: Text(
+                  "Ausführungsmodus: ${manager.operatingMode == false ? Constants.OPERATING_MODE_SERVER : Constants.OPERATING_MODE_LOCAL}"),
+              onTap: _changeOperatingMode,
+              tileColor: Colors.indigo,
+            ),
+          )
+        ],
       ),
       body: IndexedStack(
         index: _bottomNavigationIndex,
         children: [
-          InputScreen(dataPoints: dataPoints, algorithm: algo),
-          OutputScreen(dataPoints: dataPoints, algorithm: algo),
+          InputScreen(dataPoints: dataPoints, manager: manager),
+          OutputScreen(dataPoints: dataPoints, manager: manager),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -65,5 +77,33 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _bottomNavigationIndex = index;
     });
+  }
+
+  void _changeOperatingMode() async {
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(Constants.DLG_TITLE_CHANGE_OPERATING_MODE),
+        content: Row(
+          children: [
+            TextButton(
+              child: const Text(Constants.OPERATING_MODE_SERVER),
+              onPressed: () {
+                manager.changeOperatingMode(false);
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text(Constants.OPERATING_MODE_LOCAL),
+              onPressed: () {
+                manager.changeOperatingMode(true);
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        ),
+      ),
+    );
+    setState(() {});
   }
 }
