@@ -3,13 +3,18 @@ import 'dart:convert';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:programmierprojekt/Algorithms/AlgorithmHelper.dart';
 import 'package:programmierprojekt/Custom/CustomWidgets.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
+import 'package:programmierprojekt/Util/Constants.dart';
 
 class InputScreen extends StatefulWidget {
   final DataPoints dataPoints;
+  final Algorithm algorithm;
 
-  const InputScreen({required this.dataPoints, Key? key}) : super(key: key);
+  const InputScreen(
+      {required this.dataPoints, required this.algorithm, Key? key})
+      : super(key: key);
 
   @override
   State<InputScreen> createState() => _InputScreenState();
@@ -26,6 +31,7 @@ class _InputScreenState extends State<InputScreen> {
     DataPointModel(x: 4, y: 15),
   ];
   DataPoints? dataPoints;
+  Algorithm? algo;
   TextEditingController xTextController = TextEditingController();
   TextEditingController yTextController = TextEditingController();
 
@@ -33,7 +39,8 @@ class _InputScreenState extends State<InputScreen> {
   void initState() {
     super.initState();
     dataPoints = widget.dataPoints;
-    dataPoints?.addAll(tiles);
+    dataPoints?.addAll(tiles); //@cleanup, Debug-Daten
+    algo = widget.algorithm;
   }
 
   @override
@@ -47,16 +54,17 @@ class _InputScreenState extends State<InputScreen> {
             children: [
               Expanded(
                 child: CustomWidgets.CustomElevatedButton(
-                    text: "Import", onPressed: importData),
+                    text: Constants.BTN_IMPORT, onPressed: importData),
               ),
               Expanded(
                 child: CustomWidgets.CustomElevatedButton(
-                    text: "Algorithmus", onPressed: () {}),
+                    text: Constants.BTN_CHOOSE_ALGORITHM,
+                    onPressed: displayAlgorithmDialog),
               ),
               Expanded(
                 child: CustomWidgets.CustomElevatedButton(
                     buttonBackgroundColor: Colors.lightGreen,
-                    text: "Berechnen",
+                    text: Constants.BTN_CALCULATE,
                     onPressed: () {}),
               ),
             ],
@@ -77,7 +85,7 @@ class _InputScreenState extends State<InputScreen> {
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
-                  labelText: "x-Wert",
+                  labelText: Constants.X_VALUE_TEXT,
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -93,7 +101,7 @@ class _InputScreenState extends State<InputScreen> {
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
-                  labelText: "y-Wert",
+                  labelText: Constants.Y_VALUE_TEXT,
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -104,7 +112,7 @@ class _InputScreenState extends State<InputScreen> {
             ElevatedButton(
                 onPressed: addItem,
                 child: const Text(
-                  "Hinzufügen",
+                  Constants.BTN_ADD,
                   style: TextStyle(),
                 ))
           ],
@@ -189,17 +197,18 @@ class _InputScreenState extends State<InputScreen> {
     await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: const Text("Datenpunkt löschen"),
+              title: const Text(Constants.DLG_TITLE_DEL_ITEMS),
               content: Text(
                   "Willst du wirklich den Datenpunkt löschen?\n x = ${dataPoints!.points[index].x} | y = ${dataPoints!.points[index].y}"),
               actions: [
                 TextButton(
-                  child:
-                      const Text("Nein", style: TextStyle(color: Colors.blue)),
+                  child: const Text(Constants.BTN_NO,
+                      style: TextStyle(color: Colors.blue)),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 TextButton(
-                  child: const Text("Ja", style: TextStyle(color: Colors.red)),
+                  child: const Text(Constants.BTN_YES,
+                      style: TextStyle(color: Colors.red)),
                   onPressed: () {
                     dataPoints!.removeAt(index);
                     Navigator.of(context).pop();
@@ -219,7 +228,7 @@ class _InputScreenState extends State<InputScreen> {
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Datenpunkt anpassen"),
+        title: const Text(Constants.DLG_TITLE_MODIFY_ITEM),
         content: Column(
           children: [
             SizedBox(
@@ -230,7 +239,7 @@ class _InputScreenState extends State<InputScreen> {
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
-                  labelText: "x-Wert",
+                  labelText: Constants.X_VALUE_TEXT,
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -246,7 +255,7 @@ class _InputScreenState extends State<InputScreen> {
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
-                  labelText: "y-Wert",
+                  labelText: Constants.Y_VALUE_TEXT,
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -255,7 +264,7 @@ class _InputScreenState extends State<InputScreen> {
         ),
         actions: [
           TextButton(
-            child: const Text("Datenpunkt löschen",
+            child: const Text(Constants.BTN_DELETE_ITEM,
                 style: TextStyle(
                     backgroundColor: Colors.red, color: Colors.white)),
             onPressed: () {
@@ -267,7 +276,8 @@ class _InputScreenState extends State<InputScreen> {
             onPressed: () {
               Navigator.pop(context); //Popup schließen
             },
-            child: const Text("Abbruch", style: TextStyle(color: Colors.red)),
+            child: const Text(Constants.ABORT_TEXT,
+                style: TextStyle(color: Colors.red)),
           ),
           TextButton(
               onPressed: () {
@@ -276,7 +286,7 @@ class _InputScreenState extends State<InputScreen> {
                 Navigator.pop(context);
               },
               child: const Text(
-                "OK",
+                Constants.OK_TEXT,
                 style: TextStyle(color: Colors.blue),
               )),
         ],
@@ -316,13 +326,13 @@ class _InputScreenState extends State<InputScreen> {
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Import-Abbruch"),
+        title: const Text(Constants.DLG_TITLE_IMPORT_ABORT),
         content: const Text("Es wurde keine Datei zum importieren ausgewählt!"
-            "Daten können durch den Dateiimport bezogen werden"
+            " Daten können durch den Dateiimport bezogen werden"
             " oder manuell hinzugefügt werden."),
         actions: [
           TextButton(
-            child: const Text("OK"),
+            child: const Text(Constants.OK_TEXT),
             onPressed: () {
               if (context.mounted) Navigator.of(context).pop();
             },
@@ -330,5 +340,33 @@ class _InputScreenState extends State<InputScreen> {
         ],
       ),
     );
+  }
+
+  void displayAlgorithmDialog() async {
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(Constants.BTN_CHOOSE_ALGORITHM),
+        content: Row(
+          children: [
+            TextButton(
+                onPressed: () => chooseAlgorithm(0, context),
+                child: const Text("KMeans")),
+            const SizedBox(
+              width: 8,
+            ),
+            TextButton(
+              onPressed: () => chooseAlgorithm(1, context),
+              child: const Text("Decision Tree"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void chooseAlgorithm(int pressedAlgo, context) {
+    algo!.modify(pressedAlgo);
+    Navigator.of(context).pop();
   }
 }

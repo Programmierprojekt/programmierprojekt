@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:programmierprojekt/Algorithms/AlgorithmHelper.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class OutputScreen extends StatefulWidget {
   final DataPoints dataPoints;
+  final Algorithm algorithm;
 
-  const OutputScreen({required this.dataPoints, Key? key}) : super(key: key);
+  const OutputScreen(
+      {required this.dataPoints, required this.algorithm, Key? key})
+      : super(key: key);
 
   @override
   State<OutputScreen> createState() => _OutputScreenState();
@@ -16,12 +20,14 @@ class OutputScreen extends StatefulWidget {
 class _OutputScreenState extends State<OutputScreen> {
   double aspectRatioValue = 5;
   int displayType = 0;
+  Algorithm? algo;
   DataPoints? dataPoints;
 
   @override
   void initState() {
     super.initState();
     dataPoints = widget.dataPoints;
+    algo = widget.algorithm;
   }
 
   @override
@@ -30,12 +36,10 @@ class _OutputScreenState extends State<OutputScreen> {
   }
 
   List<Widget> buildGraphicsRepresentation() {
-    return displayType == 0
-        ?
-        //KMEANS
-        [
+    if (algo!.algorithm == 0) {
+      return [
             SfCartesianChart(
-              title: ChartTitle(text: "Ohne Clustering"),
+              title: ChartTitle(text: "Daten Vorschau"),
               primaryXAxis: NumericAxis(
                   majorGridLines: const MajorGridLines(width: 1),
                   axisLine: const AxisLine(width: 1)),
@@ -61,7 +65,7 @@ class _OutputScreenState extends State<OutputScreen> {
               height: 10,
             ),
             SfCartesianChart(
-              title: ChartTitle(text: "Mit Clustering"),
+              title: ChartTitle(text: "Clustered"),
               primaryXAxis: NumericAxis(
                   labelIntersectAction: AxisLabelIntersectAction.multipleRows,
                   majorGridLines: const MajorGridLines(width: 1),
@@ -72,12 +76,13 @@ class _OutputScreenState extends State<OutputScreen> {
               tooltipBehavior: TooltipBehavior(enable: true),
               zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
             ),
-          ]
-        :
-        //DecisionTree's
-        [
+          ];
+    } else {
+      return [
             //TODO: BildGrafik anzeigen
             //Image.file(sourceFile,)
+              const FlutterLogo()
           ];
+    }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:programmierprojekt/Algorithms/AlgorithmHelper.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 import 'package:programmierprojekt/Screens/InputScreen.dart';
 import 'package:programmierprojekt/Screens/OutputScreen.dart';
@@ -32,6 +33,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _bottomNavigationIndex = 0;
   DataPoints dataPoints = DataPoints([]);
+  Algorithm algo = Algorithm(0);
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +45,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: IndexedStack(
         index: _bottomNavigationIndex,
         children: [
-          InputScreen(dataPoints: dataPoints),
-          OutputScreen(dataPoints: dataPoints),
+          InputScreen(dataPoints: dataPoints, algorithm: algo),
+          OutputScreen(dataPoints: dataPoints, algorithm: algo),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
