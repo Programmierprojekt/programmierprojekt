@@ -85,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (context) => AlertDialog(
         title: const Text(Constants.DLG_TITLE_CHANGE_OPERATING_MODE),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton(
               child: const Text(Constants.OPERATING_MODE_SERVER),
