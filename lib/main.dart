@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
-import 'package:programmierprojekt/Screens/InputScreen.dart';
-import 'package:programmierprojekt/Screens/OutputScreen.dart';
+import 'package:programmierprojekt/Pages/InputPage.dart';
+import 'package:programmierprojekt/Pages/OutputPage.dart';
 import 'package:programmierprojekt/Util/Constants.dart';
 import 'package:programmierprojekt/Util/SystemManager.dart';
 
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "SmartClassificator",
+      title: Constants.APP_TITLE,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(brightness: Brightness.dark),
       home: const MyHomePage(),
@@ -41,24 +41,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("SmartClassificator"),
-        actions: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 3,
-            child: ListTile(
-              title: const Text("Modus ändern"),
-              subtitle: Text(
-                  "Ausführungsmodus: ${manager.operatingMode == false ? Constants.OPERATING_MODE_SERVER : Constants.OPERATING_MODE_LOCAL}"),
-              onTap: _changeOperatingMode,
-              tileColor: Colors.indigo,
-            ),
-          )
-        ],
       ),
       body: IndexedStack(
         index: _bottomNavigationIndex,
         children: [
-          InputScreen(dataPoints: dataPoints, manager: manager),
-          OutputScreen(dataPoints: dataPoints, manager: manager),
+          InputPage(dataPoints: dataPoints, manager: manager),
+          OutputPage(dataPoints: dataPoints, manager: manager),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -77,34 +65,5 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _bottomNavigationIndex = index;
     });
-  }
-
-  void _changeOperatingMode() async {
-    await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text(Constants.DLG_TITLE_CHANGE_OPERATING_MODE),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            TextButton(
-              child: const Text(Constants.OPERATING_MODE_SERVER),
-              onPressed: () {
-                manager.changeOperatingMode(false);
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text(Constants.OPERATING_MODE_LOCAL),
-              onPressed: () {
-                manager.changeOperatingMode(true);
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        ),
-      ),
-    );
-    setState(() {});
   }
 }

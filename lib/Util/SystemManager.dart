@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 
+//TODO: In den ganzen Abfragen etc. sollten die Enums verwendet werden
+/// Algorithmustypen
+enum AlgorithmType { kMeans, decisionTree }
+
+/// Operationsmodus
+enum OperatingMode { local, server }
+
 /// Diese Klasse soll dabei helfen zu tracken:
 ///   1. in welchem Operationsmodus man sich befindet (Server oder Lokal)
 ///   2. welcher Algorithmus ausgeführt werden soll
 class SystemManager with ChangeNotifier {
   /// Der Algorithmustyp, welcher ausgeführt werden soll
-  int _algorithmType = 0;
+  int _algorithmType =
+      0; //TODO: Hier muss der OperatingMode enum verwendet werden
 
   /// Der Operationsmodus
-  bool _isLocal = false;
+  bool _isLocal =
+      false; //TODO: Hier muss das AlgorithmType enum verwendet werden
 
   int get algorithmType => _algorithmType;
 

@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:programmierprojekt/Algorithms/AlgorithmHelper.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 import 'package:programmierprojekt/Util/SystemManager.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class OutputScreen extends StatefulWidget {
+class OutputPage extends StatefulWidget {
   final DataPoints dataPoints;
   final SystemManager manager;
 
-  const OutputScreen(
-      {required this.dataPoints, required this.manager, Key? key})
+  const OutputPage({required this.dataPoints, required this.manager, Key? key})
       : super(key: key);
 
   @override
-  State<OutputScreen> createState() => _OutputScreenState();
+  State<OutputPage> createState() => _OutputPageState();
 }
 
 //TODO: https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/chart_types/scatter/default_scatter_chart.dart
 
-class _OutputScreenState extends State<OutputScreen> {
+class _OutputPageState extends State<OutputPage> {
   double aspectRatioValue = 5;
   int displayType = 0;
   SystemManager? manager;

@@ -16,6 +16,7 @@ class Constants {
       "Operationsmodus ändern";
 
   //Labels
+  static const String APP_TITLE = "SmartClassificator";
   static const String ABORT_TEXT = "Abbruch";
   static const String OK_TEXT = "OK";
   static const String X_VALUE_TEXT = "x-Wert";
