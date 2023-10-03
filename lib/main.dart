@@ -32,9 +32,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _bottomNavigationIndex = 0;
   DataPoints dataPoints = DataPoints([]);
-  SystemManager manager = SystemManager(true, 0);
+  SystemManager manager = SystemManager(true, 0, 0);
 
   @override
   Widget build(BuildContext context) {
@@ -42,28 +41,33 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: const Text("SmartClassificator"),
       ),
-      body: IndexedStack(
-        index: _bottomNavigationIndex,
-        children: [
-          InputPage(dataPoints: dataPoints, manager: manager),
-          OutputPage(dataPoints: dataPoints, manager: manager),
-        ],
+      body: ListenableBuilder(
+        listenable: manager,
+        builder: (context, child) => IndexedStack(
+          index: manager.bottomNavigationIndex,
+          children: [
+            InputPage(dataPoints: dataPoints, manager: manager),
+            OutputPage(dataPoints: dataPoints, manager: manager),
+          ],
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.blueAccent,
-        onTap: _onNavigationItemClicked,
-        currentIndex: _bottomNavigationIndex,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.input), label: "Eingabe"),
-          BottomNavigationBarItem(icon: Icon(Icons.output), label: "Ausgabe"),
-        ],
+      bottomNavigationBar: ListenableBuilder(
+        listenable: manager,
+        builder: (context, child) => BottomNavigationBar(
+          selectedItemColor: Colors.blueAccent,
+          onTap: _onNavigationItemClicked,
+          currentIndex: manager.bottomNavigationIndex,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.input), label: "Eingabe"),
+            BottomNavigationBarItem(icon: Icon(Icons.output), label: "Ausgabe"),
+          ],
+        ),
       ),
     );
   }
 
   void _onNavigationItemClicked(int index) {
-    setState(() {
-      _bottomNavigationIndex = index;
-    });
+    manager.changeBottomNavigationIndex(index);
+    setState(() {});
   }
 }

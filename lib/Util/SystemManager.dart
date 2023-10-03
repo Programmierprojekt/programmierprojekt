@@ -15,6 +15,11 @@ class SystemManager with ChangeNotifier {
   int _algorithmType =
       0; //TODO: Hier muss der OperatingMode enum verwendet werden
 
+  /// Navigationsindex für die untere Leiste
+  int _bottomNavigationIndex = 0;
+
+  int get bottomNavigationIndex => _bottomNavigationIndex;
+
   /// Der Operationsmodus
   bool _isLocal =
       false; //TODO: Hier muss das AlgorithmType enum verwendet werden
@@ -23,7 +28,8 @@ class SystemManager with ChangeNotifier {
 
   bool get operatingMode => _isLocal;
 
-  SystemManager(this._isLocal, this._algorithmType);
+  SystemManager(
+      this._isLocal, this._algorithmType, this._bottomNavigationIndex);
 
   /// Algorithmustypen wechseln
   /// newVal ist der neue Wert
@@ -40,6 +46,18 @@ class SystemManager with ChangeNotifier {
   ///                 false   Server
   void changeOperatingMode(bool operatingMode) {
     _isLocal = operatingMode;
+    notifyListeners();
+  }
+
+  /// Wechselt direkt zur Ausgabe
+  void startLocalCalculation() {
+    _bottomNavigationIndex = 1;
+    notifyListeners();
+  }
+
+  /// Die Navigation ändern
+  void changeBottomNavigationIndex(int index) {
+    _bottomNavigationIndex = index;
     notifyListeners();
   }
 }

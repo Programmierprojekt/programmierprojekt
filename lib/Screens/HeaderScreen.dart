@@ -83,7 +83,10 @@ class _HeaderScreenState extends State<HeaderScreen> {
                   subtitle: const SizedBox(),
                   backgroundColor: Colors.green.shade700,
                   title: const Text(Constants.BTN_CALCULATE),
-                  onTap: () {}),
+                  onTap: () {
+                    manager!.startLocalCalculation();
+                    setState(() {});
+                  }),
             ),
           ),
         ],
