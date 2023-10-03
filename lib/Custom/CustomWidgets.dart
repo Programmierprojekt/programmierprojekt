@@ -40,6 +40,7 @@ class CustomWidgets {
       BuildContext context,
       ThemeData theme,
       String currentTitle,
+      String dialogTitle,
       void Function(String) onSubmit
     ) {
     return showDialog(
@@ -48,7 +49,7 @@ class CustomWidgets {
         String savedText = "";
 
         return AlertDialog(
-          title: const Text("Titel ändern"),
+          title: Text(dialogTitle),
           content: TextField(
             autofocus: true,
             onChanged: (newText) {

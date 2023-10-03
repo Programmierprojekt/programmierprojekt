@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:programmierprojekt/Util/Constants.dart';
 import 'package:programmierprojekt/Custom/CustomWidgets.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 import 'package:programmierprojekt/Util/SystemManager.dart';
@@ -26,6 +27,10 @@ class _OutputPageState extends State<OutputPage> {
 
   late String inputChartTitle;
   late String outputChartTitle;
+  late String inputXTitle;
+  late String inputYTitle;
+  late String outputXTitle;
+  late String outputYTitle;
 
   @override
   void initState() {
@@ -34,6 +39,10 @@ class _OutputPageState extends State<OutputPage> {
     manager = widget.manager;
     inputChartTitle = window.localStorage["inputChartTitle"] ?? "Datenvorschau";
     outputChartTitle = window.localStorage["outputChartTitle"] ?? "Clustered";
+    inputXTitle = window.localStorage["inputXTitle"] ?? "x-Achse";
+    inputYTitle = window.localStorage["inputYTitle"] ?? "y-Achse";
+    outputXTitle = window.localStorage["outputXTitle"] ?? "x-Achse";
+    outputYTitle = window.localStorage["outputYTitle"] ?? "y-Achse";
   }
 
   @override
@@ -50,11 +59,29 @@ class _OutputPageState extends State<OutputPage> {
         Row(
           children: [
             const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(text: "Titel ändern", onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, inputChartTitle, (newText) { 
+            CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_TITLE, onPressed: () {
+              CustomWidgets.showTextfieldDialog(context, theme, inputChartTitle, Constants.CHANGE_TITLE, (newText) { 
                 setState(() {
                   inputChartTitle = newText;
                   window.localStorage["inputChartTitle"] = newText;
+                });
+              });
+            }),
+            const SizedBox(width: 10),
+            CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_X_TITLE, onPressed: () {
+              CustomWidgets.showTextfieldDialog(context, theme, inputXTitle, Constants.CHANGE_X_TITLE, (newText) { 
+                setState(() {
+                  inputXTitle = newText;
+                  window.localStorage["inputXTitle"] = newText;
+                });
+              });
+            }),
+            const SizedBox(width: 10),
+            CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_Y_TITLE, onPressed: () {
+              CustomWidgets.showTextfieldDialog(context, theme, inputYTitle, Constants.CHANGE_Y_TITLE, (newText) { 
+                setState(() {
+                  inputYTitle = newText;
+                  window.localStorage["inputYTitle"] = newText;
                 });
               });
             })
@@ -63,9 +90,11 @@ class _OutputPageState extends State<OutputPage> {
         SfCartesianChart(
           title: ChartTitle(text: inputChartTitle),
           primaryXAxis: NumericAxis(
+              title: AxisTitle(text: inputXTitle),
               majorGridLines: const MajorGridLines(width: 1),
               axisLine: const AxisLine(width: 1)),
           primaryYAxis: NumericAxis(
+              title: AxisTitle(text: inputYTitle),
               axisLine: const AxisLine(width: 1),
               axisBorderType: AxisBorderType.rectangle,
               majorGridLines: const MajorGridLines(width: 1)),
@@ -89,11 +118,29 @@ class _OutputPageState extends State<OutputPage> {
         Row(
           children: [
             const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(text: "Titel ändern", onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, outputChartTitle, (newText) { 
+            CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_TITLE, onPressed: () {
+              CustomWidgets.showTextfieldDialog(context, theme, outputChartTitle, Constants.CHANGE_TITLE, (newText) { 
                 setState(() {
                   outputChartTitle = newText;
                   window.localStorage["outputChartTitle"] = newText;
+                });
+              });
+            }),
+            const SizedBox(width: 10),
+            CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_X_TITLE, onPressed: () {
+              CustomWidgets.showTextfieldDialog(context, theme, outputXTitle, Constants.CHANGE_X_TITLE, (newText) { 
+                setState(() {
+                  outputXTitle = newText;
+                  window.localStorage["outputXTitle"] = newText;
+                });
+              });
+            }),
+            const SizedBox(width: 10),
+            CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_Y_TITLE, onPressed: () {
+              CustomWidgets.showTextfieldDialog(context, theme, outputYTitle, Constants.CHANGE_Y_TITLE, (newText) { 
+                setState(() {
+                  outputYTitle = newText;
+                  window.localStorage["outputYTitle"] = newText;
                 });
               });
             })
@@ -102,10 +149,12 @@ class _OutputPageState extends State<OutputPage> {
         SfCartesianChart(
           title: ChartTitle(text: outputChartTitle),
           primaryXAxis: NumericAxis(
+              title: AxisTitle(text: outputXTitle),
               labelIntersectAction: AxisLabelIntersectAction.multipleRows,
               majorGridLines: const MajorGridLines(width: 1),
               axisLine: const AxisLine(width: 1)),
           primaryYAxis: NumericAxis(
+              title: AxisTitle(text: outputYTitle),
               axisLine: const AxisLine(width: 1),
               majorGridLines: const MajorGridLines(width: 1)),
           tooltipBehavior: TooltipBehavior(enable: true),

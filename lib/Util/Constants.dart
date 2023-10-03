@@ -23,4 +23,9 @@ class Constants {
   static const String Y_VALUE_TEXT = "y-Wert";
   static const String OPERATING_MODE_LOCAL = "Lokal";
   static const String OPERATING_MODE_SERVER = "Server";
+
+  //Mixed
+  static const String CHANGE_TITLE = "Titel ändern";
+  static const String CHANGE_X_TITLE = "X-Titel ändern";
+  static const String CHANGE_Y_TITLE = "Y-Titel ändern";
 }
