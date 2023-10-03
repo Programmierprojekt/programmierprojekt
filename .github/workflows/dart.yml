@@ -20,8 +20,8 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: flutter pub get
+      #- run: flutter pub get
       - run: dart analyze
       - run: flutter test
-      - run: flutter build web
-      - run: gcloud build triggers run rmgpgab-flutter-smart-classificator-us-central1-Programmierpgom --branch=master
+      #- run: flutter build web
+      - run: gcloud builds triggers run rmgpgab-flutter-smart-classificator-us-central1-Programmierpgom --branch=master
