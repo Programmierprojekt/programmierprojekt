@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:programmierprojekt/Custom/CustomWidgets.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 import 'package:programmierprojekt/Util/SystemManager.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'dart:html';
 
 class OutputPage extends StatefulWidget {
   final DataPoints dataPoints;
@@ -22,23 +24,44 @@ class _OutputPageState extends State<OutputPage> {
   SystemManager? manager;
   DataPoints? dataPoints;
 
+  late String inputChartTitle;
+  late String outputChartTitle;
+
   @override
   void initState() {
     super.initState();
     dataPoints = widget.dataPoints;
     manager = widget.manager;
+    inputChartTitle = window.localStorage["inputChartTitle"] ?? "Datenvorschau";
+    outputChartTitle = window.localStorage["outputChartTitle"] ?? "Clustered";
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: buildGraphicsRepresentation());
+    return ListView(children: buildGraphicsRepresentation(context));
   }
 
-  List<Widget> buildGraphicsRepresentation() {
+  List<Widget> buildGraphicsRepresentation(BuildContext context) {
     if (manager!.algorithmType == 0) {
+      var theme = Theme.of(context);
+
       return [
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            const SizedBox(width: 10),
+            CustomWidgets.CustomElevatedButton(text: "Titel ändern", onPressed: () {
+              CustomWidgets.showTextfieldDialog(context, theme, inputChartTitle, (newText) { 
+                setState(() {
+                  inputChartTitle = newText;
+                  window.localStorage["inputChartTitle"] = newText;
+                });
+              });
+            })
+          ],
+        ),
         SfCartesianChart(
-          title: ChartTitle(text: "Daten Vorschau"),
+          title: ChartTitle(text: inputChartTitle),
           primaryXAxis: NumericAxis(
               majorGridLines: const MajorGridLines(width: 1),
               axisLine: const AxisLine(width: 1)),
@@ -63,8 +86,21 @@ class _OutputPageState extends State<OutputPage> {
         const SizedBox(
           height: 10,
         ),
+        Row(
+          children: [
+            const SizedBox(width: 10),
+            CustomWidgets.CustomElevatedButton(text: "Titel ändern", onPressed: () {
+              CustomWidgets.showTextfieldDialog(context, theme, outputChartTitle, (newText) { 
+                setState(() {
+                  outputChartTitle = newText;
+                  window.localStorage["outputChartTitle"] = newText;
+                });
+              });
+            })
+          ],
+        ),
         SfCartesianChart(
-          title: ChartTitle(text: "Clustered"),
+          title: ChartTitle(text: outputChartTitle),
           primaryXAxis: NumericAxis(
               labelIntersectAction: AxisLabelIntersectAction.multipleRows,
               majorGridLines: const MajorGridLines(width: 1),

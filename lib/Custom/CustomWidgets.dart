@@ -35,4 +35,57 @@ class CustomWidgets {
         tileColor: backgroundColor,
         textColor: foregroundColor,
       );
+
+  static Future<T?> showTextfieldDialog<T>(
+      BuildContext context,
+      ThemeData theme,
+      String currentTitle,
+      void Function(String) onSubmit
+    ) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        String savedText = "";
+
+        return AlertDialog(
+          title: const Text("Titel ändern"),
+          content: TextField(
+            autofocus: true,
+            onChanged: (newText) {
+              savedText = newText;
+            },
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              label: Text(currentTitle),
+            ),
+            onSubmitted: (value) {
+              onSubmit(savedText);
+              Navigator.of(context).pop();
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: theme.textTheme.labelLarge,
+              ),
+              child: const Text("Abbrechen"),
+              onPressed:() {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: theme.textTheme.labelLarge,
+              ),
+              child: const Text("Speichern"),
+              onPressed: () {
+                onSubmit(savedText);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      }
+    );
+  }
 }
