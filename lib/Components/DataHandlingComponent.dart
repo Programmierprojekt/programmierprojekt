@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:programmierprojekt/Custom/CustomWidgets.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 import 'package:programmierprojekt/Util/Constants.dart';
 import 'package:programmierprojekt/Util/SystemManager.dart';
+
+
+bool isNumeric(String s) {
+  return double.tryParse(s) != null;
+}
+
 
 class DataHandlingComponent extends StatefulWidget {
   final DataPoints dataPoints;
@@ -79,7 +86,9 @@ class _DataHandlingComponentState extends State<DataHandlingComponent> {
               width: 32,
             ),
             ElevatedButton(
-                onPressed: addItem,
+                onPressed: () {
+                  addItem(context);
+                },
                 child: const Text(
                   Constants.BTN_ADD,
                 ))
@@ -137,7 +146,14 @@ class _DataHandlingComponentState extends State<DataHandlingComponent> {
   }
 
   /// Fügt ein Datenpunkt hinzu --> Manuelle Dateneingabe
-  void addItem() {
+  void addItem(BuildContext context) {
+    var theme = Theme.of(context);
+
+    if(!isNumeric(xTextController.text) || !isNumeric(yTextController.text)) {
+      CustomWidgets.showAlertDialog(context, theme, Constants.DLG_TITLE_HINT, Constants.ADD_DATA_POINT_ERROR);
+      return;
+    }
+
     dataPoints!.insert(
         0,
         DataPointModel(

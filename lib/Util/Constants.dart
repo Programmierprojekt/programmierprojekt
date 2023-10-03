@@ -14,6 +14,7 @@ class Constants {
   static const String DLG_TITLE_IMPORT_ABORT = "Import-Abbruch";
   static const String DLG_TITLE_CHANGE_OPERATING_MODE =
       "Operationsmodus ändern";
+  static const String DLG_TITLE_HINT = "Hinweis";
 
   //Labels
   static const String APP_TITLE = "SmartClassificator";
@@ -23,6 +24,7 @@ class Constants {
   static const String Y_VALUE_TEXT = "y-Wert";
   static const String OPERATING_MODE_LOCAL = "Lokal";
   static const String OPERATING_MODE_SERVER = "Server";
+  static const String ADD_DATA_POINT_ERROR = "Sie müssen Zahlen eingeben.";
 
   //Mixed
   static const String CHANGE_TITLE = "Titel ändern";

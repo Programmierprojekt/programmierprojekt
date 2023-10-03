@@ -89,4 +89,32 @@ class CustomWidgets {
       }
     );
   }
+
+  static Future<T?> showAlertDialog<T>(
+    BuildContext context,
+    ThemeData theme,
+    String dialogTitle,
+    String dialogContent
+  ) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(dialogTitle),
+          content: Text(dialogContent),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: theme.textTheme.labelLarge,
+              ),
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      }
+    );
+  }
 }
