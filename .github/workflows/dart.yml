@@ -24,4 +24,4 @@ jobs:
       - run: dart analyze
       - run: flutter test
       - run: flutter build web
-#GCP hier hin machen
+      - run: gcloud build triggers run rmgpgab-flutter-smart-classificator-us-central1-Programmierpgom --branch=master
