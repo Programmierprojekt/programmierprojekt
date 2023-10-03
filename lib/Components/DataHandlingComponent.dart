@@ -255,6 +255,11 @@ class _DataHandlingComponentState extends State<DataHandlingComponent> {
           ),
           TextButton(
               onPressed: () {
+                if(!isNumeric(xpController.text) || !isNumeric(ypController.text)) {
+                  CustomWidgets.showAlertDialog(context, Theme.of(context), Constants.DLG_TITLE_HINT, Constants.ADD_DATA_POINT_ERROR);
+                  return;
+                }
+
                 dataPoints!.modify(index, double.parse(xpController.text),
                     double.parse(ypController.text));
                 Navigator.pop(context);
