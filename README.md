@@ -1,6 +1,6 @@
 # Programmierprojekt
 
-Programmierprojekt Test
+Programmierprojekt
 
 ## Getting Started
 
