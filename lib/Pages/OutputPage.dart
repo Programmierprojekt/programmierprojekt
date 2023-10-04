@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:programmierprojekt/Util/Constants.dart';
+import 'package:kmeans/kmeans.dart';
+import 'package:programmierprojekt/Algorithms/AlgorithmHelper.dart';
 import 'package:programmierprojekt/Custom/CustomWidgets.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
+import 'package:programmierprojekt/Custom/DecisionTreeModel.dart';
+import 'package:programmierprojekt/Util/Constants.dart';
 import 'package:programmierprojekt/Util/SystemManager.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'dart:html';
@@ -9,8 +12,9 @@ import 'dart:html';
 class OutputPage extends StatefulWidget {
   final DataPoints dataPoints;
   final SystemManager manager;
+  final DecisionTreeModel dtModel;
 
-  const OutputPage({required this.dataPoints, required this.manager, Key? key})
+  const OutputPage({required this.dataPoints, required this.manager, required this.dtModel, Key? key})
       : super(key: key);
 
   @override
@@ -24,6 +28,7 @@ class _OutputPageState extends State<OutputPage> {
   int displayType = 0;
   SystemManager? manager;
   DataPoints? dataPoints;
+  DecisionTreeModel? dtModel;
 
   late String inputChartTitle;
   late String outputChartTitle;
@@ -37,6 +42,12 @@ class _OutputPageState extends State<OutputPage> {
     super.initState();
     dataPoints = widget.dataPoints;
     manager = widget.manager;
+    dtModel = widget.dtModel;
+    if (manager!.operatingMode && manager!.algorithmType == 0) {
+      calculateKMeans();
+    } else {
+      calculateDecisionTree();
+    }
     inputChartTitle = window.localStorage["inputChartTitle"] ?? "Datenvorschau";
     outputChartTitle = window.localStorage["outputChartTitle"] ?? "Clustered";
     inputXTitle = window.localStorage["inputXTitle"] ?? "x-Achse";
@@ -47,7 +58,10 @@ class _OutputPageState extends State<OutputPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: buildGraphicsRepresentation(context));
+    return ListenableBuilder(
+        listenable: manager!,
+        builder: (context, child) =>
+            ListView(children: buildGraphicsRepresentation(context)));
   }
 
   List<Widget> buildGraphicsRepresentation(BuildContext context) {
@@ -60,7 +74,7 @@ class _OutputPageState extends State<OutputPage> {
           children: [
             const SizedBox(width: 10),
             CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_TITLE, onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, inputChartTitle, Constants.CHANGE_TITLE, (newText) { 
+              CustomWidgets.showTextfieldDialog(context, theme, inputChartTitle, Constants.CHANGE_TITLE, (newText) {
                 setState(() {
                   inputChartTitle = newText;
                   window.localStorage["inputChartTitle"] = newText;
@@ -69,7 +83,7 @@ class _OutputPageState extends State<OutputPage> {
             }),
             const SizedBox(width: 10),
             CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_X_TITLE, onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, inputXTitle, Constants.CHANGE_X_TITLE, (newText) { 
+              CustomWidgets.showTextfieldDialog(context, theme, inputXTitle, Constants.CHANGE_X_TITLE, (newText) {
                 setState(() {
                   inputXTitle = newText;
                   window.localStorage["inputXTitle"] = newText;
@@ -78,7 +92,7 @@ class _OutputPageState extends State<OutputPage> {
             }),
             const SizedBox(width: 10),
             CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_Y_TITLE, onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, inputYTitle, Constants.CHANGE_Y_TITLE, (newText) { 
+              CustomWidgets.showTextfieldDialog(context, theme, inputYTitle, Constants.CHANGE_Y_TITLE, (newText) {
                 setState(() {
                   inputYTitle = newText;
                   window.localStorage["inputYTitle"] = newText;
@@ -119,7 +133,7 @@ class _OutputPageState extends State<OutputPage> {
           children: [
             const SizedBox(width: 10),
             CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_TITLE, onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, outputChartTitle, Constants.CHANGE_TITLE, (newText) { 
+              CustomWidgets.showTextfieldDialog(context, theme, outputChartTitle, Constants.CHANGE_TITLE, (newText) {
                 setState(() {
                   outputChartTitle = newText;
                   window.localStorage["outputChartTitle"] = newText;
@@ -128,7 +142,7 @@ class _OutputPageState extends State<OutputPage> {
             }),
             const SizedBox(width: 10),
             CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_X_TITLE, onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, outputXTitle, Constants.CHANGE_X_TITLE, (newText) { 
+              CustomWidgets.showTextfieldDialog(context, theme, outputXTitle, Constants.CHANGE_X_TITLE, (newText) {
                 setState(() {
                   outputXTitle = newText;
                   window.localStorage["outputXTitle"] = newText;
@@ -137,7 +151,7 @@ class _OutputPageState extends State<OutputPage> {
             }),
             const SizedBox(width: 10),
             CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_Y_TITLE, onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, outputYTitle, Constants.CHANGE_Y_TITLE, (newText) { 
+              CustomWidgets.showTextfieldDialog(context, theme, outputYTitle, Constants.CHANGE_Y_TITLE, (newText) {
                 setState(() {
                   outputYTitle = newText;
                   window.localStorage["outputYTitle"] = newText;
@@ -168,5 +182,25 @@ class _OutputPageState extends State<OutputPage> {
         const FlutterLogo()
       ];
     }
+  }
+
+  void calculateKMeans() {
+   /* print(dataPoints!.points.length);
+    List<List<double>> points = AlgorithmHelper().convertDataPointListToKMeansList(dataPoints!.points);
+    for(var d in points)
+      print(d);
+    print("234234234");
+    KMeans kmeans = KMeans(points,labelDim: points.length);
+    print("test");
+    var clusters = kmeans.bestFit(minK: 3, maxK: 3,maxIterations: 10);
+    print("as");
+
+    for(var e in clusters.clusters)
+      print(e);*/
+
+  }
+
+  void calculateDecisionTree() async {
+
   }
 }

@@ -3,8 +3,12 @@ import 'dart:convert';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:ml_algo/ml_algo.dart';
+import 'package:ml_dataframe/ml_dataframe.dart';
+import 'package:ml_preprocessing/ml_preprocessing.dart';
 import 'package:programmierprojekt/Custom/CustomWidgets.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
+import 'package:programmierprojekt/Custom/DecisionTreeModel.dart';
 import 'package:programmierprojekt/Util/Constants.dart';
 import 'package:programmierprojekt/Util/SystemManager.dart';
 
@@ -14,9 +18,10 @@ import 'package:programmierprojekt/Util/SystemManager.dart';
 class HeaderScreen extends StatefulWidget {
   final SystemManager manager;
   final DataPoints dataPoints;
+  final DecisionTreeModel dtModel;
 
   const HeaderScreen(
-      {required this.manager, required this.dataPoints, Key? key})
+      {required this.manager, required this.dataPoints, required this.dtModel, Key? key})
       : super(key: key);
 
   @override
@@ -26,12 +31,14 @@ class HeaderScreen extends StatefulWidget {
 class _HeaderScreenState extends State<HeaderScreen> {
   SystemManager? manager;
   DataPoints? dataPoints;
+  DecisionTreeModel? dtModel;
 
   @override
   void initState() {
     super.initState();
     manager = widget.manager;
     dataPoints = widget.dataPoints;
+    dtModel = widget.dtModel;
   }
 
   @override
@@ -142,11 +149,17 @@ class _HeaderScreenState extends State<HeaderScreen> {
           const CsvToListConverter().convert(decodedData, fieldDelimiter: ";");
       data.removeAt(0);
       for (var e in data) {
-        if (double.tryParse(e.first.toString().replaceAll(",", ".")) != null &&
-            double.tryParse(e.last.toString().replaceAll(",", ".")) != null) {
-          dataPoints!.add(DataPointModel(
-              x: double.parse(e.first.toString().replaceAll(',', '.')),
-              y: double.parse(e.last.toString().replaceAll(',', '.'))));
+        if (manager!.algorithmType == 0) {
+          if (double.tryParse(e.first.toString().replaceAll(",", ".")) !=
+                  null &&
+              double.tryParse(e.last.toString().replaceAll(",", ".")) != null) {
+            dataPoints!.add(DataPointModel(
+                x: double.parse(e.first.toString().replaceAll(',', '.')),
+                y: double.parse(e.last.toString().replaceAll(',', '.'))));
+          }
+        } else if (manager!.algorithmType == 1) {
+          dtModel!.add(e.toString());
+          //TODO: Datenaufbereitung für DecisionTree anwendung
         }
       }
       setState(() {});
@@ -163,7 +176,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
         title: const Text(Constants.DLG_TITLE_IMPORT_ABORT),
         content: const Text("Es wurde keine Datei zum importieren ausgewählt!"
             " Daten können durch den Dateiimport bezogen werden"
-            " oder manuell hinzugefügt werden."),
+            " oder bei KMeans manuell hinzugefügt werden."),
         actions: [
           TextButton(
             child: const Text(Constants.OK_TEXT),

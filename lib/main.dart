@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
+import 'package:programmierprojekt/Custom/DecisionTreeModel.dart';
 import 'package:programmierprojekt/Pages/InputPage.dart';
 import 'package:programmierprojekt/Pages/OutputPage.dart';
 import 'package:programmierprojekt/Util/Constants.dart';
@@ -34,6 +35,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   DataPoints dataPoints = DataPoints([]);
   SystemManager manager = SystemManager(true, 0, 0);
+  DecisionTreeModel dtModel = DecisionTreeModel([]);
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context, child) => IndexedStack(
           index: manager.bottomNavigationIndex,
           children: [
-            InputPage(dataPoints: dataPoints, manager: manager),
-            OutputPage(dataPoints: dataPoints, manager: manager),
+            InputPage(dataPoints: dataPoints, manager: manager, dtModel: dtModel),
+            OutputPage(dataPoints: dataPoints, manager: manager, dtModel: dtModel),
           ],
         ),
       ),

@@ -4,10 +4,12 @@ import 'package:programmierprojekt/Custom/DataPointModel.dart';
 /// Anwenden der Clustering-Algorithmen lokal
 class AlgorithmHelper {
   /// Wandelt DataPointModel so um, dass diese verwendet werden kann für kmeans
-  List<List<double>> _convertDataPointListToKMeansList(
+  List<List<double>> convertDataPointListToKMeansList(
       List<DataPointModel> dpl) {
     List<List<double>> data = [[]];
-    dpl.map((e) => data.add(e.toKMeansList()));
+    for(var d in dpl) {
+      data.add(d.toKMeansList());
+    }
     return data;
   }
 
@@ -22,7 +24,7 @@ class AlgorithmHelper {
   /// maxK:          Für die Suche nach den besten K
   Clusters kmeans(List<DataPointModel> dataPoints,
       {bool searchBest = false, int kCount = 1, int minK = 3, int maxK = 10}) {
-    var convertedData = _convertDataPointListToKMeansList(dataPoints);
+    var convertedData = convertDataPointListToKMeansList(dataPoints);
     var kmeans = KMeans(convertedData);
     return searchBest
         ? kmeans.bestFit(minK: minK, maxK: maxK)

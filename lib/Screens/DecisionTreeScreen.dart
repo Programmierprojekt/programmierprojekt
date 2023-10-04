@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:programmierprojekt/Custom/DecisionTreeModel.dart';
 import 'package:programmierprojekt/Util/SystemManager.dart';
 
 class DecisionTreeScreen extends StatefulWidget {
   final SystemManager manager;
+  final DecisionTreeModel dtModel;
 
-  const DecisionTreeScreen({required this.manager, Key? key}) : super(key: key);
+  const DecisionTreeScreen({required this.manager, required this.dtModel, Key? key}) : super(key: key);
 
   @override
   State<DecisionTreeScreen> createState() => _DecisionTreeScreenState();
@@ -12,15 +14,35 @@ class DecisionTreeScreen extends StatefulWidget {
 
 class _DecisionTreeScreenState extends State<DecisionTreeScreen> {
   SystemManager? manager;
+  DecisionTreeModel? dtModel;
 
   @override
   void initState() {
     super.initState();
     manager = widget.manager;
+    dtModel = widget.dtModel;
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ListenableBuilder(
+      listenable: dtModel!,
+      builder: (context, child) => Center(
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: dtModel!.trainingData.length,
+          itemBuilder: (context, index) => ListTile(
+            title: Text(dtModel!.trainingData[index]),
+            trailing: IconButton(
+              onPressed: () {
+                dtModel!.removeAt(index);
+                setState(() {});
+              },
+              icon: const Icon(Icons.delete),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
