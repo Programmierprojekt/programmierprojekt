@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:programmierprojekt/Components/DataHandlingComponent.dart';
 import 'package:programmierprojekt/Components/ParameterHandlingComponent.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 import 'package:programmierprojekt/Util/SystemManager.dart';
@@ -31,10 +30,6 @@ class _KMeansScreenState extends State<KMeansScreen> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Flexible(
-          child:
-              DataHandlingComponent(manager: manager!, dataPoints: dataPoints!),
-        ),
         Expanded(
           child: ParameterHandlingComponent(
               manager: manager!, dataPoints: dataPoints!),

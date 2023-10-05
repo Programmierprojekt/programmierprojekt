@@ -1,20 +1,24 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
-import 'package:kmeans/kmeans.dart';
-import 'package:programmierprojekt/Algorithms/AlgorithmHelper.dart';
+import 'package:ml_algo/ml_algo.dart';
 import 'package:programmierprojekt/Custom/CustomWidgets.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 import 'package:programmierprojekt/Custom/DecisionTreeModel.dart';
 import 'package:programmierprojekt/Util/Constants.dart';
 import 'package:programmierprojekt/Util/SystemManager.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'dart:html';
 
 class OutputPage extends StatefulWidget {
   final DataPoints dataPoints;
   final SystemManager manager;
   final DecisionTreeModel dtModel;
 
-  const OutputPage({required this.dataPoints, required this.manager, required this.dtModel, Key? key})
+  const OutputPage(
+      {required this.dataPoints,
+      required this.manager,
+      required this.dtModel,
+      Key? key})
       : super(key: key);
 
   @override
@@ -36,6 +40,9 @@ class _OutputPageState extends State<OutputPage> {
   late String inputYTitle;
   late String outputXTitle;
   late String outputYTitle;
+
+  DecisionTreeClassifier? d;
+  dynamic eee;
 
   @override
   void initState() {
@@ -73,32 +80,44 @@ class _OutputPageState extends State<OutputPage> {
         Row(
           children: [
             const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_TITLE, onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, inputChartTitle, Constants.CHANGE_TITLE, (newText) {
-                setState(() {
-                  inputChartTitle = newText;
-                  window.localStorage["inputChartTitle"] = newText;
-                });
-              });
-            }),
+            CustomWidgets.CustomElevatedButton(
+                text: Constants.CHANGE_TITLE,
+                onPressed: () {
+                  CustomWidgets.showTextfieldDialog(
+                      context, theme, inputChartTitle, Constants.CHANGE_TITLE,
+                      (newText) {
+                    setState(() {
+                      inputChartTitle = newText;
+                      window.localStorage["inputChartTitle"] = newText;
+                    });
+                  });
+                }),
             const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_X_TITLE, onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, inputXTitle, Constants.CHANGE_X_TITLE, (newText) {
-                setState(() {
-                  inputXTitle = newText;
-                  window.localStorage["inputXTitle"] = newText;
-                });
-              });
-            }),
+            CustomWidgets.CustomElevatedButton(
+                text: Constants.CHANGE_X_TITLE,
+                onPressed: () {
+                  CustomWidgets.showTextfieldDialog(
+                      context, theme, inputXTitle, Constants.CHANGE_X_TITLE,
+                      (newText) {
+                    setState(() {
+                      inputXTitle = newText;
+                      window.localStorage["inputXTitle"] = newText;
+                    });
+                  });
+                }),
             const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_Y_TITLE, onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, inputYTitle, Constants.CHANGE_Y_TITLE, (newText) {
-                setState(() {
-                  inputYTitle = newText;
-                  window.localStorage["inputYTitle"] = newText;
-                });
-              });
-            })
+            CustomWidgets.CustomElevatedButton(
+                text: Constants.CHANGE_Y_TITLE,
+                onPressed: () {
+                  CustomWidgets.showTextfieldDialog(
+                      context, theme, inputYTitle, Constants.CHANGE_Y_TITLE,
+                      (newText) {
+                    setState(() {
+                      inputYTitle = newText;
+                      window.localStorage["inputYTitle"] = newText;
+                    });
+                  });
+                })
           ],
         ),
         SfCartesianChart(
@@ -129,35 +148,53 @@ class _OutputPageState extends State<OutputPage> {
         const SizedBox(
           height: 10,
         ),
+        const Divider(
+          thickness: 8,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
         Row(
           children: [
             const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_TITLE, onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, outputChartTitle, Constants.CHANGE_TITLE, (newText) {
-                setState(() {
-                  outputChartTitle = newText;
-                  window.localStorage["outputChartTitle"] = newText;
-                });
-              });
-            }),
+            CustomWidgets.CustomElevatedButton(
+                text: Constants.CHANGE_TITLE,
+                onPressed: () {
+                  CustomWidgets.showTextfieldDialog(
+                      context, theme, outputChartTitle, Constants.CHANGE_TITLE,
+                      (newText) {
+                    setState(() {
+                      outputChartTitle = newText;
+                      window.localStorage["outputChartTitle"] = newText;
+                    });
+                  });
+                }),
             const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_X_TITLE, onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, outputXTitle, Constants.CHANGE_X_TITLE, (newText) {
-                setState(() {
-                  outputXTitle = newText;
-                  window.localStorage["outputXTitle"] = newText;
-                });
-              });
-            }),
+            CustomWidgets.CustomElevatedButton(
+                text: Constants.CHANGE_X_TITLE,
+                onPressed: () {
+                  CustomWidgets.showTextfieldDialog(
+                      context, theme, outputXTitle, Constants.CHANGE_X_TITLE,
+                      (newText) {
+                    setState(() {
+                      outputXTitle = newText;
+                      window.localStorage["outputXTitle"] = newText;
+                    });
+                  });
+                }),
             const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(text: Constants.CHANGE_Y_TITLE, onPressed: () {
-              CustomWidgets.showTextfieldDialog(context, theme, outputYTitle, Constants.CHANGE_Y_TITLE, (newText) {
-                setState(() {
-                  outputYTitle = newText;
-                  window.localStorage["outputYTitle"] = newText;
-                });
-              });
-            })
+            CustomWidgets.CustomElevatedButton(
+                text: Constants.CHANGE_Y_TITLE,
+                onPressed: () {
+                  CustomWidgets.showTextfieldDialog(
+                      context, theme, outputYTitle, Constants.CHANGE_Y_TITLE,
+                      (newText) {
+                    setState(() {
+                      outputYTitle = newText;
+                      window.localStorage["outputYTitle"] = newText;
+                    });
+                  });
+                })
           ],
         ),
         SfCartesianChart(
@@ -178,29 +215,20 @@ class _OutputPageState extends State<OutputPage> {
     } else {
       return [
         //TODO: BildGrafik anzeigen
-        //Image.file(sourceFile,)
         const FlutterLogo()
       ];
     }
   }
 
   void calculateKMeans() {
-   /* print(dataPoints!.points.length);
-    List<List<double>> points = AlgorithmHelper().convertDataPointListToKMeansList(dataPoints!.points);
+    print(dataPoints!.points.length);
+    /*List<List<double>> points = AlgorithmHelper().convertDataPointListToKMeansList(dataPoints!.points);
     for(var d in points)
       print(d);
-    print("234234234");
     KMeans kmeans = KMeans(points,labelDim: points.length);
-    print("test");
     var clusters = kmeans.bestFit(minK: 3, maxK: 3,maxIterations: 10);
-    print("as");
-
-    for(var e in clusters.clusters)
-      print(e);*/
-
+      */
   }
 
-  void calculateDecisionTree() async {
-
-  }
+  void calculateDecisionTree() async {}
 }
