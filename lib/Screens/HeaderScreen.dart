@@ -1,8 +1,11 @@
+import 'dart:html' as html;
+import 'dart:js' as js;
 import 'dart:convert';
 
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:ml_algo/ml_algo.dart';
 import 'package:programmierprojekt/Custom/CustomWidgets.dart';
 import 'package:programmierprojekt/Custom/DataPointModel.dart';
 import 'package:programmierprojekt/Custom/DecisionTreeModel.dart';
@@ -126,6 +129,10 @@ class _HeaderScreenState extends State<HeaderScreen> {
   /// Öffnet einen FilePicker und liest die Daten aus der ausgewählten Datei aus
   /// Außerdem wird das gelesene csv convertiert und die Datenpunkte hinzugefügt
   void importData() async {
+    if (dataPoints!.points.isNotEmpty) {
+      dataPoints!
+          .clearAllPoints(); //Alle Datenpunkte löschen, wenn neue Datei importiert wird
+    }
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['csv'],

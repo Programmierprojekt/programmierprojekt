@@ -44,6 +44,12 @@ class DataPoints with ChangeNotifier {
     points.removeAt(index);
     notifyListeners();
   }
+
+  /// Löscht alle Datenpunkte
+  void clearAllPoints() {
+    points.clear();
+    notifyListeners();
+  }
 }
 
 /// Klasse für die Datenpunkte.
