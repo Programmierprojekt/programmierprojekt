@@ -26,13 +26,13 @@ class _InputPageState extends State<InputPage> {
   //Das sind Testdatenpunkte @cleanup
   List<DataPointModel> tiles = [
     DataPointModel(x: 1, y: 2),
-    DataPointModel(x: 2, y: 3),
+    DataPointModel(x: 2.77, y: 3),
     DataPointModel(x: 1, y: 3),
     DataPointModel(x: 3, y: 1),
-    DataPointModel(x: 2, y: 2),
+    DataPointModel(x: 2, y: 2.42),
     DataPointModel(x: 4, y: 15),
-    DataPointModel(x: 4, y: 16),
-    DataPointModel(x: 7, y: 16),
+    DataPointModel(x: 4, y: 16.66),
+    DataPointModel(x: 7.24, y: 16),
     DataPointModel(x: 1, y: 14),
     DataPointModel(x: 2, y: 13),
     DataPointModel(x: 5, y: 14),
