@@ -29,6 +29,7 @@ class Constants {
   static const String OPERATING_MODE_SERVER = "Server";
   static const String ADD_DATA_POINT_ERROR = "Sie müssen Zahlen eingeben.";
   static const String K_CLUSTER_TEXT = "kCluster";
+  static const String INFORMATION = "Information";
 
   //Mixed
   static const String CHANGE_TITLE = "Titel ändern";

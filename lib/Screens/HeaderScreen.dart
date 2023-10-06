@@ -65,9 +65,6 @@ class _HeaderScreenState extends State<HeaderScreen> {
                 onTap: displayAlgorithmDialog,
                 backgroundColor: Colors.blue.shade700),
           ),
-          //TODO: Wenn Operationsmodus="Server" dann mit Backend live kommunizieren für echtzeit-datenverarbeitung
-          //TODO: Wenn Operationsmodus="Lokal" dann muss man den Berechnenbutton drücken zum Clustern
-          //TODO: Zu beachten ist, dass die Vorschau der vorhandenen Datenpunkten in Echtzeit geschehen soll
           //Operationsmodus wechseln
           Expanded(
             child: CustomWidgets.CustomListTile(
@@ -78,23 +75,15 @@ class _HeaderScreenState extends State<HeaderScreen> {
               backgroundColor: Colors.indigo,
             ),
           ),
-          /*
-            Berechnungsbutton ist nur sichtbar, wenn man sich im Modus "Lokal" befindet!
-            Dies dient zur Ressourcenschonung des Rechners.
-            Beim Modus "Server" wird dieser Button ausgeblendet
-           */
-          Visibility(
-            visible: manager!.operatingMode,
-            child: Expanded(
-              child: CustomWidgets.CustomListTile(
-                  subtitle: const SizedBox(),
-                  backgroundColor: Colors.green.shade700,
-                  title: const Text(Constants.BTN_CALCULATE),
-                  onTap: () {
-                    manager!.startLocalCalculation();
-                    setState(() {});
-                  }),
-            ),
+          Expanded(
+            child: CustomWidgets.CustomListTile(
+                subtitle: const SizedBox(),
+                backgroundColor: Colors.green.shade700,
+                title: const Text(Constants.BTN_CALCULATE),
+                onTap: () {
+                  manager!.startLocalCalculation();
+                  setState(() {});
+                }),
           ),
         ],
       ),

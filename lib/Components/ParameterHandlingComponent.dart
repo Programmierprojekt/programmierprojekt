@@ -48,6 +48,7 @@ class _ParameterHandlingComponentState
           title: const Text(Constants.BTN_DISTANCE_METRIC),
           subtitle: Text(Constants.METRIC_CHOICES[choosenDistanceMetric]),
           tileColor: Colors.deepPurpleAccent.shade700,
+          onTap: displayInfoDialogInLocalMode,
         ),
         ListTile(
           title: const Text(Constants.BTN_CLUSTER_DETERMINATION),
@@ -57,6 +58,7 @@ class _ParameterHandlingComponentState
               ? Colors.deepPurpleAccent.shade700
               : Colors.grey.shade700,
           enabled: kClusterController.text.isEmpty,
+          onTap: displayInfoDialogInLocalMode,
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width / 9,
@@ -178,5 +180,32 @@ class _ParameterHandlingComponentState
       ),
     );
     setState(() {});
+  }
+
+  /// Zeigt eine Info im lokalen Modus an, wenn die Distanzmetrik oder
+  /// Klusterbestimmung geändert werden soll.
+  /// Diese Einstellungen sind im lokalen Modus eingeschränkt
+  void displayInfoDialogInLocalMode() async {
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(Constants.INFORMATION),
+        content: const Column(
+          children: [
+            Text("Im Operationsmodus 'lokal', kann man nur die "
+                "Euklidische Distanz und Elbow-Klusterbestimmung"
+                "oder manuelle k eingabe durchführen."
+                "Für mehr optionen,"
+                " verwenden Sie den Operationsmodus 'Server'!"),
+          ],
+        ),
+        actions: [
+          TextButton(
+            child: const Text(Constants.OK_TEXT),
+            onPressed: () => Navigator.of(context).pop(),
+          )
+        ],
+      ),
+    );
   }
 }
