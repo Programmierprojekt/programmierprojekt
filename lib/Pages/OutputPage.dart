@@ -53,6 +53,7 @@ class _OutputPageState extends State<OutputPage> {
     dataPoints = widget.dataPoints;
     manager = widget.manager;
     dtModel = widget.dtModel;
+    print(manager!.algorithmType);
     if (manager!.algorithmType == 0) {
       //KMeans ausführen
       if (manager!.operatingMode) {
@@ -287,7 +288,7 @@ class _OutputPageState extends State<OutputPage> {
     } else {
       return [
         //TODO: BildGrafik anzeigen
-        const FlutterLogo()
+
       ];
     }
   }
@@ -308,8 +309,23 @@ class _OutputPageState extends State<OutputPage> {
 
   /// DecisionTree Lokal ausrechnen
   void calculateDecisionTree() async {
+    print("OAHDFiaHDHAWIDiADWIOA");
     setState(() {
       isFinishedCalculating = false; //Muss als erstes gemacht werden
     });
+    DecisionTreeClassifier d = DecisionTreeClassifier(dtModel!.dataFrame, "irgenwas");
+    html.Blob blob = html.Blob([await d.saveAsSvg("/a")], "image/svg+xml");
+    var url = html.Url.createObjectUrlFromBlob(blob);
+    js.context.callMethod("eval", [
+      """
+                  const csvDownload = document.createElement('img');
+                  csvDownload.id = "irgendwas";
+                  csvDownload.width = "1024";
+                  csvDownload.height = "1024";
+                  csvDownload.src = "$url";
+                  document.body.append(csvDownload);
+                """
+    ]);
+    html.Url.revokeObjectUrl(url);
   }
 }

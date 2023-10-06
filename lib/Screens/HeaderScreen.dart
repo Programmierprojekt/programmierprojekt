@@ -135,15 +135,15 @@ class _HeaderScreenState extends State<HeaderScreen> {
       final decodedData = utf8.decode(file.bytes as List<int>);
       List<List<dynamic>> data =
           const CsvToListConverter().convert(decodedData, fieldDelimiter: ";");
-      data.removeAt(0);
+      data.removeAt(0); //Überschriftzeile entfernen
       for (var e in data) {
         if (manager!.algorithmType == 0) {
-          if (double.tryParse(e.first.toString().replaceAll(",", ".")) !=
-                  null &&
-              double.tryParse(e.last.toString().replaceAll(",", ".")) != null) {
-            dataPoints!.add(DataPointModel(
-                x: double.parse(e.first.toString().replaceAll(',', '.')),
-                y: double.parse(e.last.toString().replaceAll(',', '.'))));
+          double? first =
+              double.tryParse(e.first.toString().replaceAll(",", "."));
+          double? last =
+              double.tryParse(e.last.toString().replaceAll(",", "."));
+          if (first != null && last != null) {
+            dataPoints!.add(DataPointModel(x: first, y: last));
           }
         } else if (manager!.algorithmType == 1) {
           dtModel!.add(e.toString());
@@ -151,12 +151,12 @@ class _HeaderScreenState extends State<HeaderScreen> {
       }
       setState(() {});
     } else {
-      await _displayInfoDialog();
+      await _displayInfoDialogOnAbortedFilePicking();
     }
   }
 
   /// Informationsdialog, falls der Nutzer den FilePicker schließt
-  Future _displayInfoDialog() async {
+  Future _displayInfoDialogOnAbortedFilePicking() async {
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
