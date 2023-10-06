@@ -1,4 +1,5 @@
-import 'dart:html';
+import 'dart:html' as html;
+import 'dart:js' as js;
 
 import 'package:flutter/material.dart';
 import 'package:ml_algo/ml_algo.dart';
@@ -55,12 +56,12 @@ class _OutputPageState extends State<OutputPage> {
     } else {
       calculateDecisionTree();
     }
-    inputChartTitle = window.localStorage["inputChartTitle"] ?? "Datenvorschau";
-    outputChartTitle = window.localStorage["outputChartTitle"] ?? "Clustered";
-    inputXTitle = window.localStorage["inputXTitle"] ?? "x-Achse";
-    inputYTitle = window.localStorage["inputYTitle"] ?? "y-Achse";
-    outputXTitle = window.localStorage["outputXTitle"] ?? "x-Achse";
-    outputYTitle = window.localStorage["outputYTitle"] ?? "y-Achse";
+    inputChartTitle = html.window.localStorage["inputChartTitle"] ?? "Datenvorschau";
+    outputChartTitle = html.window.localStorage["outputChartTitle"] ?? "Clustered";
+    inputXTitle = html.window.localStorage["inputXTitle"] ?? "x-Achse";
+    inputYTitle = html.window.localStorage["inputYTitle"] ?? "y-Achse";
+    outputXTitle = html.window.localStorage["outputXTitle"] ?? "x-Achse";
+    outputYTitle = html.window.localStorage["outputYTitle"] ?? "y-Achse";
   }
 
   @override
@@ -88,7 +89,7 @@ class _OutputPageState extends State<OutputPage> {
                       (newText) {
                     setState(() {
                       inputChartTitle = newText;
-                      window.localStorage["inputChartTitle"] = newText;
+                      html.window.localStorage["inputChartTitle"] = newText;
                     });
                   });
                 }),
@@ -101,7 +102,7 @@ class _OutputPageState extends State<OutputPage> {
                       (newText) {
                     setState(() {
                       inputXTitle = newText;
-                      window.localStorage["inputXTitle"] = newText;
+                      html.window.localStorage["inputXTitle"] = newText;
                     });
                   });
                 }),
@@ -114,7 +115,7 @@ class _OutputPageState extends State<OutputPage> {
                       (newText) {
                     setState(() {
                       inputYTitle = newText;
-                      window.localStorage["inputYTitle"] = newText;
+                      html.window.localStorage["inputYTitle"] = newText;
                     });
                   });
                 })
@@ -165,7 +166,7 @@ class _OutputPageState extends State<OutputPage> {
                       (newText) {
                     setState(() {
                       outputChartTitle = newText;
-                      window.localStorage["outputChartTitle"] = newText;
+                      html.window.localStorage["outputChartTitle"] = newText;
                     });
                   });
                 }),
@@ -178,7 +179,7 @@ class _OutputPageState extends State<OutputPage> {
                       (newText) {
                     setState(() {
                       outputXTitle = newText;
-                      window.localStorage["outputXTitle"] = newText;
+                      html.window.localStorage["outputXTitle"] = newText;
                     });
                   });
                 }),
@@ -191,7 +192,7 @@ class _OutputPageState extends State<OutputPage> {
                       (newText) {
                     setState(() {
                       outputYTitle = newText;
-                      window.localStorage["outputYTitle"] = newText;
+                      html.window.localStorage["outputYTitle"] = newText;
                     });
                   });
                 }),
@@ -199,13 +200,28 @@ class _OutputPageState extends State<OutputPage> {
             CustomWidgets.CustomElevatedButton(
               text: Constants.BTN_EXPORT,
               onPressed: () {
-                var csvText = "x,y\n";
+                var csvText = "x,y\r\n";
 
                 for(var point in dataPoints!.points) {
-                  csvText += "${point.x},${point.y}\n";
+                  csvText += "${point.x},${point.y}\r\n";
                 }
 
+                html.Blob blob = html.Blob([csvText], "text/csv");
+                var url = html.Url.createObjectUrlFromBlob(blob);
 
+                js.context.callMethod("eval", ["""
+                  const csvDownload = document.createElement('a');
+                  csvDownload.id = "csvDownload";
+                  csvDownload.href = "$url";
+                  csvDownload.style = "display:hidden;";
+
+                  document.body.append(csvDownload);
+                  csvDownload.click();
+
+                  csvDownload.remove();
+                """]);
+
+                html.Url.revokeObjectUrl(url);
               })
           ],
         ),
