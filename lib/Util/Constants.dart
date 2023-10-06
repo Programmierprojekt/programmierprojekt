@@ -7,6 +7,7 @@ class Constants {
   static const String BTN_YES = "Ja";
   static const String BTN_NO = "Nein";
   static const String BTN_DELETE_ITEM = "Datenpunkt löschen";
+  static const String BTN_EXPORT = "Exportieren";
   static const String BTN_DISTANCE_METRIC = "Distanzmetrik";
   static const String BTN_CLUSTER_DETERMINATION = "Klusterbestimmung";
 
