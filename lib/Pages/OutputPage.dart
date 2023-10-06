@@ -35,6 +35,8 @@ class _OutputPageState extends State<OutputPage> {
   DataPoints? dataPoints;
   DecisionTreeModel? dtModel;
 
+  bool isFinishedCalculating = false;
+
   late String inputChartTitle;
   late String outputChartTitle;
   late String inputXTitle;
@@ -56,8 +58,10 @@ class _OutputPageState extends State<OutputPage> {
     } else {
       calculateDecisionTree();
     }
-    inputChartTitle = html.window.localStorage["inputChartTitle"] ?? "Datenvorschau";
-    outputChartTitle = html.window.localStorage["outputChartTitle"] ?? "Clustered";
+    inputChartTitle =
+        html.window.localStorage["inputChartTitle"] ?? "Datenvorschau";
+    outputChartTitle =
+        html.window.localStorage["outputChartTitle"] ?? "Clustered";
     inputXTitle = html.window.localStorage["inputXTitle"] ?? "x-Achse";
     inputYTitle = html.window.localStorage["inputYTitle"] ?? "y-Achse";
     outputXTitle = html.window.localStorage["outputXTitle"] ?? "x-Achse";
@@ -155,61 +159,73 @@ class _OutputPageState extends State<OutputPage> {
         const SizedBox(
           height: 10,
         ),
-        Row(
-          children: [
-            const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(
-                text: Constants.CHANGE_TITLE,
-                onPressed: () {
-                  CustomWidgets.showTextfieldDialog(
-                      context, theme, outputChartTitle, Constants.CHANGE_TITLE,
-                      (newText) {
-                    setState(() {
-                      outputChartTitle = newText;
-                      html.window.localStorage["outputChartTitle"] = newText;
-                    });
-                  });
-                }),
-            const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(
-                text: Constants.CHANGE_X_TITLE,
-                onPressed: () {
-                  CustomWidgets.showTextfieldDialog(
-                      context, theme, outputXTitle, Constants.CHANGE_X_TITLE,
-                      (newText) {
-                    setState(() {
-                      outputXTitle = newText;
-                      html.window.localStorage["outputXTitle"] = newText;
-                    });
-                  });
-                }),
-            const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(
-                text: Constants.CHANGE_Y_TITLE,
-                onPressed: () {
-                  CustomWidgets.showTextfieldDialog(
-                      context, theme, outputYTitle, Constants.CHANGE_Y_TITLE,
-                      (newText) {
-                    setState(() {
-                      outputYTitle = newText;
-                      html.window.localStorage["outputYTitle"] = newText;
-                    });
-                  });
-                }),
-            const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(
-              text: Constants.BTN_EXPORT,
-              onPressed: () {
-                var csvText = "x,y\r\n";
+        isFinishedCalculating
+            ? Column(children: [
+                Row(
+                  children: [
+                    const SizedBox(width: 10),
+                    CustomWidgets.CustomElevatedButton(
+                        text: Constants.CHANGE_TITLE,
+                        onPressed: () {
+                          CustomWidgets.showTextfieldDialog(
+                              context,
+                              theme,
+                              outputChartTitle,
+                              Constants.CHANGE_TITLE, (newText) {
+                            setState(() {
+                              outputChartTitle = newText;
+                              html.window.localStorage["outputChartTitle"] =
+                                  newText;
+                            });
+                          });
+                        }),
+                    const SizedBox(width: 10),
+                    CustomWidgets.CustomElevatedButton(
+                        text: Constants.CHANGE_X_TITLE,
+                        onPressed: () {
+                          CustomWidgets.showTextfieldDialog(
+                              context,
+                              theme,
+                              outputXTitle,
+                              Constants.CHANGE_X_TITLE, (newText) {
+                            setState(() {
+                              outputXTitle = newText;
+                              html.window.localStorage["outputXTitle"] =
+                                  newText;
+                            });
+                          });
+                        }),
+                    const SizedBox(width: 10),
+                    CustomWidgets.CustomElevatedButton(
+                        text: Constants.CHANGE_Y_TITLE,
+                        onPressed: () {
+                          CustomWidgets.showTextfieldDialog(
+                              context,
+                              theme,
+                              outputYTitle,
+                              Constants.CHANGE_Y_TITLE, (newText) {
+                            setState(() {
+                              outputYTitle = newText;
+                              html.window.localStorage["outputYTitle"] =
+                                  newText;
+                            });
+                          });
+                        }),
+                    const SizedBox(width: 10),
+                    CustomWidgets.CustomElevatedButton(
+                        text: Constants.BTN_EXPORT,
+                        onPressed: () {
+                          var csvText = "x,y\r\n";
 
-                for(var point in dataPoints!.points) {
-                  csvText += "${point.x},${point.y}\r\n";
-                }
+                          for (var point in dataPoints!.points) {
+                            csvText += "${point.x},${point.y}\r\n";
+                          }
 
-                html.Blob blob = html.Blob([csvText], "text/csv");
-                var url = html.Url.createObjectUrlFromBlob(blob);
+                          html.Blob blob = html.Blob([csvText], "text/csv");
+                          var url = html.Url.createObjectUrlFromBlob(blob);
 
-                js.context.callMethod("eval", ["""
+                          js.context.callMethod("eval", [
+                            """
                   const csvDownload = document.createElement('a');
                   csvDownload.id = "csvDownload";
                   csvDownload.href = "$url";
@@ -219,26 +235,34 @@ class _OutputPageState extends State<OutputPage> {
                   csvDownload.click();
 
                   csvDownload.remove();
-                """]);
+                """
+                          ]);
 
-                html.Url.revokeObjectUrl(url);
-              })
-          ],
-        ),
-        SfCartesianChart(
-          title: ChartTitle(text: outputChartTitle),
-          primaryXAxis: NumericAxis(
-              title: AxisTitle(text: outputXTitle),
-              labelIntersectAction: AxisLabelIntersectAction.multipleRows,
-              majorGridLines: const MajorGridLines(width: 1),
-              axisLine: const AxisLine(width: 1)),
-          primaryYAxis: NumericAxis(
-              title: AxisTitle(text: outputYTitle),
-              axisLine: const AxisLine(width: 1),
-              majorGridLines: const MajorGridLines(width: 1)),
-          tooltipBehavior: TooltipBehavior(enable: true),
-          zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
-        ),
+                          html.Url.revokeObjectUrl(url);
+                        })
+                  ],
+                ),
+                SfCartesianChart(
+                  title: ChartTitle(text: outputChartTitle),
+                  primaryXAxis: NumericAxis(
+                      title: AxisTitle(text: outputXTitle),
+                      labelIntersectAction:
+                          AxisLabelIntersectAction.multipleRows,
+                      majorGridLines: const MajorGridLines(width: 1),
+                      axisLine: const AxisLine(width: 1)),
+                  primaryYAxis: NumericAxis(
+                      title: AxisTitle(text: outputYTitle),
+                      axisLine: const AxisLine(width: 1),
+                      majorGridLines: const MajorGridLines(width: 1)),
+                  tooltipBehavior: TooltipBehavior(enable: true),
+                  zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
+                )
+              ])
+            : const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [CircularProgressIndicator()],
+              )
       ];
     } else {
       return [
@@ -248,15 +272,17 @@ class _OutputPageState extends State<OutputPage> {
     }
   }
 
-  void calculateKMeans() {
-    print(dataPoints!.points.length);
-    /*List<List<double>> points = AlgorithmHelper().convertDataPointListToKMeansList(dataPoints!.points);
-    for(var d in points)
-      print(d);
-    KMeans kmeans = KMeans(points,labelDim: points.length);
-    var clusters = kmeans.bestFit(minK: 3, maxK: 3,maxIterations: 10);
-      */
+  /// KMeans ausrechnen
+  void calculateKMeans() async {
+    setState(() {
+      isFinishedCalculating = false; //Muss als erstes gemacht werden
+    });
   }
 
-  void calculateDecisionTree() async {}
+  /// DecisionTree ausrechnen
+  void calculateDecisionTree() async {
+    setState(() {
+      isFinishedCalculating = false; //Muss als erstes gemacht werden
+    });
+  }
 }
