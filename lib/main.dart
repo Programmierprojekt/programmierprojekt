@@ -48,8 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context, child) => IndexedStack(
           index: manager.bottomNavigationIndex,
           children: [
-            InputPage(dataPoints: dataPoints, manager: manager, dtModel: dtModel),
-            OutputPage(dataPoints: dataPoints, manager: manager, dtModel: dtModel),
+            InputPage(
+                dataPoints: dataPoints, manager: manager, dtModel: dtModel),
+            OutputPage(
+                dataPoints: dataPoints, manager: manager, dtModel: dtModel),
           ],
         ),
       ),

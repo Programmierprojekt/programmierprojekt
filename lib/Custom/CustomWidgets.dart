@@ -41,80 +41,73 @@ class CustomWidgets {
       ThemeData theme,
       String currentTitle,
       String dialogTitle,
-      void Function(String) onSubmit
-    ) {
+      void Function(String) onSubmit) {
     return showDialog(
-      context: context,
-      builder: (context) {
-        String savedText = "";
+        context: context,
+        builder: (context) {
+          String savedText = "";
 
-        return AlertDialog(
-          title: Text(dialogTitle),
-          content: TextField(
-            autofocus: true,
-            onChanged: (newText) {
-              savedText = newText;
-            },
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              label: Text(currentTitle),
-            ),
-            onSubmitted: (value) {
-              onSubmit(savedText);
-              Navigator.of(context).pop();
-            },
-          ),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: theme.textTheme.labelLarge,
-              ),
-              child: const Text("Abbrechen"),
-              onPressed:() {
-                Navigator.of(context).pop();
+          return AlertDialog(
+            title: Text(dialogTitle),
+            content: TextField(
+              autofocus: true,
+              onChanged: (newText) {
+                savedText = newText;
               },
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: theme.textTheme.labelLarge,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                label: Text(currentTitle),
               ),
-              child: const Text("Speichern"),
-              onPressed: () {
+              onSubmitted: (value) {
                 onSubmit(savedText);
                 Navigator.of(context).pop();
               },
             ),
-          ],
-        );
-      }
-    );
+            actions: <Widget>[
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: theme.textTheme.labelLarge,
+                ),
+                child: const Text("Abbrechen"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: theme.textTheme.labelLarge,
+                ),
+                child: const Text("Speichern"),
+                onPressed: () {
+                  onSubmit(savedText);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 
-  static Future<T?> showAlertDialog<T>(
-    BuildContext context,
-    ThemeData theme,
-    String dialogTitle,
-    String dialogContent
-  ) {
+  static Future<T?> showAlertDialog<T>(BuildContext context, ThemeData theme,
+      String dialogTitle, String dialogContent) {
     return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(dialogTitle),
-          content: Text(dialogContent),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: theme.textTheme.labelLarge,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(dialogTitle),
+            content: Text(dialogContent),
+            actions: <Widget>[
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: theme.textTheme.labelLarge,
+                ),
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
-              child: const Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      }
-    );
+            ],
+          );
+        });
   }
 }

@@ -6,7 +6,9 @@ class DecisionTreeScreen extends StatefulWidget {
   final SystemManager manager;
   final DecisionTreeModel dtModel;
 
-  const DecisionTreeScreen({required this.manager, required this.dtModel, Key? key}) : super(key: key);
+  const DecisionTreeScreen(
+      {required this.manager, required this.dtModel, Key? key})
+      : super(key: key);
 
   @override
   State<DecisionTreeScreen> createState() => _DecisionTreeScreenState();

@@ -7,6 +7,8 @@ class Constants {
   static const String BTN_YES = "Ja";
   static const String BTN_NO = "Nein";
   static const String BTN_DELETE_ITEM = "Datenpunkt löschen";
+  static const String BTN_DISTANCE_METRIC = "Distanzmetrik";
+  static const String BTN_CLUSTER_DETERMINATION = "Klusterbestimmung";
 
   //Dialog Titel
   static const String DLG_TITLE_DEL_ITEMS = "Datenpunkte löschen";
@@ -25,9 +27,13 @@ class Constants {
   static const String OPERATING_MODE_LOCAL = "Lokal";
   static const String OPERATING_MODE_SERVER = "Server";
   static const String ADD_DATA_POINT_ERROR = "Sie müssen Zahlen eingeben.";
+  static const String K_CLUSTER_TEXT = "kCluster";
 
   //Mixed
   static const String CHANGE_TITLE = "Titel ändern";
   static const String CHANGE_X_TITLE = "X-Titel ändern";
   static const String CHANGE_Y_TITLE = "Y-Titel ändern";
+
+  static const METRIC_CHOICES = ["Euklidisch", "Manhattan", "Jacards"];
+  static const CLUSTER_DETERMINATION_CHOICES = ["Elbow", "Silhouette"];
 }
