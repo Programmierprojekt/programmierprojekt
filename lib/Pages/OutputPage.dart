@@ -78,8 +78,8 @@ class _OutputPageState extends State<OutputPage> {
   Widget build(BuildContext context) {
     return ListenableBuilder(
         listenable: manager!,
-        builder: (context, child) =>
-            ListView(children: buildGraphicsRepresentation(context)));
+        builder: (context, child) => ListView(
+            shrinkWrap: true, children: buildGraphicsRepresentation(context)));
   }
 
   List<Widget> buildGraphicsRepresentation(BuildContext context) {
@@ -91,44 +91,50 @@ class _OutputPageState extends State<OutputPage> {
         Row(
           children: [
             const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(
-                text: Constants.CHANGE_TITLE,
-                onPressed: () {
-                  CustomWidgets.showTextfieldDialog(
-                      context, theme, inputChartTitle, Constants.CHANGE_TITLE,
-                      (newText) {
-                    setState(() {
-                      inputChartTitle = newText;
-                      html.window.localStorage["inputChartTitle"] = newText;
+            Expanded(
+              child: CustomWidgets.CustomElevatedButton(
+                  text: Constants.CHANGE_TITLE,
+                  onPressed: () {
+                    CustomWidgets.showTextfieldDialog(
+                        context, theme, inputChartTitle, Constants.CHANGE_TITLE,
+                        (newText) {
+                      setState(() {
+                        inputChartTitle = newText;
+                        html.window.localStorage["inputChartTitle"] = newText;
+                      });
                     });
-                  });
-                }),
+                  }),
+            ),
             const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(
-                text: Constants.CHANGE_X_TITLE,
-                onPressed: () {
-                  CustomWidgets.showTextfieldDialog(
-                      context, theme, inputXTitle, Constants.CHANGE_X_TITLE,
-                      (newText) {
-                    setState(() {
-                      inputXTitle = newText;
-                      html.window.localStorage["inputXTitle"] = newText;
+            Expanded(
+              child: CustomWidgets.CustomElevatedButton(
+                  text: Constants.CHANGE_X_TITLE,
+                  onPressed: () {
+                    CustomWidgets.showTextfieldDialog(
+                        context, theme, inputXTitle, Constants.CHANGE_X_TITLE,
+                        (newText) {
+                      setState(() {
+                        inputXTitle = newText;
+                        html.window.localStorage["inputXTitle"] = newText;
+                      });
                     });
-                  });
-                }),
+                  }),
+            ),
             const SizedBox(width: 10),
-            CustomWidgets.CustomElevatedButton(
-                text: Constants.CHANGE_Y_TITLE,
-                onPressed: () {
-                  CustomWidgets.showTextfieldDialog(
-                      context, theme, inputYTitle, Constants.CHANGE_Y_TITLE,
-                      (newText) {
-                    setState(() {
-                      inputYTitle = newText;
-                      html.window.localStorage["inputYTitle"] = newText;
+            Expanded(
+              child: CustomWidgets.CustomElevatedButton(
+                  text: Constants.CHANGE_Y_TITLE,
+                  onPressed: () {
+                    CustomWidgets.showTextfieldDialog(
+                        context, theme, inputYTitle, Constants.CHANGE_Y_TITLE,
+                        (newText) {
+                      setState(() {
+                        inputYTitle = newText;
+                        html.window.localStorage["inputYTitle"] = newText;
+                      });
                     });
-                  });
-                })
+                  }),
+            )
           ],
         ),
         SfCartesianChart(
@@ -170,68 +176,75 @@ class _OutputPageState extends State<OutputPage> {
                 Row(
                   children: [
                     const SizedBox(width: 10),
-                    CustomWidgets.CustomElevatedButton(
-                        text: Constants.CHANGE_TITLE,
-                        onPressed: () {
-                          CustomWidgets.showTextfieldDialog(
-                              context,
-                              theme,
-                              outputChartTitle,
-                              Constants.CHANGE_TITLE, (newText) {
-                            setState(() {
-                              outputChartTitle = newText;
-                              html.window.localStorage["outputChartTitle"] =
-                                  newText;
+                    Expanded(
+                      child: CustomWidgets.CustomElevatedButton(
+                          text: Constants.CHANGE_TITLE,
+                          onPressed: () {
+                            CustomWidgets.showTextfieldDialog(
+                                context,
+                                theme,
+                                outputChartTitle,
+                                Constants.CHANGE_TITLE, (newText) {
+                              setState(() {
+                                outputChartTitle = newText;
+                                html.window.localStorage["outputChartTitle"] =
+                                    newText;
+                              });
                             });
-                          });
-                        }),
+                          }),
+                    ),
                     const SizedBox(width: 10),
-                    CustomWidgets.CustomElevatedButton(
-                        text: Constants.CHANGE_X_TITLE,
-                        onPressed: () {
-                          CustomWidgets.showTextfieldDialog(
-                              context,
-                              theme,
-                              outputXTitle,
-                              Constants.CHANGE_X_TITLE, (newText) {
-                            setState(() {
-                              outputXTitle = newText;
-                              html.window.localStorage["outputXTitle"] =
-                                  newText;
+                    Expanded(
+                      child: CustomWidgets.CustomElevatedButton(
+                          text: Constants.CHANGE_X_TITLE,
+                          onPressed: () {
+                            CustomWidgets.showTextfieldDialog(
+                                context,
+                                theme,
+                                outputXTitle,
+                                Constants.CHANGE_X_TITLE, (newText) {
+                              setState(() {
+                                outputXTitle = newText;
+                                html.window.localStorage["outputXTitle"] =
+                                    newText;
+                              });
                             });
-                          });
-                        }),
+                          }),
+                    ),
                     const SizedBox(width: 10),
-                    CustomWidgets.CustomElevatedButton(
-                        text: Constants.CHANGE_Y_TITLE,
-                        onPressed: () {
-                          CustomWidgets.showTextfieldDialog(
-                              context,
-                              theme,
-                              outputYTitle,
-                              Constants.CHANGE_Y_TITLE, (newText) {
-                            setState(() {
-                              outputYTitle = newText;
-                              html.window.localStorage["outputYTitle"] =
-                                  newText;
+                    Expanded(
+                      child: CustomWidgets.CustomElevatedButton(
+                          text: Constants.CHANGE_Y_TITLE,
+                          onPressed: () {
+                            CustomWidgets.showTextfieldDialog(
+                                context,
+                                theme,
+                                outputYTitle,
+                                Constants.CHANGE_Y_TITLE, (newText) {
+                              setState(() {
+                                outputYTitle = newText;
+                                html.window.localStorage["outputYTitle"] =
+                                    newText;
+                              });
                             });
-                          });
-                        }),
+                          }),
+                    ),
                     const SizedBox(width: 10),
-                    CustomWidgets.CustomElevatedButton(
-                        text: Constants.BTN_EXPORT,
-                        onPressed: () {
-                          var csvText = "x,y\r\n";
+                    Expanded(
+                      child: CustomWidgets.CustomElevatedButton(
+                          text: Constants.BTN_EXPORT,
+                          onPressed: () {
+                            var csvText = "x,y\r\n";
 
-                          for (var point in dataPoints!.points) {
-                            csvText += "${point.x},${point.y}\r\n";
-                          }
+                            for (var point in dataPoints!.points) {
+                              csvText += "${point.x},${point.y}\r\n";
+                            }
 
-                          html.Blob blob = html.Blob([csvText], "text/csv");
-                          var url = html.Url.createObjectUrlFromBlob(blob);
+                            html.Blob blob = html.Blob([csvText], "text/csv");
+                            var url = html.Url.createObjectUrlFromBlob(blob);
 
-                          js.context.callMethod("eval", [
-                            """
+                            js.context.callMethod("eval", [
+                              """
                   const csvDownload = document.createElement('a');
                   csvDownload.id = "csvDownload";
                   csvDownload.href = "$url";
@@ -242,10 +255,11 @@ class _OutputPageState extends State<OutputPage> {
 
                   csvDownload.remove();
                 """
-                          ]);
+                            ]);
 
-                          html.Url.revokeObjectUrl(url);
-                        })
+                            html.Url.revokeObjectUrl(url);
+                          }),
+                    )
                   ],
                 ),
                 SfCartesianChart(
