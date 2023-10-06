@@ -57,7 +57,7 @@ class _InputPageState extends State<InputPage> {
       child: Column(
         children: [
           SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
+              height: MediaQuery.of(context).size.height * 0.15,
               child: HeaderScreen(
                   manager: widget.manager,
                   dataPoints: widget.dataPoints,

@@ -194,7 +194,19 @@ class _OutputPageState extends State<OutputPage> {
                       window.localStorage["outputYTitle"] = newText;
                     });
                   });
-                })
+                }),
+            const SizedBox(width: 10),
+            CustomWidgets.CustomElevatedButton(
+              text: Constants.BTN_EXPORT,
+              onPressed: () {
+                var csvText = "x,y\n";
+
+                for(var point in dataPoints!.points) {
+                  csvText += "${point.x},${point.y}\n";
+                }
+
+
+              })
           ],
         ),
         SfCartesianChart(
