@@ -53,9 +53,15 @@ class _OutputPageState extends State<OutputPage> {
     dataPoints = widget.dataPoints;
     manager = widget.manager;
     dtModel = widget.dtModel;
-    if (manager!.operatingMode && manager!.algorithmType == 0) {
-      calculateKMeans();
+    if (manager!.algorithmType == 0) {
+      //KMeans ausführen
+      if (manager!.operatingMode) {
+        calculateKMeans(); //Lokal
+      } else {
+        kMeansServer(); //Server
+      }
     } else {
+      //DecisionTree ausführen
       calculateDecisionTree();
     }
     inputChartTitle =
@@ -272,14 +278,21 @@ class _OutputPageState extends State<OutputPage> {
     }
   }
 
-  /// KMeans ausrechnen
+  /// KMeans Lokal ausrechnen
   void calculateKMeans() async {
     setState(() {
       isFinishedCalculating = false; //Muss als erstes gemacht werden
     });
   }
 
-  /// DecisionTree ausrechnen
+  /// Serverseitig KMeans ausführen
+  void kMeansServer() async {
+    setState(() {
+      isFinishedCalculating = false; //Muss als erstes gemacht werden
+    });
+  }
+
+  /// DecisionTree Lokal ausrechnen
   void calculateDecisionTree() async {
     setState(() {
       isFinishedCalculating = false; //Muss als erstes gemacht werden
