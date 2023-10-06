@@ -45,20 +45,34 @@ class _ParameterHandlingComponentState
   }
 
   List<Widget> buildWidgetsForLocal() => [
-    SizedBox(
-      width: MediaQuery.of(context).size.width / 9,
-      child: TextField(
-        controller: kClusterController,
-        onChanged: (value) => setState(() {}),
-        maxLines: 1,
-        keyboardType: const TextInputType.numberWithOptions(),
-        decoration: const InputDecoration(
-          labelText: "kCluster",
-          border: OutlineInputBorder(),
+        ListTile(
+          title: const Text("Distanzmetrik"),
+          subtitle: Text(metricChoices[choosenDistanceMetric]),
+          tileColor: Colors.deepPurpleAccent.shade700,
         ),
-      ),
-    ),
-  ];
+        ListTile(
+          title: const Text("Klusterbestimmung"),
+          subtitle:
+              Text(clusterDeterminationChoices[choosenClusterDetermination]),
+          tileColor: kClusterController.text.isEmpty
+              ? Colors.deepPurpleAccent.shade700
+              : Colors.grey.shade700,
+          enabled: kClusterController.text.isEmpty,
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width / 9,
+          child: TextField(
+            controller: kClusterController,
+            onChanged: (value) => setState(() {}),
+            maxLines: 1,
+            keyboardType: const TextInputType.numberWithOptions(),
+            decoration: const InputDecoration(
+              labelText: "kCluster",
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+      ];
 
   List<Widget> buildWidgetsForServer() => [
         ListTile(
