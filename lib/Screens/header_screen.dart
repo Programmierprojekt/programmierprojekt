@@ -34,6 +34,8 @@ class _HeaderScreenState extends State<HeaderScreen> {
   DataPoints? dataPoints;
   DecisionTreeModel? dtModel;
   late PlatformFile file;
+  bool importedFile = false;
+
   @override
   void initState() {
     super.initState();
@@ -82,10 +84,16 @@ class _HeaderScreenState extends State<HeaderScreen> {
                 backgroundColor: Colors.green.shade700,
                 title: const Text(Constants.BTN_CALCULATE),
                 onTap: () {
-                  if (manager!.operatingMode == false) {
-                    performClustering(file);
-                  } else {}
-                  manager!.startLocalCalculation();
+                  if (dataPoints!.points.isNotEmpty) {
+                    if(manager!.operatingMode == false) {
+                      performClustering(file);
+                    }
+                  } else {
+                    noFileSelectedDialog();
+                  }
+                  if (importedFile) {
+                    manager!.startLocalCalculation();
+                  }
                   setState(() {});
                 }),
           ),
@@ -133,7 +141,9 @@ class _HeaderScreenState extends State<HeaderScreen> {
     if (dataPoints!.points.isNotEmpty) {
       dataPoints!
           .clearAllPoints(); //Alle Datenpunkte löschen, wenn neue Datei importiert wird
+      importedFile = false;
     }
+    String csvDelimiter = ";";
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['csv'],
@@ -141,8 +151,8 @@ class _HeaderScreenState extends State<HeaderScreen> {
     if (result != null) {
       file = result.files.first;
       final decodedData = utf8.decode(file.bytes as List<int>);
-      List<List<dynamic>> data =
-          const CsvToListConverter().convert(decodedData, fieldDelimiter: ";");
+      List<List<dynamic>> data = const CsvToListConverter()
+          .convert(decodedData, fieldDelimiter: csvDelimiter);
       data.removeAt(0); //Überschriftzeile entfernen
       for (var e in data) {
         if (manager!.algorithmType == 0) {
@@ -157,10 +167,12 @@ class _HeaderScreenState extends State<HeaderScreen> {
           dtModel!.add(e.toString());
         }
       }
-      setState(() {});
+      importedFile = true;
     } else {
+      importedFile = false;
       await _displayInfoDialogOnAbortedFilePicking();
     }
+    setState(() {});
   }
 
   /// Informationsdialog, falls der Nutzer den FilePicker schließt
@@ -214,5 +226,24 @@ class _HeaderScreenState extends State<HeaderScreen> {
   void chooseAlgorithm(int pressedAlgo, context) {
     manager!.changeAlgorithmType(pressedAlgo);
     Navigator.of(context).pop();
+  }
+
+  /// Dialog um den nutzer mitzuteilen, dass noch keine Datei ausgewählt worden ist
+  void noFileSelectedDialog() async {
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(Constants.INFORMATION),
+        content: const Text("Es wurde bisher noch keine Datei importiert!"),
+        actions: [
+          TextButton(
+            child: const Text(Constants.OK_TEXT),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+      ),
+    );
   }
 }
