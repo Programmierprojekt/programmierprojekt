@@ -3,7 +3,7 @@ import 'package:programmierprojekt/Custom/data_point_model.dart';
 import 'package:programmierprojekt/Custom/decision_tree_model.dart';
 import 'package:programmierprojekt/Pages/input_page.dart';
 import 'package:programmierprojekt/Pages/output_page.dart';
-import 'package:programmierprojekt/Util/constants.dart';
+import 'package:programmierprojekt/Util/constants_list.dart';
 import 'package:programmierprojekt/Util/system_manager.dart';
 
 void main() {

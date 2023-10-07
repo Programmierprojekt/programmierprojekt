@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:programmierprojekt/Custom/custom_widgets.dart';
 import 'package:programmierprojekt/Custom/data_point_model.dart';
 import 'package:programmierprojekt/Custom/decision_tree_model.dart';
-import 'package:programmierprojekt/Util/constants.dart';
+import 'package:programmierprojekt/Util/constants_list.dart';
 import 'package:programmierprojekt/Util/system_manager.dart';
 import 'package:programmierprojekt/api/backend_service.dart';
 
