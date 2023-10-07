@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:programmierprojekt/Custom/DecisionTreeModel.dart';
-import 'package:programmierprojekt/Util/SystemManager.dart';
+import 'package:programmierprojekt/Custom/decision_tree_model.dart';
+import 'package:programmierprojekt/Util/system_manager.dart';
 
 class DecisionTreeScreen extends StatefulWidget {
   final SystemManager manager;

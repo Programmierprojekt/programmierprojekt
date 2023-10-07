@@ -1,13 +1,15 @@
+// ignore_for_file: avoid_web_libraries_in_flutter
+
 import 'dart:html' as html;
 import 'dart:js' as js;
 
 import 'package:flutter/material.dart';
 import 'package:ml_algo/ml_algo.dart';
-import 'package:programmierprojekt/Custom/CustomWidgets.dart';
-import 'package:programmierprojekt/Custom/DataPointModel.dart';
-import 'package:programmierprojekt/Custom/DecisionTreeModel.dart';
-import 'package:programmierprojekt/Util/Constants.dart';
-import 'package:programmierprojekt/Util/SystemManager.dart';
+import 'package:programmierprojekt/Custom/custom_widgets.dart';
+import 'package:programmierprojekt/Custom/data_point_model.dart';
+import 'package:programmierprojekt/Custom/decision_tree_model.dart';
+import 'package:programmierprojekt/Util/constants.dart';
+import 'package:programmierprojekt/Util/system_manager.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class OutputPage extends StatefulWidget {
@@ -53,7 +55,7 @@ class _OutputPageState extends State<OutputPage> {
     dataPoints = widget.dataPoints;
     manager = widget.manager;
     dtModel = widget.dtModel;
-    print(manager!.algorithmType);
+    //print(manager!.algorithmType);
     if (manager!.algorithmType == 0) {
       //KMeans ausführen
       if (manager!.operatingMode) {
@@ -93,7 +95,7 @@ class _OutputPageState extends State<OutputPage> {
           children: [
             const SizedBox(width: 10),
             Expanded(
-              child: CustomWidgets.CustomElevatedButton(
+              child: CustomWidgets.customElevatedButton(
                   text: Constants.CHANGE_TITLE,
                   onPressed: () {
                     CustomWidgets.showTextfieldDialog(
@@ -108,7 +110,7 @@ class _OutputPageState extends State<OutputPage> {
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: CustomWidgets.CustomElevatedButton(
+              child: CustomWidgets.customElevatedButton(
                   text: Constants.CHANGE_X_TITLE,
                   onPressed: () {
                     CustomWidgets.showTextfieldDialog(
@@ -123,7 +125,7 @@ class _OutputPageState extends State<OutputPage> {
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: CustomWidgets.CustomElevatedButton(
+              child: CustomWidgets.customElevatedButton(
                   text: Constants.CHANGE_Y_TITLE,
                   onPressed: () {
                     CustomWidgets.showTextfieldDialog(
@@ -178,7 +180,7 @@ class _OutputPageState extends State<OutputPage> {
                   children: [
                     const SizedBox(width: 10),
                     Expanded(
-                      child: CustomWidgets.CustomElevatedButton(
+                      child: CustomWidgets.customElevatedButton(
                           text: Constants.CHANGE_TITLE,
                           onPressed: () {
                             CustomWidgets.showTextfieldDialog(
@@ -196,7 +198,7 @@ class _OutputPageState extends State<OutputPage> {
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: CustomWidgets.CustomElevatedButton(
+                      child: CustomWidgets.customElevatedButton(
                           text: Constants.CHANGE_X_TITLE,
                           onPressed: () {
                             CustomWidgets.showTextfieldDialog(
@@ -214,7 +216,7 @@ class _OutputPageState extends State<OutputPage> {
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: CustomWidgets.CustomElevatedButton(
+                      child: CustomWidgets.customElevatedButton(
                           text: Constants.CHANGE_Y_TITLE,
                           onPressed: () {
                             CustomWidgets.showTextfieldDialog(
@@ -232,7 +234,7 @@ class _OutputPageState extends State<OutputPage> {
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: CustomWidgets.CustomElevatedButton(
+                      child: CustomWidgets.customElevatedButton(
                           text: Constants.BTN_EXPORT,
                           onPressed: () {
                             var csvText = "x,y\r\n";
@@ -288,7 +290,6 @@ class _OutputPageState extends State<OutputPage> {
     } else {
       return [
         //TODO: BildGrafik anzeigen
-
       ];
     }
   }
@@ -309,11 +310,12 @@ class _OutputPageState extends State<OutputPage> {
 
   /// DecisionTree Lokal ausrechnen
   void calculateDecisionTree() async {
-    print("OAHDFiaHDHAWIDiADWIOA");
+    //print("OAHDFiaHDHAWIDiADWIOA");
     setState(() {
       isFinishedCalculating = false; //Muss als erstes gemacht werden
     });
-    DecisionTreeClassifier d = DecisionTreeClassifier(dtModel!.dataFrame, "irgenwas");
+    DecisionTreeClassifier d =
+        DecisionTreeClassifier(dtModel!.dataFrame, "irgenwas");
     html.Blob blob = html.Blob([await d.saveAsSvg("/a")], "image/svg+xml");
     var url = html.Url.createObjectUrlFromBlob(blob);
     js.context.callMethod("eval", [

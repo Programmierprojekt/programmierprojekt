@@ -1,5 +1,5 @@
 import 'package:kmeans/kmeans.dart';
-import 'package:programmierprojekt/Custom/DataPointModel.dart';
+import 'package:programmierprojekt/Custom/data_point_model.dart';
 
 /// Anwenden der Clustering-Algorithmen lokal
 class AlgorithmHelper {
@@ -7,7 +7,7 @@ class AlgorithmHelper {
   List<List<double>> convertDataPointListToKMeansList(
       List<DataPointModel> dpl) {
     List<List<double>> data = [[]];
-    for(var d in dpl) {
+    for (var d in dpl) {
       data.add(d.toKMeansList());
     }
     return data;

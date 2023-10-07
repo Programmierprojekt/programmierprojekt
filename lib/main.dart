@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:programmierprojekt/Custom/DataPointModel.dart';
-import 'package:programmierprojekt/Custom/DecisionTreeModel.dart';
-import 'package:programmierprojekt/Pages/InputPage.dart';
-import 'package:programmierprojekt/Pages/OutputPage.dart';
-import 'package:programmierprojekt/Util/Constants.dart';
-import 'package:programmierprojekt/Util/SystemManager.dart';
+import 'package:programmierprojekt/Custom/data_point_model.dart';
+import 'package:programmierprojekt/Custom/decision_tree_model.dart';
+import 'package:programmierprojekt/Pages/input_page.dart';
+import 'package:programmierprojekt/Pages/output_page.dart';
+import 'package:programmierprojekt/Util/constants.dart';
+import 'package:programmierprojekt/Util/system_manager.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

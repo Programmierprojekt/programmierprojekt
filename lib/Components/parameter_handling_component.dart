@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:programmierprojekt/Custom/DataPointModel.dart';
-import 'package:programmierprojekt/Util/Constants.dart';
-import 'package:programmierprojekt/Util/SystemManager.dart';
+import 'package:programmierprojekt/Custom/data_point_model.dart';
+import 'package:programmierprojekt/Util/constants.dart';
+import 'package:programmierprojekt/Util/system_manager.dart';
 
 class ParameterHandlingComponent extends StatefulWidget {
   final SystemManager manager;

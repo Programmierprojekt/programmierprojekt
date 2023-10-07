@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:programmierprojekt/Components/ParameterHandlingComponent.dart';
-import 'package:programmierprojekt/Custom/DataPointModel.dart';
-import 'package:programmierprojekt/Util/SystemManager.dart';
+import 'package:programmierprojekt/Components/parameter_handling_component.dart';
+import 'package:programmierprojekt/Custom/data_point_model.dart';
+import 'package:programmierprojekt/Util/system_manager.dart';
 
 class KMeansScreen extends StatefulWidget {
   final DataPoints dataPoints;

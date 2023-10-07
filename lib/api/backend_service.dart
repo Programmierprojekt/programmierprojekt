@@ -17,8 +17,8 @@ Future<http.Response> performClustering(
   String distanceMetric = "EUCLIDEAN",
   String clusterDetermination = "ELBOW",
 }) async {
-  const apiUrl =
-      "http://localhost:8080/clustering/perform-kmeans-clustering/?distanceMetric=EUCLIDEAN&clusterDetermination=ELBOW";
+  final apiUrl =
+      "http://localhost:8080/clustering/perform-kmeans-clustering/?distanceMetric=$distanceMetric&clusterDetermination=$clusterDetermination";
 
   final requestUri = Uri.parse(apiUrl);
   final request = http.MultipartRequest("POST", requestUri);
@@ -42,17 +42,14 @@ Future<http.Response> performClustering(
     if (response.statusCode == 200) {
       return http.Response.fromStream(response);
     } else {
-      print(response);
-      print(response.statusCode);
       throw Exception("Fehler: ${response.reasonPhrase}");
     }
   } catch (e) {
-    print("Exception: $e");
-    throw e;
+    rethrow;
   }
 }
 
-Future<void> performTest() async {
+Future<bool> performTest() async {
   const apiUrl =
       "http://localhost:8080/clustering/perform-kmeans-clustering/?distanceMetric=EUCLIDEAN&clusterDetermination=ELBOW";
 
@@ -61,15 +58,11 @@ Future<void> performTest() async {
     final response = await http.get(requestUri);
 
     if (response.statusCode == 200) {
-      // Erfolgreiche Antwort
-      final responseBody = response.body;
-      print("Antwort: $responseBody");
+      return true;
     } else {
-      // Fehlerhafte Antwort
-      print("Fehler: ${response.statusCode}");
+      return false;
     }
   } catch (e) {
-    // Fehler bei der Anfrage oder Verbindung
-    print("Fehler: $e");
+    rethrow;
   }
 }

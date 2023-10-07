@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 /// Die Klasse ist Listenable
 class DataPoints with ChangeNotifier {
   /// Die Datenpunkte als Liste
-  List<DataPointModel> _points;
+  final List<DataPointModel> _points;
 
   /// Getter für die Datenpunkte
   List<DataPointModel> get points => _points;

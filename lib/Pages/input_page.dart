@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:programmierprojekt/Custom/DataPointModel.dart';
-import 'package:programmierprojekt/Custom/DecisionTreeModel.dart';
-import 'package:programmierprojekt/Screens/DecisionTreeScreen.dart';
-import 'package:programmierprojekt/Screens/HeaderScreen.dart';
-import 'package:programmierprojekt/Screens/KMeansScreen.dart';
-import 'package:programmierprojekt/Util/SystemManager.dart';
+import 'package:programmierprojekt/Custom/data_point_model.dart';
+import 'package:programmierprojekt/Custom/decision_tree_model.dart';
+import 'package:programmierprojekt/Screens/decision_tree_screen.dart';
+import 'package:programmierprojekt/Screens/header_screen.dart';
+import 'package:programmierprojekt/Screens/kmeans_screen.dart';
+import 'package:programmierprojekt/Util/system_manager.dart';
 
 class InputPage extends StatefulWidget {
   final DataPoints dataPoints;

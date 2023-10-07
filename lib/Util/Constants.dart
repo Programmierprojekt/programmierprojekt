@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class Constants {
   //Button Texte
   static const String BTN_CHOOSE_ALGORITHM = "Algorithmus";

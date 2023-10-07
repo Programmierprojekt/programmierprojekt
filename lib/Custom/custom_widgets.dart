@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomWidgets {
-  static ElevatedButton CustomElevatedButton({
+  static ElevatedButton customElevatedButton({
     required String text,
     required void Function() onPressed,
     double? textFontSize = 24,
@@ -18,7 +18,7 @@ class CustomWidgets {
         ),
       );
 
-  static Widget CustomListTile(
+  static Widget customListTile(
           {required void Function() onTap,
           Widget? title,
           Widget? subtitle,

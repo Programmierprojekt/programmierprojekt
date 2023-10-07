@@ -1,17 +1,14 @@
-import 'dart:html' as html;
-import 'dart:js' as js;
 import 'dart:convert';
 
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:ml_algo/ml_algo.dart';
-import 'package:programmierprojekt/Custom/CustomWidgets.dart';
-import 'package:programmierprojekt/Custom/DataPointModel.dart';
-import 'package:programmierprojekt/Custom/DecisionTreeModel.dart';
-import 'package:programmierprojekt/Util/Constants.dart';
-import 'package:programmierprojekt/Util/SystemManager.dart';
-import 'package:programmierprojekt/api/Backend.dart';
+import 'package:programmierprojekt/Custom/custom_widgets.dart';
+import 'package:programmierprojekt/Custom/data_point_model.dart';
+import 'package:programmierprojekt/Custom/decision_tree_model.dart';
+import 'package:programmierprojekt/Util/constants.dart';
+import 'package:programmierprojekt/Util/system_manager.dart';
+import 'package:programmierprojekt/api/backend_service.dart';
 
 /// Der HeaderScreen zeigt die allgemeinen Optionen und Darstellungen an.
 /// Damit sind die Optionen gemeint, die für jeden Algorithmus eingesetzt werden
@@ -54,7 +51,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
         children: [
           //Datenimport
           Expanded(
-            child: CustomWidgets.CustomListTile(
+            child: CustomWidgets.customListTile(
                 subtitle: const SizedBox(),
                 title: const Text(Constants.BTN_IMPORT),
                 onTap: importData,
@@ -62,7 +59,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
           ),
           //Algorithmesauswahl
           Expanded(
-            child: CustomWidgets.CustomListTile(
+            child: CustomWidgets.customListTile(
                 title: const Text(Constants.BTN_CHOOSE_ALGORITHM),
                 subtitle: Text(
                     manager!.algorithmType == 0 ? "KMeans" : "Decision Tree"),
@@ -71,7 +68,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
           ),
           //Operationsmodus wechseln
           Expanded(
-            child: CustomWidgets.CustomListTile(
+            child: CustomWidgets.customListTile(
               title: const Text("Modus ändern"),
               subtitle: Text(
                   "Ausführungsmodus: ${manager!.operatingMode == false ? Constants.OPERATING_MODE_SERVER : Constants.OPERATING_MODE_LOCAL}"),
@@ -80,7 +77,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
             ),
           ),
           Expanded(
-            child: CustomWidgets.CustomListTile(
+            child: CustomWidgets.customListTile(
                 subtitle: const SizedBox(),
                 backgroundColor: Colors.green.shade700,
                 title: const Text(Constants.BTN_CALCULATE),
