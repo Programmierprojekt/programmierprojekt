@@ -5,10 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "programmierprojekt",
+            "name": "Chrome (Debug) with local backend",
             "request": "launch",
             "type": "dart",
-            "args": ["-d", "chrome","--web-port", "8080"],
+            "args": ["-d", "chrome", "--web-browser-flag", "--disable-web-security"],
+        },
+        {
+            "name": "Edge (Debug) with local backend",
+            "request": "launch",
+            "type": "dart",
+            "args": ["-d", "Edge", "--web-browser-flag", "--disable-web-security"],
         },
         {
             "name": "programmierprojekt (profile mode)",

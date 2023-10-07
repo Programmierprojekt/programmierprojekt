@@ -11,6 +11,7 @@ import 'package:programmierprojekt/Custom/DataPointModel.dart';
 import 'package:programmierprojekt/Custom/DecisionTreeModel.dart';
 import 'package:programmierprojekt/Util/Constants.dart';
 import 'package:programmierprojekt/Util/SystemManager.dart';
+import 'package:programmierprojekt/api/Backend.dart';
 
 /// Der HeaderScreen zeigt die allgemeinen Optionen und Darstellungen an.
 /// Damit sind die Optionen gemeint, die für jeden Algorithmus eingesetzt werden
@@ -35,7 +36,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
   SystemManager? manager;
   DataPoints? dataPoints;
   DecisionTreeModel? dtModel;
-
+  late PlatformFile file;
   @override
   void initState() {
     super.initState();
@@ -84,6 +85,9 @@ class _HeaderScreenState extends State<HeaderScreen> {
                 backgroundColor: Colors.green.shade700,
                 title: const Text(Constants.BTN_CALCULATE),
                 onTap: () {
+                  if (manager!.operatingMode == false) {
+                    performClustering(file);
+                  } else {}
                   manager!.startLocalCalculation();
                   setState(() {});
                 }),
@@ -138,7 +142,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
       allowedExtensions: ['csv'],
     );
     if (result != null) {
-      PlatformFile file = result.files.first;
+      file = result.files.first;
       final decodedData = utf8.decode(file.bytes as List<int>);
       List<List<dynamic>> data =
           const CsvToListConverter().convert(decodedData, fieldDelimiter: ";");
