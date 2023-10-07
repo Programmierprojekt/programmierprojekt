@@ -85,7 +85,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
                 title: const Text(Constants.BTN_CALCULATE),
                 onTap: () {
                   if (dataPoints!.points.isNotEmpty) {
-                    if(manager!.operatingMode == false) {
+                    if (manager!.operatingMode == false) {
                       performClustering(file);
                     }
                   } else {
@@ -143,13 +143,20 @@ class _HeaderScreenState extends State<HeaderScreen> {
           .clearAllPoints(); //Alle Datenpunkte löschen, wenn neue Datei importiert wird
       importedFile = false;
     }
-    String csvDelimiter = ";";
+    String csvDelimiter = await displayDelimiterDialog();
+
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['csv'],
     );
     if (result != null) {
       file = result.files.first;
+      //Dateigröße überprüfen
+      if (file.size >= Constants.MAX_FILE_SIZE) {
+        displayFileTooBigDialog();
+        return;
+      }
+
       final decodedData = utf8.decode(file.bytes as List<int>);
       List<List<dynamic>> data = const CsvToListConverter()
           .convert(decodedData, fieldDelimiter: csvDelimiter);
@@ -173,6 +180,61 @@ class _HeaderScreenState extends State<HeaderScreen> {
       await _displayInfoDialogOnAbortedFilePicking();
     }
     setState(() {});
+  }
+
+  /// Infodialog, weil Datei zu groß ist zum importieren
+  void displayFileTooBigDialog() async {
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(Constants.INFORMATION),
+        content: const Text(
+            "Die ausgewählte Datei ist zu groß!\nDie Dateigröße ist auf 3 mb beschränkt."),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(Constants.OK_TEXT))
+        ],
+      ),
+    );
+  }
+
+  /// Dialog zur Auswahl des String delimiters
+  Future<String> displayDelimiterDialog() async {
+    String delim = ",";
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Trennzeichenauswahl"),
+        content: Row(
+          children: [
+            TextButton(
+              child: const Text(
+                ",",
+                style: TextStyle(
+                    backgroundColor: Colors.black, color: Colors.deepOrange),
+              ),
+              onPressed: () {
+                delim = ",";
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text(";",
+                  style: TextStyle(
+                      backgroundColor: Colors.black, color: Colors.deepOrange)),
+              onPressed: () {
+                delim = ";";
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        ),
+      ),
+    );
+    return delim;
   }
 
   /// Informationsdialog, falls der Nutzer den FilePicker schließt
