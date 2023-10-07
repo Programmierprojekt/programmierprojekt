@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:programmierprojekt/Custom/data_point_model.dart';
 
 class ChartDataSet {
@@ -22,4 +23,9 @@ class Cluster {
     required this.centroid,
     required this.points,
   });
+
+  Color getClusterColor() {
+    final hue = (clusterNr / 50) * 360;
+    return HSVColor.fromAHSV(1.0, hue, 1.0, 1.0).toColor();
+  }
 }
