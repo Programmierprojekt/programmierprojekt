@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:programmierprojekt/Custom/data_point_model.dart';
-import 'package:programmierprojekt/Util/constants_list.dart';
+import 'package:programmierprojekt/Util/constants.dart';
 import 'package:programmierprojekt/Util/system_manager.dart';
 
 class ParameterHandlingComponent extends StatefulWidget {
