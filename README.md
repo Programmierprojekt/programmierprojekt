@@ -20,13 +20,13 @@ Ein benutzerfreundliches Frontend für die Berechnung von KMeans-Clustering und 
 - Anpassbare Parameter für die Baumkonstruktion
 
 ## Voraussetzungen
-Bevor Sie das Repo verwenden können, müssen Sie sicherstellen, dass die folgenden Voraussetzungen erfüllt sind:
+Bevor Sie das Repository verwenden können, müssen Sie sicherstellen, dass die folgenden Voraussetzungen erfüllt sind:
 
 - **Flutter**: Stellen Sie sicher, dass Flutter auf Ihrem lokalen System installiert ist. Weitere Informationen zur Flutter-
 Installation finden Sie unter [Flutter Installationsanleitung](https://flutter.dev/docs/get-started/install).
 
 - **Lokales Backend (nur für serverseitige Berechnungen)**:
-Wenn Sie die serverseitige Berechnungsoption nutzen möchten, müssen Sie das Backend [progback](https://github.com/axellotl22/progback) lokal installieren. Beachten Sie, dass das Backend auf Windows-Systemen nur mit Windows [Subsystem for Linux (WSL)](https://learn.microsoft.com/de-de/windows/wsl/install) funktioniert.
+Wenn Sie die serverseitige Berechnungsoption nutzen möchten, müssen Sie das Backend [progback](https://github.com/axellotl22/progback) lokal installieren. Beachten Sie, dass das Backend auf Windows-Systemen nur mit [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/de-de/windows/wsl/install) funktioniert.
 
 Nachdem Sie diese Schritte abgeschlossen haben, sollten Sie in der Lage sein, das Frontend für KMeans-Clustering und Decision Trees erfolgreich zu verwenden, sowohl lokal als auch serverseitig.
 
@@ -44,9 +44,23 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 ```
 
 Darüber hinaus sollten Sie WSL2 als die Standardversion festlegen.
-```PowerShell
+```bash
 wsl --set-default-version 2
 ```
 Anschließend führen Sie einen Neustart Ihres PCs durch.
 
 **Hinweis:** *Falls weiterhin Probleme mit WSL auftreten, könnte es hilfreich sein, Windows-Funktionen auszuschalten, wenn sie bereits aktiviert sind, und sie anschließend erneut zu aktivieren. Beachten Sie jedoch, dass dabei die vorhandenen WSL-Linux-Distributionen gelöscht werden.*
+
+
+## Verwendung
+1. Stellen Sie sicher, dass alle Voraussetzungen erfüllt sind (flutter installiert, lokales Backend für serverseitige Berechnungen eingerichtet, falls erforderlich).
+2. Klone oder laden Sie dieses Repository herunter und wechseln Sie in das Verzeichnis.
+```bash
+git clone https://github.com/Programmierprojekt/programmierprojekt.git & cd programmierprojekt
+```
+3. Um die Webseite zu starten, führen Sie den folgenden Befehl aus.
+```bash
+flutter run
+```
+4. Verwenden Sie die Benutzeroberfläche, um die gewünschten Einstellungen für KMeans oder CART festzulegen.
+5. Klicken Sie auf "Berechnen", um die Ergebnisse zu erhalten.
