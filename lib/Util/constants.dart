@@ -12,6 +12,7 @@ class Constants {
   static const String BTN_EXPORT = "Exportieren";
   static const String BTN_DISTANCE_METRIC = "Distanzmetrik";
   static const String BTN_CLUSTER_DETERMINATION = "Klusterbestimmung";
+  static const String BTN_CHANGE_MODE = "Modus ändern";
 
   //Dialog Titel
   static const String DLG_TITLE_DEL_ITEMS = "Datenpunkte löschen";
@@ -20,6 +21,7 @@ class Constants {
   static const String DLG_TITLE_CHANGE_OPERATING_MODE =
       "Operationsmodus ändern";
   static const String DLG_TITLE_HINT = "Hinweis";
+  static const String DLG_TITLE_DELIM = "Trennzeichenauswahl";
 
   //Labels
   static const String APP_TITLE = "SmartClassificator";

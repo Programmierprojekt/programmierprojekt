@@ -46,9 +46,6 @@ class _OutputPageState extends State<OutputPage> {
   late String outputXTitle;
   late String outputYTitle;
 
-  DecisionTreeClassifier? d;
-  dynamic eee;
-
   @override
   void initState() {
     super.initState();

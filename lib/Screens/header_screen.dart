@@ -71,7 +71,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
           //Operationsmodus wechseln
           Expanded(
             child: CustomWidgets.customListTile(
-              title: const Text("Modus ändern"),
+              title: const Text(Constants.BTN_CHANGE_MODE),
               subtitle: Text(
                   "Ausführungsmodus: ${manager!.operatingMode == false ? Constants.OPERATING_MODE_SERVER : Constants.OPERATING_MODE_LOCAL}"),
               onTap: _changeOperatingMode,
@@ -207,7 +207,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Trennzeichenauswahl"),
+        title: const Text(Constants.DLG_TITLE_DELIM),
         content: Row(
           children: [
             TextButton(
