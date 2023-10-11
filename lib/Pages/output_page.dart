@@ -272,10 +272,14 @@ class _OutputPageState extends State<OutputPage> {
                   tooltipBehavior: TooltipBehavior(enable: false),
                 )
               ])
-            : const Column(
+            : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [CircularProgressIndicator()],
+                children: [
+                  isFinishedCalculating == false
+                      ? const CircularProgressIndicator()
+                      : const SizedBox()
+                ],
               )
       ];
     } else {
