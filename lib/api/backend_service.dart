@@ -4,16 +4,28 @@ import "package:http/http.dart" as http;
 import "package:http_parser/http_parser.dart";
 import 'package:programmierprojekt/Util/constants.dart';
 
-/*
-example:
-curl -X "POST" \
-  "http://localhost:8080/clustering/perform-kmeans-clustering/?distanceMetric=EUCLIDEAN&clusterDetermination=ELBOW" \
-  -H "accept: application/json" \
-  -H "Content-Type: multipart/form-data" \
-  -F "file=@test.csv;type=application/vnd.ms-excel"
-*/
 Future<http.Response> performClustering(PlatformFile file,
     {int? kCluster, int? distanceMetric, int? clusterDetermination}) async {
+  final requestUri = makeUriForBackendProgbackLocal(
+      kCluster, distanceMetric, clusterDetermination);
+
+  final request = makePostMultipartFileFromBytes(requestUri, file);
+
+  try {
+    final response = await request.send();
+    if (response.statusCode == 200) {
+      return http.Response.fromStream(response);
+    } else {
+      throw Exception("Fehler: ${response.reasonPhrase}");
+    }
+  } catch (e) {
+    rethrow;
+  }
+}
+
+/// siehe github: https://github.com/axellotl22/progback
+Uri makeUriForBackendProgbackLocal(
+    int? kCluster, int? distanceMetric, int? clusterDetermination) {
   const baseUrl = "localhost:8080";
   const path = "/clustering/perform-kmeans-clustering";
 
@@ -31,7 +43,11 @@ Future<http.Response> performClustering(PlatformFile file,
   }
 
   Uri requestUri = Uri.http(baseUrl, path, queryParam);
+  return requestUri;
+}
 
+http.MultipartRequest makePostMultipartFileFromBytes(
+    Uri requestUri, PlatformFile file) {
   final request = http.MultipartRequest("POST", requestUri);
   request.headers.addAll({
     "accept": "application/json",
@@ -45,23 +61,12 @@ Future<http.Response> performClustering(PlatformFile file,
     contentType: MediaType("application", "vnd.ms-excel"),
   );
   request.files.add(multipartFile);
-
-  try {
-    final response = await request.send();
-    if (response.statusCode == 200) {
-      return http.Response.fromStream(response);
-    } else {
-      throw Exception("Fehler: ${response.reasonPhrase}");
-    }
-  } catch (e) {
-    rethrow;
-  }
+  return request;
 }
 
-Future<bool> performTest() async {
-  const apiUrl =
-      "http://localhost:8080/clustering/perform-kmeans-clustering/?distanceMetric=EUCLIDEAN&clusterDetermination=ELBOW";
-
+///Konnektivitöt des apiUrl prüfen
+/// Beispiel: apiUrl="http://localhost:8080/clustering/perform-kmeans-clustering/?distanceMetric=EUCLIDEAN&clusterDetermination=ELBOW"
+Future<bool> performTest(String apiUrl) async {
   final requestUri = Uri.parse(apiUrl);
   try {
     final response = await http.get(requestUri);
