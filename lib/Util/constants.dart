@@ -43,5 +43,5 @@ class Constants {
   static const METRIC_CHOICES = ["Euclidean", "Manhattan", "Jaccards"];
   static const CLUSTER_DETERMINATION_CHOICES = ["Elbow", "Silhouette"];
 
-  static const int MAX_FILE_SIZE = 3000000; //3 Mb max. Dateigröße
+  static const int MAX_FILE_SIZE = 1000000; //1 Mb max. Dateigröße
 }
