@@ -148,12 +148,7 @@ class _OutputPageState extends State<OutputPage> {
               axisLine: const AxisLine(width: 1),
               axisBorderType: AxisBorderType.rectangle,
               majorGridLines: const MajorGridLines(width: 1)),
-          tooltipBehavior: TooltipBehavior(enable: true),
-          zoomPanBehavior: ZoomPanBehavior(
-            enablePanning: true,
-            enableMouseWheelZooming: true,
-            enablePinching: true,
-          ),
+          tooltipBehavior: TooltipBehavior(enable: false),
           series: [
             ScatterSeries(
               dataSource: dataPoints!.points,
@@ -274,8 +269,7 @@ class _OutputPageState extends State<OutputPage> {
                       title: AxisTitle(text: outputYTitle),
                       axisLine: const AxisLine(width: 1),
                       majorGridLines: const MajorGridLines(width: 1)),
-                  tooltipBehavior: TooltipBehavior(enable: true),
-                  zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
+                  tooltipBehavior: TooltipBehavior(enable: false),
                 )
               ])
             : const Column(
