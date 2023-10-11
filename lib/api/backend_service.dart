@@ -2,6 +2,7 @@
 import "package:file_picker/file_picker.dart";
 import "package:http/http.dart" as http;
 import "package:http_parser/http_parser.dart";
+import 'package:programmierprojekt/Util/constants.dart';
 
 /*
 example:
@@ -11,24 +12,32 @@ curl -X "POST" \
   -H "Content-Type: multipart/form-data" \
   -F "file=@test.csv;type=application/vnd.ms-excel"
 */
-Future<http.Response> performClustering(
-  PlatformFile file, {
-  int? kCluster,
-  String distanceMetric = "EUCLIDEAN",
-  String clusterDetermination = "ELBOW",
-}) async {
-  final apiUrl =
-      "http://localhost:8080/clustering/perform-kmeans-clustering/?distanceMetric=$distanceMetric&clusterDetermination=$clusterDetermination";
+Future<http.Response> performClustering(PlatformFile file,
+    {int? kCluster, int? distanceMetric, int? clusterDetermination}) async {
+  const baseUrl = "localhost:8080";
+  const path = "/clustering/perform-kmeans-clustering";
 
-  final requestUri = Uri.parse(apiUrl);
+  final distMatric = Constants.METRIC_CHOICES[distanceMetric!];
+  final clustDetermination =
+      Constants.CLUSTER_DETERMINATION_CHOICES[clusterDetermination!];
+
+  final queryParam = {
+    'distanceMetric': distMatric.toUpperCase(),
+    'clusterDetermination': clustDetermination.toUpperCase()
+  };
+
+  if (kCluster != 0) {
+    queryParam.addAll({"kCluster": kCluster.toString()});
+  }
+
+  Uri requestUri = Uri.http(baseUrl, path, queryParam);
+
   final request = http.MultipartRequest("POST", requestUri);
   request.headers.addAll({
     "accept": "application/json",
     "Content-Type": "multipart/form-data",
   });
-  if (kCluster != null) {
-    request.fields["kCluster"] = kCluster.toString();
-  }
+
   final multipartFile = http.MultipartFile.fromBytes(
     "file",
     file.bytes as List<int>,

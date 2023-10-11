@@ -34,7 +34,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   DataPoints dataPoints = DataPoints([]);
-  SystemManager manager = SystemManager(true, 0, 0);
+  SystemManager manager = SystemManager(true, 0, 0, 0, 0, 0);
   DecisionTreeModel dtModel = DecisionTreeModel([]);
 
   @override

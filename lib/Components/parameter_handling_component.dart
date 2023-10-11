@@ -64,7 +64,10 @@ class _ParameterHandlingComponentState
           width: MediaQuery.of(context).size.width / 9,
           child: TextField(
             controller: kClusterController,
-            onChanged: (value) => setState(() {}),
+            onChanged: (value) {
+              //TODO: @Adrian hier muss du den Wert von K-Cluster holen
+              setState(() {});
+            },
             maxLines: 1,
             keyboardType: const TextInputType.numberWithOptions(),
             decoration: const InputDecoration(
@@ -97,7 +100,10 @@ class _ParameterHandlingComponentState
           //width: 128,
           child: TextField(
             controller: kClusterController,
-            onChanged: (value) => setState(() {}),
+            onChanged: (value) {
+              widget.manager.callKCluster(int.tryParse(value) ?? 0);
+              setState(() {});
+            },
             maxLines: 1,
             keyboardType: const TextInputType.numberWithOptions(),
             decoration: const InputDecoration(
@@ -119,6 +125,7 @@ class _ParameterHandlingComponentState
               child: Text(Constants.METRIC_CHOICES[0]), //Euklidisch
               onPressed: () {
                 choosenDistanceMetric = 0;
+                widget.manager.callDistanceMetric(0);
                 Navigator.of(context).pop();
               },
             ),
@@ -129,6 +136,7 @@ class _ParameterHandlingComponentState
               child: Text(Constants.METRIC_CHOICES[1]), //Manhattan
               onPressed: () {
                 choosenDistanceMetric = 1;
+                widget.manager.callDistanceMetric(1);
                 Navigator.of(context).pop();
               },
             ),
@@ -139,6 +147,7 @@ class _ParameterHandlingComponentState
               child: Text(Constants.METRIC_CHOICES[2]), //Jaccards
               onPressed: () {
                 choosenDistanceMetric = 2;
+                widget.manager.callDistanceMetric(2);
                 Navigator.of(context).pop();
               },
             ),
@@ -161,6 +170,7 @@ class _ParameterHandlingComponentState
               //Elbow
               onPressed: () {
                 choosenClusterDetermination = 0;
+                widget.manager.callClusterDetermination(0);
                 Navigator.of(context).pop();
               },
             ),
@@ -172,6 +182,7 @@ class _ParameterHandlingComponentState
               //Silhouette
               onPressed: () {
                 choosenClusterDetermination = 1;
+                widget.manager.callClusterDetermination(1);
                 Navigator.of(context).pop();
               },
             ),

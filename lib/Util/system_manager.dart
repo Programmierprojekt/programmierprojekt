@@ -28,8 +28,18 @@ class SystemManager with ChangeNotifier {
 
   bool get operatingMode => _isLocal;
 
-  SystemManager(
-      this._isLocal, this._algorithmType, this._bottomNavigationIndex);
+  ///Parameter für die Verarbeitung von KMeans serverseitig
+  int _distanceMetric = 0;
+  int get choosenDistanceMetric => _distanceMetric;
+
+  int _clusterDetermination = 0;
+  int get choosenClusterDetermination => _clusterDetermination;
+
+  int _kCluster = 0;
+  int get kClusterController => _kCluster;
+
+  SystemManager(this._isLocal, this._algorithmType, this._bottomNavigationIndex,
+      this._clusterDetermination, this._distanceMetric, this._kCluster);
 
   /// Algorithmustypen wechseln
   /// newVal ist der neue Wert
@@ -58,6 +68,21 @@ class SystemManager with ChangeNotifier {
   /// Die Navigation ändern
   void changeBottomNavigationIndex(int index) {
     _bottomNavigationIndex = index;
+    notifyListeners();
+  }
+
+  void callDistanceMetric(int newValue) {
+    _distanceMetric = newValue;
+    notifyListeners();
+  }
+
+  void callClusterDetermination(int newValue) {
+    _clusterDetermination = newValue;
+    notifyListeners();
+  }
+
+  void callKCluster(int newValue) {
+    _kCluster = newValue;
     notifyListeners();
   }
 }

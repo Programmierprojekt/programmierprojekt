@@ -86,7 +86,11 @@ class _HeaderScreenState extends State<HeaderScreen> {
                 onTap: () {
                   if (dataPoints!.points.isNotEmpty) {
                     if (manager!.operatingMode == false) {
-                      performClustering(file);
+                      performClustering(file,
+                          kCluster: widget.manager.kClusterController,
+                          distanceMetric: widget.manager.choosenDistanceMetric,
+                          clusterDetermination:
+                              widget.manager.choosenClusterDetermination);
                     }
                   } else {
                     noFileSelectedDialog();
