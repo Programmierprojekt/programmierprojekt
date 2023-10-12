@@ -148,6 +148,11 @@ class _HeaderScreenState extends State<HeaderScreen> {
       importedFile = false;
     }
     String csvDelimiter = await displayDelimiterDialog();
+    if (csvDelimiter != ";" || csvDelimiter != ",") {
+      importedFile = false;
+      await _displayInfoDialogOnAbortedFilePicking();
+      return;
+    }
 
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
