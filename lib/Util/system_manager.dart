@@ -30,12 +30,15 @@ class SystemManager with ChangeNotifier {
 
   ///Parameter für die Verarbeitung von KMeans serverseitig
   int _distanceMetric = 0;
+
   int get choosenDistanceMetric => _distanceMetric;
 
   int _clusterDetermination = 0;
+
   int get choosenClusterDetermination => _clusterDetermination;
 
   int _kCluster = 0;
+
   int get kClusterController => _kCluster;
 
   SystemManager(this._isLocal, this._algorithmType, this._bottomNavigationIndex,

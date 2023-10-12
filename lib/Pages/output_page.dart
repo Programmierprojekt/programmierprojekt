@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:ml_algo/ml_algo.dart';
 import 'package:programmierprojekt/Custom/custom_widgets.dart';
 import 'package:programmierprojekt/Custom/data_point_model.dart';
-import 'package:programmierprojekt/Custom/decision_tree_model.dart';
 import 'package:programmierprojekt/Util/constants.dart';
 import 'package:programmierprojekt/Util/system_manager.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -15,13 +14,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 class OutputPage extends StatefulWidget {
   final DataPoints dataPoints;
   final SystemManager manager;
-  final DecisionTreeModel dtModel;
 
-  const OutputPage(
-      {required this.dataPoints,
-      required this.manager,
-      required this.dtModel,
-      Key? key})
+  const OutputPage({required this.dataPoints, required this.manager, Key? key})
       : super(key: key);
 
   @override
@@ -35,7 +29,6 @@ class _OutputPageState extends State<OutputPage> {
   int displayType = 0;
   SystemManager? manager;
   DataPoints? dataPoints;
-  DecisionTreeModel? dtModel;
 
   bool isFinishedCalculating = false;
 
@@ -51,7 +44,6 @@ class _OutputPageState extends State<OutputPage> {
     super.initState();
     dataPoints = widget.dataPoints;
     manager = widget.manager;
-    dtModel = widget.dtModel;
     //print(manager!.algorithmType);
     if (manager!.algorithmType == 0) {
       //KMeans ausführen
@@ -60,10 +52,7 @@ class _OutputPageState extends State<OutputPage> {
       } else {
         kMeansServer(); //Server
       }
-    } else {
-      //DecisionTree ausführen
-      calculateDecisionTree();
-    }
+    } else {}
     inputChartTitle =
         html.window.localStorage["inputChartTitle"] ?? "Datenvorschau";
     outputChartTitle =
@@ -301,28 +290,5 @@ class _OutputPageState extends State<OutputPage> {
     setState(() {
       isFinishedCalculating = false; //Muss als erstes gemacht werden
     });
-  }
-
-  /// DecisionTree Lokal ausrechnen
-  void calculateDecisionTree() async {
-    //print("OAHDFiaHDHAWIDiADWIOA");
-    setState(() {
-      isFinishedCalculating = false; //Muss als erstes gemacht werden
-    });
-    DecisionTreeClassifier d =
-        DecisionTreeClassifier(dtModel!.dataFrame, "irgenwas");
-    html.Blob blob = html.Blob([await d.saveAsSvg("/a")], "image/svg+xml");
-    var url = html.Url.createObjectUrlFromBlob(blob);
-    js.context.callMethod("eval", [
-      """
-                  const csvDownload = document.createElement('img');
-                  csvDownload.id = "irgendwas";
-                  csvDownload.width = "1024";
-                  csvDownload.height = "1024";
-                  csvDownload.src = "$url";
-                  document.body.append(csvDownload);
-                """
-    ]);
-    html.Url.revokeObjectUrl(url);
   }
 }

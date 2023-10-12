@@ -5,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:programmierprojekt/Custom/custom_widgets.dart';
 import 'package:programmierprojekt/Custom/data_point_model.dart';
-import 'package:programmierprojekt/Custom/decision_tree_model.dart';
 import 'package:programmierprojekt/Util/constants.dart';
 import 'package:programmierprojekt/Util/system_manager.dart';
 import 'package:programmierprojekt/api/backend_service.dart';
@@ -16,13 +15,9 @@ import 'package:programmierprojekt/api/backend_service.dart';
 class HeaderScreen extends StatefulWidget {
   final SystemManager manager;
   final DataPoints dataPoints;
-  final DecisionTreeModel dtModel;
 
   const HeaderScreen(
-      {required this.manager,
-      required this.dataPoints,
-      required this.dtModel,
-      Key? key})
+      {required this.manager, required this.dataPoints, Key? key})
       : super(key: key);
 
   @override
@@ -32,7 +27,6 @@ class HeaderScreen extends StatefulWidget {
 class _HeaderScreenState extends State<HeaderScreen> {
   SystemManager? manager;
   DataPoints? dataPoints;
-  DecisionTreeModel? dtModel;
   late PlatformFile file;
   bool importedFile = false;
 
@@ -41,7 +35,6 @@ class _HeaderScreenState extends State<HeaderScreen> {
     super.initState();
     manager = widget.manager;
     dataPoints = widget.dataPoints;
-    dtModel = widget.dtModel;
   }
 
   @override
@@ -180,10 +173,10 @@ class _HeaderScreenState extends State<HeaderScreen> {
               double.tryParse(e.last.toString().replaceAll(",", "."));
           if (first != null && last != null) {
             dataPoints!.add(DataPointModel(x: first, y: last));
+          } else {
+            displayWrongDataDialog();
           }
-        } else if (manager!.algorithmType == 1) {
-          dtModel!.add(e.toString());
-        }
+        } else if (manager!.algorithmType == 1) {}
       }
       importedFile = true;
     } else {
@@ -308,6 +301,24 @@ class _HeaderScreenState extends State<HeaderScreen> {
       builder: (context) => AlertDialog(
         title: const Text(Constants.INFORMATION),
         content: const Text("Es wurde bisher noch keine Datei importiert!"),
+        actions: [
+          TextButton(
+            child: const Text(Constants.OK_TEXT),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  void displayWrongDataDialog() async {
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(Constants.INFORMATION),
+        content: const Text("Es wurden fehlerhafte Daten festgestellt"),
         actions: [
           TextButton(
             child: const Text(Constants.OK_TEXT),
