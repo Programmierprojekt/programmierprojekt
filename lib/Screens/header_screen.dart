@@ -214,7 +214,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
 
   /// Dialog zur Auswahl des String delimiters
   Future<String> displayDelimiterDialog() async {
-    String delim = ",";
+    String delim = "";
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
