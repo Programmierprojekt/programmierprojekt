@@ -54,7 +54,9 @@ class _HeaderScreenState extends State<HeaderScreen> {
           //Datenimport
           Expanded(
             child: CustomWidgets.customListTile(
-                subtitle: const SizedBox(),
+                subtitle: importedFile
+                    ? Text(file.name.substring(0, 8) + ".csv")
+                    : const SizedBox(),
                 title: const Text(Constants.BTN_IMPORT),
                 onTap: importData,
                 backgroundColor: Colors.orange.shade700),
