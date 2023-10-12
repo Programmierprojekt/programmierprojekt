@@ -119,6 +119,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
               child: const Text(Constants.OPERATING_MODE_SERVER),
               onPressed: () {
                 manager!.changeOperatingMode(false);
+                manager!.changeAlgorithmType(0);
                 Navigator.of(context).pop();
               },
             ),
@@ -126,6 +127,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
               child: const Text(Constants.OPERATING_MODE_LOCAL),
               onPressed: () {
                 manager!.changeOperatingMode(true);
+                manager!.changeAlgorithmType(0);
                 Navigator.of(context).pop();
               },
             )
