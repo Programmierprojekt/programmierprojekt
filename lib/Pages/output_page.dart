@@ -4,7 +4,6 @@ import 'dart:html' as html;
 import 'dart:js' as js;
 
 import 'package:flutter/material.dart';
-import 'package:ml_algo/ml_algo.dart';
 import 'package:programmierprojekt/Custom/custom_widgets.dart';
 import 'package:programmierprojekt/Custom/data_point_model.dart';
 import 'package:programmierprojekt/Util/constants.dart';

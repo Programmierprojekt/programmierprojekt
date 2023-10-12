@@ -55,13 +55,16 @@ class _HeaderScreenState extends State<HeaderScreen> {
                 backgroundColor: Colors.orange.shade700),
           ),
           //Algorithmesauswahl
-          Expanded(
-            child: CustomWidgets.customListTile(
-                title: const Text(Constants.BTN_CHOOSE_ALGORITHM),
-                subtitle: Text(
-                    manager!.algorithmType == 0 ? "KMeans" : "Decision Tree"),
-                onTap: displayAlgorithmDialog,
-                backgroundColor: Colors.blue.shade700),
+          Visibility(
+            visible: !manager!.operatingMode,
+            child: Expanded(
+              child: CustomWidgets.customListTile(
+                  title: const Text(Constants.BTN_CHOOSE_ALGORITHM),
+                  subtitle: Text(
+                      manager!.algorithmType == 0 ? "KMeans" : "Decision Tree"),
+                  onTap: displayAlgorithmDialog,
+                  backgroundColor: Colors.blue.shade700),
+            ),
           ),
           //Operationsmodus wechseln
           Expanded(
