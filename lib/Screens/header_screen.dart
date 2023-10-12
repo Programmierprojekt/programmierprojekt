@@ -48,7 +48,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
           Expanded(
             child: CustomWidgets.customListTile(
                 subtitle: importedFile
-                    ? Text(file.name.substring(0, 8) + ".csv")
+                    ? Text("${file.name.substring(0, 8)}.csv")
                     : const SizedBox(),
                 title: const Text(Constants.BTN_IMPORT),
                 onTap: importData,
