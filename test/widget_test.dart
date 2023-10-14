@@ -6,28 +6,30 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:programmierprojekt/Custom/data_point_model.dart';
+import 'package:programmierprojekt/Util/system_manager.dart';
 
 void main() {
-  /*testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  test("test if DataPoints receives values", () {
+    DataPoints points = DataPoints([]);
+    points.add(DataPointModel(0, [3.0, 4.0]));
+    expect(points.points.length, 1);
+    points.addAll([
+      DataPointModel(1, [2.0, 7.0]),
+      DataPointModel(2, [1.0, 6.0])
+    ]);
+    expect(points.points.length, 3);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });*/
-
-  test("example test", () {
-    const result = 0;
-    expect(result, 0);
+  test("test if manager parameters for algorithmtype receives value changes",
+      () {
+    SystemManager manager = SystemManager(true, 0, 0, 0, 0, 0, false);
+    manager.changeAlgorithmType(1);
+    expect(manager.algorithmType, 1);
+    manager.changeOperatingMode(true);
+    expect(manager.operatingMode, true);
+    manager.callClusterDetermination(1);
+    expect(manager.choosenClusterDetermination, 1);
   });
 }
