@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_web_libraries_in_flutter
 
+import 'dart:convert';
 import 'dart:html' as html;
 import 'dart:js' as js;
 import 'dart:math';
@@ -77,6 +78,19 @@ class _OutputPageState extends State<OutputPage> {
       var theme = Theme.of(context);
 
       var colors = <int, Color>{};
+
+      for(var point in outputDataPoints!.points) {
+        if(colors[point.clusterNumber] == null) {
+          var random = Random();
+
+          const a = 255;
+          var r = random.nextInt(256);
+          var g = random.nextInt(256);
+          var b = random.nextInt(256);
+
+          colors[point.clusterNumber] = Color.fromARGB(a, r, g, b);
+        }
+      }
 
       return [
         const SizedBox(height: 10),
@@ -160,6 +174,22 @@ class _OutputPageState extends State<OutputPage> {
         ),
         manager!.calculateFinished
             ? Column(children: [
+                const SizedBox(width: 10),
+                Wrap(
+                  runSpacing: 5,
+                  children: [
+                    for(var color in colors.entries) 
+                      Wrap(
+                        spacing: 5,
+                        children: [
+                          Container(height: 15, width: 40, color: color.value),
+                          Text("Cluster ${color.key}"),
+                          const SizedBox(width: 10),
+                        ],
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 10),
                 Row(
                   children: [
                     const SizedBox(width: 10),
@@ -221,13 +251,37 @@ class _OutputPageState extends State<OutputPage> {
                       child: CustomWidgets.customElevatedButton(
                           text: Constants.BTN_EXPORT,
                           onPressed: () {
-                            var csvText = "x,y\r\n";
+                            var clustersTxt = "";
 
-                            for (var point in inputDataPoints!.points) {
-                              csvText += "${point.coords[0]},${point.coords[1]}\r\n";
+                            for(int i = 0; i < outputDataPoints!.centroids.length; i++) {
+                              clustersTxt += "{ ";
+
+                              String centroidCoords = outputDataPoints!.centroids[i].coords.join(",");
+
+                              String pointsStr = "";
+
+                              for(int k = 0; k < outputDataPoints!.points.length; k++) {
+                                if(i + 1 != outputDataPoints!.points[k].clusterNumber) continue;
+
+                                pointsStr += "[";
+                                pointsStr += outputDataPoints!.points[k].coords.join(",");
+                                pointsStr += "]";
+
+                                pointsStr += ",";
+                              }
+                              pointsStr = pointsStr.substring(0, pointsStr.length - 1);
+
+                              clustersTxt += "\"centroid\": [$centroidCoords], \"points\": [$pointsStr]";
+
+                              clustersTxt += " }";
+                              if(i != outputDataPoints!.centroids.length - 1) {
+                                clustersTxt += ",";
+                              }
                             }
 
-                            html.Blob blob = html.Blob([csvText], "text/csv");
+                            var jsonText = "{ \"clusters\": [ $clustersTxt ] }";
+
+                            html.Blob blob = html.Blob([jsonText], "text/plain");
                             var url = html.Url.createObjectUrlFromBlob(blob);
 
                             js.context.callMethod("eval", [
@@ -267,20 +321,7 @@ class _OutputPageState extends State<OutputPage> {
                       dataSource: outputDataPoints!.points,
                       xValueMapper: (singlePoint, index) => singlePoint.coords[0],
                       yValueMapper: (singlePoint, index) => singlePoint.coords[1],
-                      pointColorMapper: (singlePoint, index) {
-                        if(colors[singlePoint.clusterNumber] == null) {
-                          var random = Random();
-
-                          const a = 255;
-                          var r = random.nextInt(256);
-                          var g = random.nextInt(256);
-                          var b = random.nextInt(256);
-
-                          colors[singlePoint.clusterNumber] = Color.fromARGB(a, r, g, b);
-                        }
-
-                        return colors[singlePoint.clusterNumber];
-                      }
+                      pointColorMapper: (singlePoint, index) => colors[singlePoint.clusterNumber],
                     )
                   ],
                 )

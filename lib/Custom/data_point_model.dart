@@ -6,8 +6,12 @@ class DataPoints with ChangeNotifier {
   /// Die Datenpunkte als Liste
   final List<DataPointModel> _points;
 
+  // ignore: prefer_final_fields
+  List<DataPointModel> _centroids = [];
+
   /// Getter für die Datenpunkte
   List<DataPointModel> get points => _points;
+  List<DataPointModel> get centroids => _centroids;
 
   /// Konstruktor
   DataPoints(this._points);
@@ -15,6 +19,17 @@ class DataPoints with ChangeNotifier {
   /// Ändert die Werte eines Datenpunktes an einer bestimmmten Stelle
   void modify(index, List<double> coords) {
     points[index].coords = coords;
+    notifyListeners();
+  }
+
+  /// Fügt einen Centroid ein
+  void addCentroid(clusterNr, List<double> coords) {
+    centroids.add(DataPointModel(clusterNr, coords));
+    notifyListeners();
+  }
+
+  void clearCentroids() {
+    centroids.clear();
     notifyListeners();
   }
 

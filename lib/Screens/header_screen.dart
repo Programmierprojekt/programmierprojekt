@@ -88,6 +88,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
                   var error = false;
 
                   outputDataPoints!.clearAllPoints();
+                  outputDataPoints!.clearCentroids();
 
                   if (inputDataPoints!.points.isNotEmpty) {
                     if (manager!.operatingMode == false) {
@@ -104,7 +105,14 @@ class _HeaderScreenState extends State<HeaderScreen> {
                         for(final cluster in clusters) {
                           int clusterNr = cluster["clusterNr"];
 
+                          final centroid = cluster["centroid"];
+                          double centroidX = centroid["x"];
+                          double centroidY = centroid["y"];
+
                           clusterNr++;
+
+                          outputDataPoints!.addCentroid(clusterNr, <double>[centroidX, centroidY]);
+
                           for(final point in cluster["points"]) {
                             double x = point["x"];
                             double y = point["y"];
