@@ -31,8 +31,6 @@ class _OutputPageState extends State<OutputPage> {
   DataPoints? inputDataPoints;
   DataPoints? outputDataPoints;
 
-  bool isFinishedCalculating = false;
-
   late String inputChartTitle;
   late String outputChartTitle;
   late String inputXTitle;
@@ -157,7 +155,7 @@ class _OutputPageState extends State<OutputPage> {
         const SizedBox(
           height: 10,
         ),
-        isFinishedCalculating
+        manager!.calculateFinished
             ? Column(children: [
                 Row(
                   children: [
@@ -274,7 +272,7 @@ class _OutputPageState extends State<OutputPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  isFinishedCalculating == false
+                  manager!.calculateFinished == false
                       ? const CircularProgressIndicator()
                       : const SizedBox()
                 ],
@@ -289,15 +287,13 @@ class _OutputPageState extends State<OutputPage> {
 
   /// KMeans Lokal ausrechnen
   void calculateKMeans() async {
-    setState(() {
-      isFinishedCalculating = false; //Muss als erstes gemacht werden
-    });
+    manager!.calculateFinished;
+    setState(() {});
   }
 
   /// Serverseitig KMeans ausführen
   void kMeansServer() async {
-    setState(() {
-      isFinishedCalculating = false; //Muss als erstes gemacht werden
-    });
+    manager!.calculateFinished;
+    setState(() {});
   }
 }

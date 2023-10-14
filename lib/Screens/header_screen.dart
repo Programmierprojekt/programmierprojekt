@@ -15,9 +15,10 @@ import 'package:programmierprojekt/api/backend_service.dart';
 class HeaderScreen extends StatefulWidget {
   final SystemManager manager;
   final DataPoints inputDataPoints;
+  final DataPoints outputDataPoints;
 
   const HeaderScreen(
-      {required this.manager, required this.inputDataPoints, Key? key})
+      {required this.manager, required this.inputDataPoints, required this.outputDataPoints, Key? key})
       : super(key: key);
 
   @override
@@ -27,6 +28,7 @@ class HeaderScreen extends StatefulWidget {
 class _HeaderScreenState extends State<HeaderScreen> {
   SystemManager? manager;
   DataPoints? inputDataPoints;
+  DataPoints? outputDataPoints;
   late PlatformFile file;
   bool importedFile = false;
 
@@ -35,6 +37,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
     super.initState();
     manager = widget.manager;
     inputDataPoints = widget.inputDataPoints;
+    outputDataPoints = widget.outputDataPoints;
   }
 
   @override
@@ -82,6 +85,10 @@ class _HeaderScreenState extends State<HeaderScreen> {
                 backgroundColor: Colors.green.shade700,
                 title: const Text(Constants.BTN_CALCULATE),
                 onTap: () async {
+                  var error = false;
+
+                  outputDataPoints!.clearAllPoints();
+
                   if (inputDataPoints!.points.isNotEmpty) {
                     if (manager!.operatingMode == false) {
                       try {
@@ -95,10 +102,20 @@ class _HeaderScreenState extends State<HeaderScreen> {
                         final clusters = jsonResult["cluster"];
 
                         for(final cluster in clusters) {
-                          
+                          int clusterNr = cluster["clusterNr"];
+
+                          clusterNr++;
+                          for(final point in cluster["points"]) {
+                            double x = point["x"];
+                            double y = point["y"];
+
+                            outputDataPoints!.add(DataPointModel(clusterNr, <double>[x, y]));
+                          }
                         }
                       }
                       catch(e) {
+                        error = true;
+
                         // ignore: use_build_context_synchronously
                         CustomWidgets.showAlertDialog(context, Theme.of(context), Constants.DLG_TITLE_NO_CONNECTION, Constants.DLG_CNT_SERVER_NOT_AVAILABLE);
                       }
@@ -106,7 +123,8 @@ class _HeaderScreenState extends State<HeaderScreen> {
                   } else {
                     noFileSelectedDialog();
                   }
-                  if (importedFile) {
+                  if (importedFile && !error) {
+                    manager!.setCalculateFinished(true);
                     manager!.startLocalCalculation();
                   }
                   setState(() {});

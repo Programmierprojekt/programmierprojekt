@@ -23,9 +23,11 @@ class Constants {
   static const String DLG_TITLE_HINT = "Hinweis";
   static const String DLG_TITLE_DELIM = "Trennzeichenauswahl";
   static const String DLG_TITLE_NO_CONNECTION = "Keine Verbindung";
+  static const String DLG_TITLE_SERVER_RESPONSE_NOT_VALID = "Fehler beim Server";
 
   //Dialog Content
   static const String DLG_CNT_SERVER_NOT_AVAILABLE = "Der Server ist nicht erreichbar.";
+  static const String DLG_CNT_SERVER_RESPONSE_NOT_VALID = "Die Antwort des Servers ist fehlerhaft.";
 
   //Labels
   static const String APP_TITLE = "SmartClassificator";

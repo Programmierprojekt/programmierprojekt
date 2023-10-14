@@ -20,6 +20,9 @@ class SystemManager with ChangeNotifier {
 
   int get bottomNavigationIndex => _bottomNavigationIndex;
 
+  bool _calculateFinished = false;
+  bool get calculateFinished => _calculateFinished;
+
   /// Der Operationsmodus
   bool _isLocal =
       false; //TODO: Hier muss das AlgorithmType enum verwendet werden
@@ -42,7 +45,7 @@ class SystemManager with ChangeNotifier {
   int get kClusterController => _kCluster;
 
   SystemManager(this._isLocal, this._algorithmType, this._bottomNavigationIndex,
-      this._clusterDetermination, this._distanceMetric, this._kCluster);
+      this._clusterDetermination, this._distanceMetric, this._kCluster, this._calculateFinished);
 
   /// Algorithmustypen wechseln
   /// newVal ist der neue Wert
@@ -86,6 +89,11 @@ class SystemManager with ChangeNotifier {
 
   void callKCluster(int newValue) {
     _kCluster = newValue;
+    notifyListeners();
+  }
+
+  void setCalculateFinished(bool finished) {
+    _calculateFinished = finished;
     notifyListeners();
   }
 }

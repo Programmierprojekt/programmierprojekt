@@ -40,6 +40,7 @@ class _InputPageState extends State<InputPage> {
               child: HeaderScreen(
                 manager: widget.manager,
                 inputDataPoints: widget.inputDataPoints,
+                outputDataPoints: widget.outputDataPoints,
               )),
           const Divider(thickness: 8),
           const SizedBox(
