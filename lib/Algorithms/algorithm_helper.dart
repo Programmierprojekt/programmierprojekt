@@ -8,7 +8,7 @@ class AlgorithmHelper {
       List<DataPointModel> dpl) {
     List<List<double>> data = [[]];
     for (var d in dpl) {
-      data.add(d.toKMeansList());
+      data.add(d.coords);
     }
     return data;
   }

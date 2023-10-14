@@ -5,7 +5,7 @@ import 'package:programmierprojekt/Util/system_manager.dart';
 
 class ParameterHandlingComponent extends StatefulWidget {
   final SystemManager manager;
-  final DataPoints dataPoints;
+  final InputDataPoints dataPoints;
 
   const ParameterHandlingComponent(
       {required this.manager, required this.dataPoints, Key? key})

@@ -6,7 +6,7 @@ import 'package:programmierprojekt/Screens/kmeans_screen.dart';
 import 'package:programmierprojekt/Util/system_manager.dart';
 
 class InputPage extends StatefulWidget {
-  final DataPoints dataPoints;
+  final InputDataPoints dataPoints;
   final SystemManager manager;
 
   const InputPage({required this.dataPoints, required this.manager, Key? key})
@@ -17,7 +17,7 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  DataPoints? dataPoints;
+  InputDataPoints? dataPoints;
   SystemManager? manager;
 
   @override

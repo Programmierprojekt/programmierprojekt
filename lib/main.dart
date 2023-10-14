@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DataPoints dataPoints = DataPoints([]);
+  InputDataPoints dataPoints = InputDataPoints([]);
   SystemManager manager = SystemManager(true, 0, 0, 0, 0, 0);
 
   @override

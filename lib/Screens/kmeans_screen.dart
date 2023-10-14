@@ -4,7 +4,7 @@ import 'package:programmierprojekt/Custom/data_point_model.dart';
 import 'package:programmierprojekt/Util/system_manager.dart';
 
 class KMeansScreen extends StatefulWidget {
-  final DataPoints dataPoints;
+  final InputDataPoints dataPoints;
   final SystemManager manager;
 
   const KMeansScreen(
@@ -16,7 +16,7 @@ class KMeansScreen extends StatefulWidget {
 }
 
 class _KMeansScreenState extends State<KMeansScreen> {
-  DataPoints? dataPoints;
+  InputDataPoints? dataPoints;
   SystemManager? manager;
 
   @override

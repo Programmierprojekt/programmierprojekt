@@ -8,7 +8,7 @@
             "name": "Chrome (Debug) with local backend",
             "request": "launch",
             "type": "dart",
-            "args": ["-d", "chrome", "--web-browser-flag", "--disable-web-security"],
+            "args": ["-d", "chrome", "--web-browser-flag", "--disable-web-security", "web-port", "8000"],
         },
         {
             "name": "Edge (Debug) with local backend",

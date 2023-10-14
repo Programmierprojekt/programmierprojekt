@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Diese Klasse ist zuständig für die Verwaltung von Datenpunkten.
 /// Die Klasse ist Listenable
-class DataPoints with ChangeNotifier {
+class InputDataPoints with ChangeNotifier {
   /// Die Datenpunkte als Liste
   final List<DataPointModel> _points;
 
@@ -10,12 +10,11 @@ class DataPoints with ChangeNotifier {
   List<DataPointModel> get points => _points;
 
   /// Konstruktor
-  DataPoints(this._points);
+  InputDataPoints(this._points);
 
   /// Ändert die Werte eines Datenpunktes an einer bestimmmten Stelle
-  void modify(index, double x, double y) {
-    points[index].x = x;
-    points[index].y = y;
+  void modify(index, List<double> coords) {
+    points[index].coords = coords;
     notifyListeners();
   }
 
@@ -23,8 +22,8 @@ class DataPoints with ChangeNotifier {
   void addAll(List<DataPointModel> data) {
     for (var d in data) {
       points.add(d);
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   /// Füge ein neuen Datenpunkt an einer bestimmten Stelle hinzu
@@ -55,14 +54,8 @@ class DataPoints with ChangeNotifier {
 /// Klasse für die Datenpunkte.
 /// Beinhaltet die X- und Y-Werte eines Punktes.
 class DataPointModel {
-  ///X-Position
-  double x;
+  List<double> coords;
+  int clusterNumber;
 
-  ///Y-Position
-  double y;
-
-  DataPointModel({required this.x, required this.y});
-
-  /// Gibt eine Liste für KMeans zurück
-  List<double> toKMeansList() => [x, y];
+  DataPointModel(this.clusterNumber, this.coords);
 }

@@ -14,7 +14,7 @@ import 'package:programmierprojekt/api/backend_service.dart';
 /// bzw. die allgemein genutzt werden können
 class HeaderScreen extends StatefulWidget {
   final SystemManager manager;
-  final DataPoints dataPoints;
+  final InputDataPoints dataPoints;
 
   const HeaderScreen(
       {required this.manager, required this.dataPoints, Key? key})
@@ -26,7 +26,7 @@ class HeaderScreen extends StatefulWidget {
 
 class _HeaderScreenState extends State<HeaderScreen> {
   SystemManager? manager;
-  DataPoints? dataPoints;
+  InputDataPoints? dataPoints;
   late PlatformFile file;
   bool importedFile = false;
 
@@ -81,14 +81,23 @@ class _HeaderScreenState extends State<HeaderScreen> {
                 subtitle: const SizedBox(),
                 backgroundColor: Colors.green.shade700,
                 title: const Text(Constants.BTN_CALCULATE),
-                onTap: () {
+                onTap: () async {
                   if (dataPoints!.points.isNotEmpty) {
                     if (manager!.operatingMode == false) {
-                      performClustering(file,
-                          kCluster: widget.manager.kClusterController,
-                          distanceMetric: widget.manager.choosenDistanceMetric,
-                          clusterDetermination:
-                              widget.manager.choosenClusterDetermination);
+                      try {
+                        final result = await performClustering(file,
+                            kCluster: widget.manager.kClusterController,
+                            distanceMetric: widget.manager.choosenDistanceMetric,
+                            clusterDetermination:
+                                widget.manager.choosenClusterDetermination);
+
+                        final jsonResult = jsonDecode(result.body);
+                        print(jsonResult);
+                      }
+                      catch(e) {
+                        // ignore: use_build_context_synchronously
+                        CustomWidgets.showAlertDialog(context, Theme.of(context), Constants.DLG_TITLE_NO_CONNECTION, Constants.DLG_CNT_SERVER_NOT_AVAILABLE);
+                      }
                     }
                   } else {
                     noFileSelectedDialog();
@@ -177,7 +186,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
           double? last =
               double.tryParse(e.last.toString().replaceAll(",", "."));
           if (first != null && last != null) {
-            dataPoints!.add(DataPointModel(x: first, y: last));
+            dataPoints!.add(DataPointModel(0, <double>[first, last]));
           } else {
             displayWrongDataDialog();
           }

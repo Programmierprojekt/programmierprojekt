@@ -11,7 +11,7 @@ import 'package:programmierprojekt/Util/system_manager.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class OutputPage extends StatefulWidget {
-  final DataPoints dataPoints;
+  final InputDataPoints dataPoints;
   final SystemManager manager;
 
   const OutputPage({required this.dataPoints, required this.manager, Key? key})
@@ -27,7 +27,7 @@ class _OutputPageState extends State<OutputPage> {
   double aspectRatioValue = 5;
   int displayType = 0;
   SystemManager? manager;
-  DataPoints? dataPoints;
+  InputDataPoints? dataPoints;
 
   bool isFinishedCalculating = false;
 
@@ -140,8 +140,8 @@ class _OutputPageState extends State<OutputPage> {
           series: [
             ScatterSeries(
               dataSource: dataPoints!.points,
-              xValueMapper: (singlePoint, index) => singlePoint.x,
-              yValueMapper: (singlePoint, index) => singlePoint.y,
+              xValueMapper: (singlePoint, index) => singlePoint.coords[0],
+              yValueMapper: (singlePoint, index) => singlePoint.coords[1],
             )
           ],
         ),
@@ -220,7 +220,7 @@ class _OutputPageState extends State<OutputPage> {
                             var csvText = "x,y\r\n";
 
                             for (var point in dataPoints!.points) {
-                              csvText += "${point.x},${point.y}\r\n";
+                              csvText += "${point.coords[0]},${point.coords[1]}\r\n";
                             }
 
                             html.Blob blob = html.Blob([csvText], "text/csv");
