@@ -2,6 +2,7 @@
 
 import 'dart:html' as html;
 import 'dart:js' as js;
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:programmierprojekt/Custom/custom_widgets.dart';
@@ -74,6 +75,8 @@ class _OutputPageState extends State<OutputPage> {
   List<Widget> buildGraphicsRepresentation(BuildContext context) {
     if (manager!.algorithmType == 0) {
       var theme = Theme.of(context);
+
+      var colors = <int, Color>{};
 
       return [
         const SizedBox(height: 10),
@@ -264,6 +267,20 @@ class _OutputPageState extends State<OutputPage> {
                       dataSource: outputDataPoints!.points,
                       xValueMapper: (singlePoint, index) => singlePoint.coords[0],
                       yValueMapper: (singlePoint, index) => singlePoint.coords[1],
+                      pointColorMapper: (singlePoint, index) {
+                        if(colors[singlePoint.clusterNumber] == null) {
+                          var random = Random();
+
+                          const a = 255;
+                          var r = random.nextInt(256);
+                          var g = random.nextInt(256);
+                          var b = random.nextInt(256);
+
+                          colors[singlePoint.clusterNumber] = Color.fromARGB(a, r, g, b);
+                        }
+
+                        return colors[singlePoint.clusterNumber];
+                      }
                     )
                   ],
                 )
