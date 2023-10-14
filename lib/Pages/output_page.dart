@@ -11,10 +11,11 @@ import 'package:programmierprojekt/Util/system_manager.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class OutputPage extends StatefulWidget {
-  final InputDataPoints dataPoints;
+  final DataPoints inputDataPoints;
+  final DataPoints outputDataPoints;
   final SystemManager manager;
 
-  const OutputPage({required this.dataPoints, required this.manager, Key? key})
+  const OutputPage({required this.inputDataPoints, required this.outputDataPoints, required this.manager, Key? key})
       : super(key: key);
 
   @override
@@ -27,7 +28,8 @@ class _OutputPageState extends State<OutputPage> {
   double aspectRatioValue = 5;
   int displayType = 0;
   SystemManager? manager;
-  InputDataPoints? dataPoints;
+  DataPoints? inputDataPoints;
+  DataPoints? outputDataPoints;
 
   bool isFinishedCalculating = false;
 
@@ -41,7 +43,8 @@ class _OutputPageState extends State<OutputPage> {
   @override
   void initState() {
     super.initState();
-    dataPoints = widget.dataPoints;
+    inputDataPoints = widget.inputDataPoints;
+    outputDataPoints = widget.outputDataPoints;
     manager = widget.manager;
     //print(manager!.algorithmType);
     if (manager!.algorithmType == 0) {
@@ -139,7 +142,7 @@ class _OutputPageState extends State<OutputPage> {
           tooltipBehavior: TooltipBehavior(enable: false),
           series: [
             ScatterSeries(
-              dataSource: dataPoints!.points,
+              dataSource: inputDataPoints!.points,
               xValueMapper: (singlePoint, index) => singlePoint.coords[0],
               yValueMapper: (singlePoint, index) => singlePoint.coords[1],
             )
@@ -219,7 +222,7 @@ class _OutputPageState extends State<OutputPage> {
                           onPressed: () {
                             var csvText = "x,y\r\n";
 
-                            for (var point in dataPoints!.points) {
+                            for (var point in inputDataPoints!.points) {
                               csvText += "${point.coords[0]},${point.coords[1]}\r\n";
                             }
 
@@ -258,6 +261,13 @@ class _OutputPageState extends State<OutputPage> {
                       axisLine: const AxisLine(width: 1),
                       majorGridLines: const MajorGridLines(width: 1)),
                   tooltipBehavior: TooltipBehavior(enable: false),
+                  series: [
+                    ScatterSeries(
+                      dataSource: outputDataPoints!.points,
+                      xValueMapper: (singlePoint, index) => singlePoint.coords[0],
+                      yValueMapper: (singlePoint, index) => singlePoint.coords[1],
+                    )
+                  ],
                 )
               ])
             : Column(

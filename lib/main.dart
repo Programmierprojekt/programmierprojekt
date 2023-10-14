@@ -32,7 +32,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  InputDataPoints dataPoints = InputDataPoints([]);
+  DataPoints inputDataPoints = DataPoints([]);
+  DataPoints outputDataPoints = DataPoints([]);
   SystemManager manager = SystemManager(true, 0, 0, 0, 0, 0);
 
   @override
@@ -47,10 +48,15 @@ class _MyHomePageState extends State<MyHomePage> {
           index: manager.bottomNavigationIndex,
           children: [
             InputPage(
-              dataPoints: dataPoints,
+              inputDataPoints: inputDataPoints,
+              outputDataPoints: outputDataPoints,
               manager: manager,
             ),
-            OutputPage(dataPoints: dataPoints, manager: manager),
+            OutputPage(
+              inputDataPoints: inputDataPoints,
+              outputDataPoints: outputDataPoints,
+              manager: manager
+            ),
           ],
         ),
       ),

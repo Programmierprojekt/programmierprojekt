@@ -14,10 +14,10 @@ import 'package:programmierprojekt/api/backend_service.dart';
 /// bzw. die allgemein genutzt werden können
 class HeaderScreen extends StatefulWidget {
   final SystemManager manager;
-  final InputDataPoints dataPoints;
+  final DataPoints inputDataPoints;
 
   const HeaderScreen(
-      {required this.manager, required this.dataPoints, Key? key})
+      {required this.manager, required this.inputDataPoints, Key? key})
       : super(key: key);
 
   @override
@@ -26,7 +26,7 @@ class HeaderScreen extends StatefulWidget {
 
 class _HeaderScreenState extends State<HeaderScreen> {
   SystemManager? manager;
-  InputDataPoints? dataPoints;
+  DataPoints? inputDataPoints;
   late PlatformFile file;
   bool importedFile = false;
 
@@ -34,7 +34,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
   void initState() {
     super.initState();
     manager = widget.manager;
-    dataPoints = widget.dataPoints;
+    inputDataPoints = widget.inputDataPoints;
   }
 
   @override
@@ -82,7 +82,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
                 backgroundColor: Colors.green.shade700,
                 title: const Text(Constants.BTN_CALCULATE),
                 onTap: () async {
-                  if (dataPoints!.points.isNotEmpty) {
+                  if (inputDataPoints!.points.isNotEmpty) {
                     if (manager!.operatingMode == false) {
                       try {
                         final result = await performClustering(file,
@@ -92,7 +92,11 @@ class _HeaderScreenState extends State<HeaderScreen> {
                                 widget.manager.choosenClusterDetermination);
 
                         final jsonResult = jsonDecode(result.body);
-                        print(jsonResult);
+                        final clusters = jsonResult["cluster"];
+
+                        for(final cluster in clusters) {
+                          
+                        }
                       }
                       catch(e) {
                         // ignore: use_build_context_synchronously
@@ -151,8 +155,8 @@ class _HeaderScreenState extends State<HeaderScreen> {
   /// Öffnet einen FilePicker und liest die Daten aus der ausgewählten Datei aus
   /// Außerdem wird das gelesene csv convertiert und die Datenpunkte hinzugefügt
   void importData() async {
-    if (dataPoints!.points.isNotEmpty) {
-      dataPoints!
+    if (inputDataPoints!.points.isNotEmpty) {
+      inputDataPoints!
           .clearAllPoints(); //Alle Datenpunkte löschen, wenn neue Datei importiert wird
       importedFile = false;
     }
@@ -178,18 +182,29 @@ class _HeaderScreenState extends State<HeaderScreen> {
       final decodedData = utf8.decode(file.bytes as List<int>);
       List<List<dynamic>> data = const CsvToListConverter()
           .convert(decodedData, fieldDelimiter: csvDelimiter);
+
+      List<double> coords = [];
+
       data.removeAt(0); //Überschriftzeile entfernen
+
+      outer:
       for (var e in data) {
         if (manager!.algorithmType == 0) {
-          double? first =
-              double.tryParse(e.first.toString().replaceAll(",", "."));
-          double? last =
-              double.tryParse(e.last.toString().replaceAll(",", "."));
-          if (first != null && last != null) {
-            dataPoints!.add(DataPointModel(0, <double>[first, last]));
-          } else {
-            displayWrongDataDialog();
+          for(var coord in e) {
+            double? value = double.tryParse(coord.toString().replaceAll(",", "."));
+
+            if (value != null) {
+              coords.add(value);
+            } else {
+              displayWrongDataDialog();
+              break outer;
+            }
           }
+
+          List<double> l = [];
+          l.addAll(coords);
+          inputDataPoints!.add(DataPointModel(0, l));
+          coords.clear();
         } else if (manager!.algorithmType == 1) {}
       }
       importedFile = true;

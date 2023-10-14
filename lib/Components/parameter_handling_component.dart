@@ -5,10 +5,10 @@ import 'package:programmierprojekt/Util/system_manager.dart';
 
 class ParameterHandlingComponent extends StatefulWidget {
   final SystemManager manager;
-  final InputDataPoints dataPoints;
+  final DataPoints inputDataPoints;
 
   const ParameterHandlingComponent(
-      {required this.manager, required this.dataPoints, Key? key})
+      {required this.manager, required this.inputDataPoints, Key? key})
       : super(key: key);
 
   @override

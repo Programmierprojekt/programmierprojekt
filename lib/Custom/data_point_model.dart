@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Diese Klasse ist zuständig für die Verwaltung von Datenpunkten.
 /// Die Klasse ist Listenable
-class InputDataPoints with ChangeNotifier {
+class DataPoints with ChangeNotifier {
   /// Die Datenpunkte als Liste
   final List<DataPointModel> _points;
 
@@ -10,7 +10,7 @@ class InputDataPoints with ChangeNotifier {
   List<DataPointModel> get points => _points;
 
   /// Konstruktor
-  InputDataPoints(this._points);
+  DataPoints(this._points);
 
   /// Ändert die Werte eines Datenpunktes an einer bestimmmten Stelle
   void modify(index, List<double> coords) {

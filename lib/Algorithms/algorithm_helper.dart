@@ -14,7 +14,7 @@ class AlgorithmHelper {
   }
 
   /// Führt KMeans lokal aus.
-  /// dataPoints:    Die Datenpunkte. Muss konvertiert werden!
+  /// inputDataPoints:    Die Datenpunkte. Muss konvertiert werden!
   /// searchBest:    Suche nach bestmöglichen Clustern?
   ///    true:         minK und maxK angeben
   ///    false:        kCount angeben
@@ -22,9 +22,9 @@ class AlgorithmHelper {
   /// kCount:        Anzahl der K, wenn searchBest false ist!
   /// minK:          Für die Suche nach den besten K
   /// maxK:          Für die Suche nach den besten K
-  Clusters kmeans(List<DataPointModel> dataPoints,
+  Clusters kmeans(List<DataPointModel> inputDataPoints,
       {bool searchBest = false, int kCount = 1, int minK = 3, int maxK = 10}) {
-    var convertedData = convertDataPointListToKMeansList(dataPoints);
+    var convertedData = convertDataPointListToKMeansList(inputDataPoints);
     var kmeans = KMeans(convertedData);
     return searchBest
         ? kmeans.bestFit(minK: minK, maxK: maxK)

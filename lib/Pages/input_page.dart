@@ -6,10 +6,11 @@ import 'package:programmierprojekt/Screens/kmeans_screen.dart';
 import 'package:programmierprojekt/Util/system_manager.dart';
 
 class InputPage extends StatefulWidget {
-  final InputDataPoints dataPoints;
+  final DataPoints inputDataPoints;
+  final DataPoints outputDataPoints;
   final SystemManager manager;
 
-  const InputPage({required this.dataPoints, required this.manager, Key? key})
+  const InputPage({required this.inputDataPoints, required this.outputDataPoints, required this.manager, Key? key})
       : super(key: key);
 
   @override
@@ -17,13 +18,15 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  InputDataPoints? dataPoints;
+  DataPoints? inputDataPoints;
+  DataPoints? outputDataPoints;
   SystemManager? manager;
 
   @override
   void initState() {
     super.initState();
-    dataPoints = widget.dataPoints;
+    inputDataPoints = widget.inputDataPoints;
+    outputDataPoints = widget.outputDataPoints;
     manager = widget.manager;
   }
 
@@ -36,7 +39,7 @@ class _InputPageState extends State<InputPage> {
               height: MediaQuery.of(context).size.height * 0.15,
               child: HeaderScreen(
                 manager: widget.manager,
-                dataPoints: widget.dataPoints,
+                inputDataPoints: widget.inputDataPoints,
               )),
           const Divider(thickness: 8),
           const SizedBox(
@@ -45,7 +48,7 @@ class _InputPageState extends State<InputPage> {
           SingleChildScrollView(
             child: manager!.algorithmType == 0
                 ? KMeansScreen(
-                    manager: widget.manager, dataPoints: widget.dataPoints)
+                    manager: widget.manager, inputDataPoints: widget.inputDataPoints)
                 : DecisionTreeScreen(
                     manager: widget.manager,
                   ),

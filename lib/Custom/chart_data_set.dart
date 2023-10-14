@@ -16,7 +16,7 @@ class ChartDataSet {
 class Cluster {
   int clusterNr;
   DataPointModel centroid;
-  InputDataPoints points;
+  DataPoints points;
 
   Cluster({
     required this.clusterNr,
