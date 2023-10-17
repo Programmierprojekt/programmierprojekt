@@ -23,11 +23,14 @@ class Constants {
   static const String DLG_TITLE_HINT = "Hinweis";
   static const String DLG_TITLE_DELIM = "Trennzeichenauswahl";
   static const String DLG_TITLE_NO_CONNECTION = "Keine Verbindung";
-  static const String DLG_TITLE_SERVER_RESPONSE_NOT_VALID = "Fehler beim Server";
+  static const String DLG_TITLE_SERVER_RESPONSE_NOT_VALID =
+      "Fehler beim Server";
 
   //Dialog Content
-  static const String DLG_CNT_SERVER_NOT_AVAILABLE = "Der Server ist nicht erreichbar.";
-  static const String DLG_CNT_SERVER_RESPONSE_NOT_VALID = "Die Antwort des Servers ist fehlerhaft.";
+  static const String DLG_CNT_SERVER_NOT_AVAILABLE =
+      "Der Server ist nicht erreichbar.";
+  static const String DLG_CNT_SERVER_RESPONSE_NOT_VALID =
+      "Die Antwort des Servers ist fehlerhaft.";
 
   //Labels
   static const String APP_TITLE = "SmartClassificator";
@@ -48,6 +51,28 @@ class Constants {
 
   static const METRIC_CHOICES = ["Euclidean", "Manhattan", "Jaccards"];
   static const CLUSTER_DETERMINATION_CHOICES = ["Elbow", "Silhouette"];
+
+  static const METRIC_CHOICES_LOCAL = ["Euclidean"];
+  static const CLUSTER_DETERMINATION_CHOICES_LOCAL = ["Elbow"];
+
+  //Backend Kmeans
+  static const METRIC_CHOICES_SERVER = ["Euclidean", "Manhattan", "Jaccards"];
+  static const CLUSTER_DETERMINATION_CHOICES_SERVER = ["Sillhouette"];
+
+  static const SERVER_CALLS_KMEANS = ["2d-kmeans", "3d-kmeans", "nd-kmeans"];
+  static const SERVER_CALL_PREFIX = [
+    "/basic/perform-",
+    "/advanced/perform-advanced-"
+  ];
+
+  //Backend CART
+  static const SERVER_CALL_CART =
+      "/classification_decision_tree/perform-classification-decision-tree/";
+  static const SERVER_CALL_DETERMINATION = "/determination/elbow";
+  static const SERVER_CALL_HEALTHCHECK = "/health";
+  //Basic Backend
+  static const BASE_URL_SERVER = "beta.axellotl.de";
+  static const BASE_URL_LOCAL = "localhost:8080";
 
   static const int MAX_FILE_SIZE = 1000000; //1 Mb max. Dateigröße
 }

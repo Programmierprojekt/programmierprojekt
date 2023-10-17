@@ -44,8 +44,14 @@ class SystemManager with ChangeNotifier {
 
   int get kClusterController => _kCluster;
 
-  SystemManager(this._isLocal, this._algorithmType, this._bottomNavigationIndex,
-      this._clusterDetermination, this._distanceMetric, this._kCluster, this._calculateFinished);
+  SystemManager(
+      this._isLocal,
+      this._algorithmType,
+      this._bottomNavigationIndex,
+      this._clusterDetermination,
+      this._distanceMetric,
+      this._kCluster,
+      this._calculateFinished);
 
   /// Algorithmustypen wechseln
   /// newVal ist der neue Wert

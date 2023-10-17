@@ -7,7 +7,7 @@ import 'package:programmierprojekt/Custom/custom_widgets.dart';
 import 'package:programmierprojekt/Custom/data_point_model.dart';
 import 'package:programmierprojekt/Util/constants.dart';
 import 'package:programmierprojekt/Util/system_manager.dart';
-import 'package:programmierprojekt/api/backend_service.dart';
+import 'package:programmierprojekt/api/backend_kmeans.dart';
 
 /// Der HeaderScreen zeigt die allgemeinen Optionen und Darstellungen an.
 /// Damit sind die Optionen gemeint, die für jeden Algorithmus eingesetzt werden
@@ -18,7 +18,10 @@ class HeaderScreen extends StatefulWidget {
   final DataPoints outputDataPoints;
 
   const HeaderScreen(
-      {required this.manager, required this.inputDataPoints, required this.outputDataPoints, Key? key})
+      {required this.manager,
+      required this.inputDataPoints,
+      required this.outputDataPoints,
+      Key? key})
       : super(key: key);
 
   @override
@@ -93,16 +96,16 @@ class _HeaderScreenState extends State<HeaderScreen> {
                   if (inputDataPoints!.points.isNotEmpty) {
                     if (manager!.operatingMode == false) {
                       try {
-                        final result = await performClustering(file,
+                        final result = await performKmeans("2d-kmeans", file,
                             kCluster: widget.manager.kClusterController,
-                            distanceMetric: widget.manager.choosenDistanceMetric,
-                            clusterDetermination:
-                                widget.manager.choosenClusterDetermination);
+                            distanceMetric:
+                                widget.manager.choosenDistanceMetric,
+                            baseUrl: Constants.BASE_URL_LOCAL);
 
                         final jsonResult = jsonDecode(result.body);
                         final clusters = jsonResult["cluster"];
 
-                        for(final cluster in clusters) {
+                        for (final cluster in clusters) {
                           int clusterNr = cluster["clusterNr"];
 
                           final centroid = cluster["centroid"];
@@ -111,21 +114,26 @@ class _HeaderScreenState extends State<HeaderScreen> {
 
                           clusterNr++;
 
-                          outputDataPoints!.addCentroid(clusterNr, <double>[centroidX, centroidY]);
+                          outputDataPoints!.addCentroid(
+                              clusterNr, <double>[centroidX, centroidY]);
 
-                          for(final point in cluster["points"]) {
+                          for (final point in cluster["points"]) {
                             double x = point["x"];
                             double y = point["y"];
 
-                            outputDataPoints!.add(DataPointModel(clusterNr, <double>[x, y]));
+                            outputDataPoints!
+                                .add(DataPointModel(clusterNr, <double>[x, y]));
                           }
                         }
-                      }
-                      catch(e) {
+                      } catch (e) {
                         error = true;
 
                         // ignore: use_build_context_synchronously
-                        CustomWidgets.showAlertDialog(context, Theme.of(context), Constants.DLG_TITLE_NO_CONNECTION, Constants.DLG_CNT_SERVER_NOT_AVAILABLE);
+                        CustomWidgets.showAlertDialog(
+                            context,
+                            Theme.of(context),
+                            Constants.DLG_TITLE_NO_CONNECTION,
+                            Constants.DLG_CNT_SERVER_NOT_AVAILABLE);
                       }
                     }
                   } else {
@@ -216,8 +224,9 @@ class _HeaderScreenState extends State<HeaderScreen> {
       outer:
       for (var e in data) {
         if (manager!.algorithmType == 0) {
-          for(var coord in e) {
-            double? value = double.tryParse(coord.toString().replaceAll(",", "."));
+          for (var coord in e) {
+            double? value =
+                double.tryParse(coord.toString().replaceAll(",", "."));
 
             if (value != null) {
               coords.add(value);

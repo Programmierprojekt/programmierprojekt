@@ -53,10 +53,9 @@ class _MyHomePageState extends State<MyHomePage> {
               manager: manager,
             ),
             OutputPage(
-              inputDataPoints: inputDataPoints,
-              outputDataPoints: outputDataPoints,
-              manager: manager
-            ),
+                inputDataPoints: inputDataPoints,
+                outputDataPoints: outputDataPoints,
+                manager: manager),
           ],
         ),
       ),

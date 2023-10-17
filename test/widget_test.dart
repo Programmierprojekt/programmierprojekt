@@ -10,7 +10,6 @@ import 'package:programmierprojekt/Custom/data_point_model.dart';
 import 'package:programmierprojekt/Util/system_manager.dart';
 
 void main() {
-
   test("test if DataPoints receives values", () {
     DataPoints points = DataPoints([]);
     points.add(DataPointModel(0, [3.0, 4.0]));

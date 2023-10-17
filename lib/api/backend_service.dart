@@ -4,13 +4,7 @@ import "package:http/http.dart" as http;
 import "package:http_parser/http_parser.dart";
 import 'package:programmierprojekt/Util/constants.dart';
 
-Future<http.Response> performClustering(PlatformFile file,
-    {int? kCluster, int? distanceMetric, int? clusterDetermination}) async {
-  final requestUri = makeUriForBackendProgbackLocal(
-      kCluster, distanceMetric, clusterDetermination);
-
-  final request = makePostMultipartFileFromBytes(requestUri, file);
-
+Future<http.Response> sendRequest(http.MultipartRequest request) async {
   try {
     final response = await request.send();
     if (response.statusCode == 200) {
@@ -23,27 +17,29 @@ Future<http.Response> performClustering(PlatformFile file,
   }
 }
 
-/// siehe github: https://github.com/axellotl22/progback
-Uri makeUriForBackendProgbackLocal(
-    int? kCluster, int? distanceMetric, int? clusterDetermination) {
-  const baseUrl = "localhost:8080";
-  const path = "/clustering/perform-kmeans-clustering";
-
-  final distMatric = Constants.METRIC_CHOICES[distanceMetric!];
-  final clustDetermination =
-      Constants.CLUSTER_DETERMINATION_CHOICES[clusterDetermination!];
-
-  final queryParam = {
-    'distanceMetric': distMatric.toUpperCase(),
-    'clusterDetermination': clustDetermination.toUpperCase()
-  };
-
-  if (kCluster != 0) {
-    queryParam.addAll({"kCluster": kCluster.toString()});
+Future<String> checkConnectivity() async {
+  final responseServer = await performTest(
+      Constants.BASE_URL_SERVER + Constants.SERVER_CALL_HEALTHCHECK);
+  if (responseServer == true) {
+    return Constants.BASE_URL_SERVER;
   }
+  final responseLocal = await performTest(
+      Constants.BASE_URL_LOCAL + Constants.SERVER_CALL_HEALTHCHECK);
+  if (responseLocal == true) {
+    return Constants.BASE_URL_LOCAL;
+  }
+  return "";
+}
 
-  Uri requestUri = Uri.http(baseUrl, path, queryParam);
-  return requestUri;
+Future<bool> performTest(String apiUrl) async {
+  final requestUri = Uri.parse(apiUrl);
+  final response = await http.get(requestUri);
+
+  if (response.statusCode == 200) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 http.MultipartRequest makePostMultipartFileFromBytes(
@@ -62,21 +58,4 @@ http.MultipartRequest makePostMultipartFileFromBytes(
   );
   request.files.add(multipartFile);
   return request;
-}
-
-///Konnektivitöt des apiUrl prüfen
-/// Beispiel: apiUrl="http://localhost:8080/clustering/perform-kmeans-clustering/?distanceMetric=EUCLIDEAN&clusterDetermination=ELBOW"
-Future<bool> performTest(String apiUrl) async {
-  final requestUri = Uri.parse(apiUrl);
-  try {
-    final response = await http.get(requestUri);
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (e) {
-    rethrow;
-  }
 }
