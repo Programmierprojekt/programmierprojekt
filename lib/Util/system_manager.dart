@@ -44,6 +44,9 @@ class SystemManager with ChangeNotifier {
 
   int get kClusterController => _kCluster;
 
+  String _basicUrl = "";
+  String get choosenBasicUrl => _basicUrl;
+
   SystemManager(
       this._isLocal,
       this._algorithmType,
@@ -100,6 +103,11 @@ class SystemManager with ChangeNotifier {
 
   void setCalculateFinished(bool finished) {
     _calculateFinished = finished;
+    notifyListeners();
+  }
+
+  void changeBasicUrl(String value) {
+    _basicUrl = value;
     notifyListeners();
   }
 }

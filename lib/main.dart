@@ -4,29 +4,34 @@ import 'package:programmierprojekt/Pages/input_page.dart';
 import 'package:programmierprojekt/Pages/output_page.dart';
 import 'package:programmierprojekt/Util/constants.dart';
 import 'package:programmierprojekt/Util/system_manager.dart';
+import 'package:programmierprojekt/api/backend_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  SystemManager manager = SystemManager(false, 0, 0, 0, 0, 0, false);
+  manager.changeBasicUrl(await checkConnectivity());
+  runApp(MyApp(
+    manager: manager,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  const MyApp({super.key, required this.manager});
+  final SystemManager manager;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: Constants.APP_TITLE,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(brightness: Brightness.dark),
-      home: const MyHomePage(),
+      home: MyHomePage(manager: manager),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
+  const MyHomePage({super.key, required this.manager});
+  final SystemManager manager;
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -34,7 +39,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   DataPoints inputDataPoints = DataPoints([]);
   DataPoints outputDataPoints = DataPoints([]);
-  SystemManager manager = SystemManager(false, 0, 0, 0, 0, 0, false);
+  SystemManager? manager;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    manager = widget.manager;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,28 +54,28 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text("SmartClassificator"),
       ),
       body: ListenableBuilder(
-        listenable: manager,
+        listenable: manager!,
         builder: (context, child) => IndexedStack(
-          index: manager.bottomNavigationIndex,
+          index: manager!.bottomNavigationIndex,
           children: [
             InputPage(
               inputDataPoints: inputDataPoints,
               outputDataPoints: outputDataPoints,
-              manager: manager,
+              manager: manager!,
             ),
             OutputPage(
                 inputDataPoints: inputDataPoints,
                 outputDataPoints: outputDataPoints,
-                manager: manager),
+                manager: manager!),
           ],
         ),
       ),
       bottomNavigationBar: ListenableBuilder(
-        listenable: manager,
+        listenable: manager!,
         builder: (context, child) => BottomNavigationBar(
           selectedItemColor: Colors.blueAccent,
           onTap: _onNavigationItemClicked,
-          currentIndex: manager.bottomNavigationIndex,
+          currentIndex: manager!.bottomNavigationIndex,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.input), label: "Eingabe"),
             BottomNavigationBarItem(icon: Icon(Icons.output), label: "Ausgabe"),
@@ -75,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onNavigationItemClicked(int index) {
-    manager.changeBottomNavigationIndex(index);
+    manager!.changeBottomNavigationIndex(index);
     setState(() {});
   }
 }

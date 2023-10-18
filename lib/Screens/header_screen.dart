@@ -97,10 +97,9 @@ class _HeaderScreenState extends State<HeaderScreen> {
                     if (manager!.operatingMode == false) {
                       try {
                         final result = await performKmeans("2d-kmeans", file,
-                            kCluster: widget.manager.kClusterController,
-                            distanceMetric:
-                                widget.manager.choosenDistanceMetric,
-                            baseUrl: Constants.BASE_URL_SERVER);
+                            kCluster: manager!.kClusterController,
+                            distanceMetric: manager!.choosenDistanceMetric,
+                            baseUrl: manager!.choosenBasicUrl);
 
                         final jsonResult = jsonDecode(result.body);
                         final clusters = jsonResult["cluster"];

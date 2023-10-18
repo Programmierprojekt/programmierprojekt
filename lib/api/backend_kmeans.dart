@@ -1,9 +1,9 @@
 import "package:file_picker/file_picker.dart";
-import "package:http/http.dart" as http;
+import "package:http/http.dart";
 import 'package:programmierprojekt/Util/constants.dart';
 import "backend_service.dart";
 
-Future<http.Response> performKmeans(String task, PlatformFile file,
+Future<Response> performKmeans(String task, PlatformFile file,
     {int? kCluster, int? distanceMetric, String? baseUrl}) async {
   if (baseUrl == "" || baseUrl == null) {
     throw Exception("Keine Anbindung");
@@ -38,9 +38,21 @@ Future<http.Response> performKmeans(String task, PlatformFile file,
   } else {
     path = "${Constants.SERVER_CALL_PREFIX[1]}$task/";
   }
+  Response kmeansReponse;
+  try {
+    final requestUri = Uri.https(baseUrl, path, queryParameter);
+    final request = makePostMultipartFileFromBytes(requestUri, file);
 
-  final requestUri = Uri.https(baseUrl, path, queryParameter);
-  final request = makePostMultipartFileFromBytes(requestUri, file);
+    kmeansReponse = await sendRequest(request);
+  } catch (e) {
+    try {
+      final requestUri = Uri.http(baseUrl, path, queryParameter);
+      final request = makePostMultipartFileFromBytes(requestUri, file);
 
-  return sendRequest(request);
+      kmeansReponse = await sendRequest(request);
+    } catch (e) {
+      throw ("");
+    }
+  }
+  return kmeansReponse;
 }
