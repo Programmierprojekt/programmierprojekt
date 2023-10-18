@@ -18,19 +18,15 @@ Future<Response> sendRequest(MultipartRequest request) async {
 }
 
 Future<String> checkConnectivity() async {
-  try {
-    final responseLocal = await performTest(
-        Constants.BASE_URL_LOCAL, Constants.SERVER_CALL_HEALTHCHECK);
-    if (responseLocal == true) {
-      return Constants.BASE_URL_LOCAL;
-    }
-    final responseServer = await performTest(
-        Constants.BASE_URL_SERVER, Constants.SERVER_CALL_HEALTHCHECK);
-    if (responseServer == true) {
-      return Constants.BASE_URL_SERVER;
-    }
-  } catch (e) {
-    return "";
+  final responseLocal = await performTest(
+      Constants.BASE_URL_LOCAL, Constants.SERVER_CALL_HEALTHCHECK);
+  if (responseLocal == true) {
+    return Constants.BASE_URL_LOCAL;
+  }
+  final responseServer = await performTest(
+      Constants.BASE_URL_SERVER, Constants.SERVER_CALL_HEALTHCHECK);
+  if (responseServer == true) {
+    return Constants.BASE_URL_SERVER;
   }
   return "";
 }
