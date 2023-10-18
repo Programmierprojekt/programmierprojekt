@@ -66,6 +66,10 @@ class _ParameterHandlingComponentState
             controller: kClusterController,
             onChanged: (value) {
               //TODO: @Adrian hier muss du den Wert von K-Cluster holen
+              if ((int.tryParse(value) ?? 0) < 2 && value != "") {
+                displayErrorDialogForKCluster();
+                kClusterController.text = "";
+              }
               setState(() {});
             },
             maxLines: 1,
@@ -101,7 +105,12 @@ class _ParameterHandlingComponentState
           child: TextField(
             controller: kClusterController,
             onChanged: (value) {
-              widget.manager.callKCluster(int.tryParse(value) ?? 0);
+              if ((int.tryParse(value) ?? 0) < 2 && value != "") {
+                displayErrorDialogForKCluster();
+                kClusterController.text = "";
+              } else {
+                widget.manager.callKCluster(int.tryParse(value) ?? 0);
+              }
               setState(() {});
             },
             maxLines: 1,
@@ -214,6 +223,25 @@ class _ParameterHandlingComponentState
           TextButton(
             child: const Text(Constants.OK_TEXT),
             onPressed: () => Navigator.of(context).pop(),
+          )
+        ],
+      ),
+    );
+  }
+
+  /// Zeigt eine Info an, wenn k-Cluster minimial Grenze nicht eingehalten wurde
+  void displayErrorDialogForKCluster() async {
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(Constants.INFORMATION),
+        content: const Text("k-Cluster darf nur minimal 2 sein!"),
+        actions: [
+          TextButton(
+            child: const Text(Constants.OK_TEXT),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           )
         ],
       ),
