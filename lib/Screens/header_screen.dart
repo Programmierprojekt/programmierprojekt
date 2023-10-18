@@ -128,6 +128,9 @@ class _HeaderScreenState extends State<HeaderScreen> {
                       } catch (e) {
                         error = true;
                         print(e);
+                        await showDialog(context: context, builder: (context) => AlertDialog(
+                          content: Text(e.toString()),
+                        ),);
                         // ignore: use_build_context_synchronously
                         CustomWidgets.showAlertDialog(
                             context,
