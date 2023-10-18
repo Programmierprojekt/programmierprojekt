@@ -100,7 +100,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
                             kCluster: widget.manager.kClusterController,
                             distanceMetric:
                                 widget.manager.choosenDistanceMetric,
-                            baseUrl: Constants.BASE_URL_LOCAL);
+                            baseUrl: Constants.BASE_URL_SERVER);
 
                         final jsonResult = jsonDecode(result.body);
                         final clusters = jsonResult["cluster"];
@@ -127,7 +127,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
                         }
                       } catch (e) {
                         error = true;
-
+                        print(e);
                         // ignore: use_build_context_synchronously
                         CustomWidgets.showAlertDialog(
                             context,

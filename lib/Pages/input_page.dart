@@ -10,7 +10,11 @@ class InputPage extends StatefulWidget {
   final DataPoints outputDataPoints;
   final SystemManager manager;
 
-  const InputPage({required this.inputDataPoints, required this.outputDataPoints, required this.manager, Key? key})
+  const InputPage(
+      {required this.inputDataPoints,
+      required this.outputDataPoints,
+      required this.manager,
+      Key? key})
       : super(key: key);
 
   @override
@@ -49,7 +53,8 @@ class _InputPageState extends State<InputPage> {
           SingleChildScrollView(
             child: manager!.algorithmType == 0
                 ? KMeansScreen(
-                    manager: widget.manager, inputDataPoints: widget.inputDataPoints)
+                    manager: widget.manager,
+                    inputDataPoints: widget.inputDataPoints)
                 : DecisionTreeScreen(
                     manager: widget.manager,
                   ),

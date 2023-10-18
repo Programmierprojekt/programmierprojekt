@@ -5,7 +5,7 @@ import "backend_service.dart";
 
 Future<http.Response> performKmeans(String task, PlatformFile file,
     {int? kCluster, int? distanceMetric, String? baseUrl}) async {
-  if (baseUrl == "") {
+  if (baseUrl == "" || baseUrl == null) {
     throw Exception("Keine Anbindung");
   }
 
@@ -39,7 +39,7 @@ Future<http.Response> performKmeans(String task, PlatformFile file,
     path = "${Constants.SERVER_CALL_PREFIX[1]}$task/";
   }
 
-  final requestUri = Uri.http(baseUrl!, path, queryParameter);
+  final requestUri = Uri.https(baseUrl, path, queryParameter);
   final request = makePostMultipartFileFromBytes(requestUri, file);
 
   return sendRequest(request);
