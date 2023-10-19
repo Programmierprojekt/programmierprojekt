@@ -206,13 +206,30 @@ class _HeaderScreenState extends State<HeaderScreen> {
     );
     if (result != null) {
       file = result.files.first;
+
       //Dateigröße überprüfen
       if (file.size >= Constants.MAX_FILE_SIZE) {
         displayFileTooBigDialog();
         return;
       }
-
       final decodedData = utf8.decode(file.bytes as List<int>);
+      List<String> lines = decodedData
+          .replaceAll("\r\n", "\n")
+          .replaceAll("\r", "\n")
+          .split("\n");
+      int headCount = csvDelimiter.allMatches(lines.elementAt(0)).length;
+      if (lines.length <= 1) {
+        displayWrongDataDialog();
+        return;
+      }
+      for (int i = 1; i < lines.length; i++) {
+        if (headCount != csvDelimiter.allMatches(lines.elementAt(i)).length) {
+          if (lines.elementAt(i).isNotEmpty) {
+            displayWrongDataDialog();
+            return;
+          }
+        }
+      }
       List<List<dynamic>> data = const CsvToListConverter()
           .convert(decodedData, fieldDelimiter: csvDelimiter);
 
