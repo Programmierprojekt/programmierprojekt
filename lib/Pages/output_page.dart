@@ -360,49 +360,8 @@ class _OutputPageState extends State<OutputPage> {
         CustomWidgets.customElevatedButton(
             text: Constants.BTN_EXPORT,
             onPressed: () {
-              var clustersTxt = "";
-
-              for (int i = 0;
-              i < outputDataPoints!.centroids.length;
-              i++) {
-                clustersTxt += "{ ";
-
-                String centroidCoords = outputDataPoints!
-                    .centroids[i].coords
-                    .join(",");
-
-                String pointsStr = "";
-
-                for (int k = 0;
-                k < outputDataPoints!.points.length;
-                k++) {
-                  if (i + 1 !=
-                      outputDataPoints!.points[k].clusterNumber)
-                    continue;
-
-                  pointsStr += "[";
-                  pointsStr += outputDataPoints!.points[k].coords
-                      .join(",");
-                  pointsStr += "]";
-
-                  pointsStr += ",";
-                }
-                pointsStr =
-                    pointsStr.substring(0, pointsStr.length - 1);
-
-                clustersTxt +=
-                "\"centroid\": [$centroidCoords], \"points\": [$pointsStr]";
-
-                clustersTxt += " }";
-                if (i != outputDataPoints!.centroids.length - 1) {
-                  clustersTxt += ",";
-                }
-              }
-
-              var jsonText = "{ \"clusters\": [ $clustersTxt ] }";
-
               html.Blob blob =
-              html.Blob([jsonText], "text/plain");
+              html.Blob([manager!.cartOutput], "text/plain");
               var url = html.Url.createObjectUrlFromBlob(blob);
 
               js.context.callMethod("eval", [

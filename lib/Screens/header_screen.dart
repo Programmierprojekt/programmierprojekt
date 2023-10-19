@@ -160,7 +160,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
                     // ignore: unused_local_variable
                     final result = await performCart(file,
                         manager!.choosenBasicUrl, manager!.choosenCsvDelimiter);
-                    print(result);
+                    manager!.changeCartOutput(result.body);
                   }
                   if (importedFile && !error) {
                     manager!.setCalculateFinished(true);

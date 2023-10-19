@@ -13,6 +13,8 @@ enum OperatingMode { local, server }
 ///   2. welcher Algorithmus ausgeführt werden soll
 class SystemManager with ChangeNotifier {
 
+  String _cartOutput = "";
+  String get cartOutput => _cartOutput;
 
   /// Der Algorithmustyp, welcher ausgeführt werden soll
   int _algorithmType =
@@ -80,6 +82,11 @@ class SystemManager with ChangeNotifier {
   ///                 false   Server
   void changeOperatingMode(bool operatingMode) {
     _isLocal = operatingMode;
+    notifyListeners();
+  }
+
+  void changeCartOutput(String json) {
+    _cartOutput = json;
     notifyListeners();
   }
 
