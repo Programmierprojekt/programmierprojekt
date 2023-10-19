@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:programmierprojekt/api/backend_cart.dart';
 import 'package:programmierprojekt/api/frontend_kmeans.dart';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
@@ -73,13 +74,16 @@ class _HeaderScreenState extends State<HeaderScreen> {
             ),
           ),
           //Operationsmodus wechseln
-          Expanded(
-            child: CustomWidgets.customListTile(
-              title: const Text(Constants.BTN_CHANGE_MODE),
-              subtitle: Text(
-                  "Ausführungsmodus: ${manager!.operatingMode == false ? Constants.OPERATING_MODE_SERVER : Constants.OPERATING_MODE_LOCAL}"),
-              onTap: _changeOperatingMode,
-              backgroundColor: Colors.indigo,
+          Visibility(
+            visible: manager!.algorithmType == 0,
+            child: Expanded(
+              child: CustomWidgets.customListTile(
+                title: const Text(Constants.BTN_CHANGE_MODE),
+                subtitle: Text(
+                    "Ausführungsmodus: ${manager!.operatingMode == false ? Constants.OPERATING_MODE_SERVER : Constants.OPERATING_MODE_LOCAL}"),
+                onTap: _changeOperatingMode,
+                backgroundColor: Colors.indigo,
+              ),
             ),
           ),
           Expanded(
@@ -135,17 +139,21 @@ class _HeaderScreenState extends State<HeaderScreen> {
                             Constants.DLG_TITLE_NO_CONNECTION,
                             Constants.DLG_CNT_SERVER_NOT_AVAILABLE);
                       }
-                    }
-                    else {
+                    } else {
                       print(manager!.kClusterController);
-                      DataPoints output = localKmeans(inputDataPoints, kCluster: manager!.kClusterController);
+                      DataPoints output = localKmeans(inputDataPoints,
+                          kCluster: manager!.kClusterController);
 
-                      for(int i = 0; i < output.centroids.length; i++) {
-                        outputDataPoints!.addCentroid(output.centroids[i].clusterNumber, output.centroids[i].coords);
+                      for (int i = 0; i < output.centroids.length; i++) {
+                        outputDataPoints!.addCentroid(
+                            output.centroids[i].clusterNumber,
+                            output.centroids[i].coords);
                       }
 
-                      for(int i = 0; i < output.points.length; i++) {
-                        outputDataPoints!.add(DataPointModel(output.points[i].clusterNumber, output.points[i].coords));
+                      for (int i = 0; i < output.points.length; i++) {
+                        outputDataPoints!.add(DataPointModel(
+                            output.points[i].clusterNumber,
+                            output.points[i].coords));
                       }
                     }
                   } else {
@@ -227,6 +235,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
         displayFileTooBigDialog();
         return;
       }
+
       final decodedData = utf8.decode(file.bytes as List<int>);
       List<String> lines = decodedData
           .replaceAll("\r\n", "\n")

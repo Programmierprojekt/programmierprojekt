@@ -19,8 +19,14 @@ class ParameterHandlingComponent extends StatefulWidget {
 class _ParameterHandlingComponentState
     extends State<ParameterHandlingComponent> {
   int choosenDistanceMetric = 0;
-  int choosenClusterDetermination = 0;
+  int choosenClusterDetermination = 1;
   TextEditingController kClusterController = TextEditingController();
+
+  @override
+  void initState() {
+    choosenClusterDetermination = (widget.manager.operatingMode)? 0: 1;
+    super.initState();
+  }
 
   @override
   dispose() {
@@ -53,7 +59,7 @@ class _ParameterHandlingComponentState
         ListTile(
           title: const Text(Constants.BTN_CLUSTER_DETERMINATION),
           subtitle: Text(Constants
-              .CLUSTER_DETERMINATION_CHOICES[choosenClusterDetermination]),
+              .CLUSTER_DETERMINATION_CHOICES[0]),
           tileColor: kClusterController.text.isEmpty
               ? Colors.deepPurpleAccent.shade700
               : Colors.grey.shade700,
@@ -176,25 +182,17 @@ class _ParameterHandlingComponentState
         content: Row(
           children: [
             ElevatedButton(
-              child: Text(Constants.CLUSTER_DETERMINATION_CHOICES[0]),
+              child: Text(Constants.CLUSTER_DETERMINATION_CHOICES[1]),
               //Elbow
               onPressed: () {
-                choosenClusterDetermination = 0;
-                widget.manager.callClusterDetermination(0);
+                int deter = ((widget.manager.operatingMode)? 0: 1);
+                choosenClusterDetermination = deter;
+                widget.manager.callClusterDetermination(deter);
                 Navigator.of(context).pop();
               },
             ),
             const SizedBox(
               width: 8,
-            ),
-            ElevatedButton(
-              child: Text(Constants.CLUSTER_DETERMINATION_CHOICES[1]),
-              //Silhouette
-              onPressed: () {
-                choosenClusterDetermination = 1;
-                widget.manager.callClusterDetermination(1);
-                Navigator.of(context).pop();
-              },
             ),
           ],
         ),
