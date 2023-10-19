@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:programmierprojekt/Util/constants.dart';
 
 //TODO: In den ganzen Abfragen etc. sollten die Enums verwendet werden
 /// Algorithmustypen
@@ -46,6 +47,9 @@ class SystemManager with ChangeNotifier {
 
   String _basicUrl = "";
   String get choosenBasicUrl => _basicUrl;
+
+  String _fileKmeansDimensionType = "";
+  String get choosenfileKmeansDimensionType => _fileKmeansDimensionType;
 
   SystemManager(
       this._isLocal,
@@ -109,5 +113,15 @@ class SystemManager with ChangeNotifier {
   void changeBasicUrl(String value) {
     _basicUrl = value;
     notifyListeners();
+  }
+
+  void changefileKmeansDimensionType(int value) {
+    if (value == 2) {
+      _fileKmeansDimensionType = Constants.SERVER_CALLS_KMEANS[0];
+    } else if (value == 3) {
+      _fileKmeansDimensionType = Constants.SERVER_CALLS_KMEANS[1];
+    } else {
+      _fileKmeansDimensionType = Constants.SERVER_CALLS_KMEANS[2];
+    }
   }
 }

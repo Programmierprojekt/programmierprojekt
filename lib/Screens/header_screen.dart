@@ -96,7 +96,8 @@ class _HeaderScreenState extends State<HeaderScreen> {
                   if (inputDataPoints!.points.isNotEmpty) {
                     if (manager!.operatingMode == false) {
                       try {
-                        final result = await performKmeans("2d-kmeans", file,
+                        final result = await performKmeans(
+                            manager!.choosenfileKmeansDimensionType, file,
                             kCluster: manager!.kClusterController,
                             distanceMetric: manager!.choosenDistanceMetric,
                             baseUrl: manager!.choosenBasicUrl);
@@ -191,6 +192,8 @@ class _HeaderScreenState extends State<HeaderScreen> {
     if (inputDataPoints!.points.isNotEmpty) {
       inputDataPoints!
           .clearAllPoints(); //Alle Datenpunkte löschen, wenn neue Datei importiert wird
+      outputDataPoints!.clearAllPoints();
+      manager!.setCalculateFinished(false);
       importedFile = false;
     }
     String csvDelimiter = await displayDelimiterDialog();
@@ -217,8 +220,8 @@ class _HeaderScreenState extends State<HeaderScreen> {
           .replaceAll("\r\n", "\n")
           .replaceAll("\r", "\n")
           .split("\n");
-      int headCount = csvDelimiter.allMatches(lines.elementAt(0)).length;
-      if (lines.length <= 1) {
+      final headCount = csvDelimiter.allMatches(lines.elementAt(0)).length;
+      if (lines.length <= 1 && headCount < 0) {
         displayWrongDataDialog();
         return;
       }
@@ -230,11 +233,12 @@ class _HeaderScreenState extends State<HeaderScreen> {
           }
         }
       }
+
       List<List<dynamic>> data = const CsvToListConverter()
           .convert(decodedData, fieldDelimiter: csvDelimiter);
 
       List<double> coords = [];
-
+      widget.manager.changefileKmeansDimensionType(headCount + 1);
       data.removeAt(0); //Überschriftzeile entfernen
 
       outer:
