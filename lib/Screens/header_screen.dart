@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:programmierprojekt/api/backend_cart.dart';
 import 'package:programmierprojekt/api/frontend_kmeans.dart';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
@@ -92,64 +93,72 @@ class _HeaderScreenState extends State<HeaderScreen> {
 
                   outputDataPoints!.clearAllPoints();
                   outputDataPoints!.clearCentroids();
+                  if (manager!.algorithmType == 0) {
+                    if (inputDataPoints!.points.isNotEmpty) {
+                      if (manager!.operatingMode == false) {
+                        try {
+                          final result = await performKmeans(
+                              manager!.choosenfileKmeansDimensionType, file,
+                              kCluster: manager!.kClusterController,
+                              distanceMetric: manager!.choosenDistanceMetric,
+                              baseUrl: manager!.choosenBasicUrl);
 
-                  if (inputDataPoints!.points.isNotEmpty) {
-                    if (manager!.operatingMode == false) {
-                      try {
-                        final result = await performKmeans(
-                            manager!.choosenfileKmeansDimensionType, file,
-                            kCluster: manager!.kClusterController,
-                            distanceMetric: manager!.choosenDistanceMetric,
-                            baseUrl: manager!.choosenBasicUrl);
+                          final jsonResult = jsonDecode(result.body);
+                          final clusters = jsonResult["cluster"];
 
-                        final jsonResult = jsonDecode(result.body);
-                        final clusters = jsonResult["cluster"];
+                          for (final cluster in clusters) {
+                            int clusterNr = cluster["clusterNr"];
 
-                        for (final cluster in clusters) {
-                          int clusterNr = cluster["clusterNr"];
+                            final centroid = cluster["centroid"];
+                            double centroidX = centroid["x"];
+                            double centroidY = centroid["y"];
 
-                          final centroid = cluster["centroid"];
-                          double centroidX = centroid["x"];
-                          double centroidY = centroid["y"];
+                            clusterNr++;
 
-                          clusterNr++;
+                            outputDataPoints!.addCentroid(
+                                clusterNr, <double>[centroidX, centroidY]);
 
-                          outputDataPoints!.addCentroid(
-                              clusterNr, <double>[centroidX, centroidY]);
+                            for (final point in cluster["points"]) {
+                              double x = point["x"];
+                              double y = point["y"];
 
-                          for (final point in cluster["points"]) {
-                            double x = point["x"];
-                            double y = point["y"];
-
-                            outputDataPoints!
-                                .add(DataPointModel(clusterNr, <double>[x, y]));
+                              outputDataPoints!.add(
+                                  DataPointModel(clusterNr, <double>[x, y]));
+                            }
                           }
+                        } catch (e) {
+                          error = true;
+                          //print(e);
+                          // ignore: use_build_context_synchronously
+                          CustomWidgets.showAlertDialog(
+                              context,
+                              Theme.of(context),
+                              Constants.DLG_TITLE_NO_CONNECTION,
+                              Constants.DLG_CNT_SERVER_NOT_AVAILABLE);
                         }
-                      } catch (e) {
-                        error = true;
-                        //print(e);
-                        // ignore: use_build_context_synchronously
-                        CustomWidgets.showAlertDialog(
-                            context,
-                            Theme.of(context),
-                            Constants.DLG_TITLE_NO_CONNECTION,
-                            Constants.DLG_CNT_SERVER_NOT_AVAILABLE);
-                      }
-                    }
-                    else {
-                      print(manager!.kClusterController);
-                      DataPoints output = localKmeans(inputDataPoints, kCluster: manager!.kClusterController);
+                      } else {
+                        print(manager!.kClusterController);
+                        DataPoints output = localKmeans(inputDataPoints,
+                            kCluster: manager!.kClusterController);
 
-                      for(int i = 0; i < output.centroids.length; i++) {
-                        outputDataPoints!.addCentroid(output.centroids[i].clusterNumber, output.centroids[i].coords);
-                      }
+                        for (int i = 0; i < output.centroids.length; i++) {
+                          outputDataPoints!.addCentroid(
+                              output.centroids[i].clusterNumber,
+                              output.centroids[i].coords);
+                        }
 
-                      for(int i = 0; i < output.points.length; i++) {
-                        outputDataPoints!.add(DataPointModel(output.points[i].clusterNumber, output.points[i].coords));
+                        for (int i = 0; i < output.points.length; i++) {
+                          outputDataPoints!.add(DataPointModel(
+                              output.points[i].clusterNumber,
+                              output.points[i].coords));
+                        }
                       }
+                    } else {
+                      noFileSelectedDialog();
                     }
                   } else {
-                    noFileSelectedDialog();
+                    final result =
+                        await performCart(file, manager!.choosenBasicUrl, ",");
                   }
                   if (importedFile && !error) {
                     manager!.setCalculateFinished(true);
