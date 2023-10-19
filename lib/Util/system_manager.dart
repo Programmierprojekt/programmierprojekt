@@ -12,6 +12,8 @@ enum OperatingMode { local, server }
 ///   1. in welchem Operationsmodus man sich befindet (Server oder Lokal)
 ///   2. welcher Algorithmus ausgeführt werden soll
 class SystemManager with ChangeNotifier {
+
+
   /// Der Algorithmustyp, welcher ausgeführt werden soll
   int _algorithmType =
       0; //TODO: Hier muss der OperatingMode enum verwendet werden
