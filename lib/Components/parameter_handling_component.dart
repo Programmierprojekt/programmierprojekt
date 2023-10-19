@@ -65,10 +65,11 @@ class _ParameterHandlingComponentState
           child: TextField(
             controller: kClusterController,
             onChanged: (value) {
-              //TODO: @Adrian hier muss du den Wert von K-Cluster holen
               if ((int.tryParse(value) ?? 0) < 2 && value != "") {
                 displayErrorDialogForKCluster();
                 kClusterController.text = "";
+              } else {
+                widget.manager.callKCluster(int.tryParse(value) ?? 0);
               }
               setState(() {});
             },
