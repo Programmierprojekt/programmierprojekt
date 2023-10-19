@@ -1,24 +1,19 @@
-import 'dart:convert';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart';
 import 'package:programmierprojekt/Util/constants.dart';
 import 'package:programmierprojekt/api/backend_service.dart';
 
 Future<Response> performCart(
-    PlatformFile file, String? baseUrl, String? csvDelimiter) async {
+    PlatformFile file, String? baseUrl, String? columnName) async {
   if (baseUrl == "" || baseUrl == null) {
     throw Exception("Keine Anbindung");
   }
-  final decodedData = utf8.decode(file.bytes as List<int>);
-  List<String> lines =
-      decodedData.replaceAll("\r\n", "\n").replaceAll("\r", "\n").split("\n");
-  final headLine = lines.elementAt(0).split(csvDelimiter as Pattern)[0];
+
   Map<String, String> queryParameter = {
     "SampleCount4Split": "2",
     "max_depth": "100",
     "SplitStrategy": "Best Split",
-    "ClassColumnName": headLine.toString(),
+    "ClassColumnName": columnName!,
     "BestSplitStrategy": "Information Gain",
     "Pruning%3F": "false"
   };

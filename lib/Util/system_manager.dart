@@ -51,6 +51,9 @@ class SystemManager with ChangeNotifier {
   String _fileKmeansDimensionType = "";
   String get choosenfileKmeansDimensionType => _fileKmeansDimensionType;
 
+  String _firstHeadFileName = "";
+  String get choosenCsvDelimiter => _firstHeadFileName;
+
   SystemManager(
       this._isLocal,
       this._algorithmType,
@@ -123,5 +126,9 @@ class SystemManager with ChangeNotifier {
     } else {
       _fileKmeansDimensionType = Constants.SERVER_CALLS_KMEANS[2];
     }
+  }
+
+  void changeFirstHeadFileName(String value) {
+    _firstHeadFileName = value;
   }
 }

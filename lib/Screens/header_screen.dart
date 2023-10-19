@@ -157,8 +157,9 @@ class _HeaderScreenState extends State<HeaderScreen> {
                       noFileSelectedDialog();
                     }
                   } else {
-                    final result =
-                        await performCart(file, manager!.choosenBasicUrl, ",");
+                    // ignore: unused_local_variable
+                    final result = await performCart(file,
+                        manager!.choosenBasicUrl, manager!.choosenCsvDelimiter);
                   }
                   if (importedFile && !error) {
                     manager!.setCalculateFinished(true);
@@ -230,7 +231,6 @@ class _HeaderScreenState extends State<HeaderScreen> {
     );
     if (result != null) {
       file = result.files.first;
-
       //Dateigröße überprüfen
       if (file.size >= Constants.MAX_FILE_SIZE) {
         displayFileTooBigDialog();
@@ -242,6 +242,8 @@ class _HeaderScreenState extends State<HeaderScreen> {
           .replaceAll("\r", "\n")
           .split("\n");
       final headCount = csvDelimiter.allMatches(lines.elementAt(0)).length;
+      manager!
+          .changeFirstHeadFileName(lines.elementAt(0).split(csvDelimiter)[0]);
       if (lines.length <= 1 && headCount < 0) {
         displayWrongDataDialog();
         return;
