@@ -70,6 +70,7 @@ class Constants {
       "/classification_decision_tree/perform-classification-decision-tree/";
   static const SERVER_CALL_DETERMINATION = "/determination/elbow";
   static const SERVER_CALL_HEALTHCHECK = "/health";
+  static const SERVER_CALL_DOCS = "/docs";
 
   //Basic Backend
   static const BASE_URL_SERVER = "beta.axellotl.de";
