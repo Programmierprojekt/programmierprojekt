@@ -8,6 +8,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:programmierprojekt/Custom/data_point_model.dart';
 import 'package:programmierprojekt/Util/system_manager.dart';
+import 'package:programmierprojekt/api/frontend_kmeans.dart';
 
 void main() {
   test("test if DataPoints receives values", () {
@@ -31,4 +32,13 @@ void main() {
     manager.callClusterDetermination(1);
     expect(manager.choosenClusterDetermination, 1);
   });
+
+  test("test if doubleEqual-function works correctly", () {
+    expect(doubleEquals(7, 5, 2), false);
+    expect(doubleEquals(8, 5, 2), true);
+  });
+
+  test("test if euclidean distance gets calculated", () {
+    (euclideanDistance([3.0,4.0], [5.0,2.0]).toStringAsFixed(1),"3.6");
+  },);
 }
