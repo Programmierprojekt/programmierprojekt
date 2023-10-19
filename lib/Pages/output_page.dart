@@ -17,12 +17,17 @@ class OutputPage extends StatefulWidget {
   final SystemManager manager;
 
   const OutputPage(
-      {required this.inputDataPoints, required this.outputDataPoints, required this.manager, Key? key})
+      {required this.inputDataPoints,
+      required this.outputDataPoints,
+      required this.manager,
+      Key? key})
       : super(key: key);
 
   @override
   State<OutputPage> createState() => _OutputPageState();
 }
+
+//TODO: https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/chart_types/scatter/default_scatter_chart.dart
 
 class _OutputPageState extends State<OutputPage> {
   double aspectRatioValue = 5;
@@ -67,10 +72,8 @@ class _OutputPageState extends State<OutputPage> {
   Widget build(BuildContext context) {
     return ListenableBuilder(
         listenable: manager!,
-        builder: (context, child) =>
-            ListView(
-                shrinkWrap: true,
-                children: buildGraphicsRepresentation(context)));
+        builder: (context, child) => ListView(
+            shrinkWrap: true, children: buildGraphicsRepresentation(context)));
   }
 
   List<Widget> buildGraphicsRepresentation(BuildContext context) {
@@ -92,18 +95,6 @@ class _OutputPageState extends State<OutputPage> {
         }
       }
 
-      return
-        build2DGraphicRepresentation(theme, colors);
-    } else {
-      return [
-        //TODO: BildGrafik anzeigen
-      ];
-    }
-  }
-
-  List<Widget> build2DGraphicRepresentation(theme, colors) {
-    if (manager!.choosenfileKmeansDimensionType ==
-        Constants.SERVER_CALLS_KMEANS[0]) {
       return [
         const SizedBox(height: 10),
         Row(
@@ -115,13 +106,12 @@ class _OutputPageState extends State<OutputPage> {
                   onPressed: () {
                     CustomWidgets.showTextfieldDialog(
                         context, theme, inputChartTitle, Constants.CHANGE_TITLE,
-                            (newText) {
-                          setState(() {
-                            inputChartTitle = newText;
-                            html.window.localStorage["inputChartTitle"] =
-                                newText;
-                          });
-                        });
+                        (newText) {
+                      setState(() {
+                        inputChartTitle = newText;
+                        html.window.localStorage["inputChartTitle"] = newText;
+                      });
+                    });
                   }),
             ),
             const SizedBox(width: 10),
@@ -131,12 +121,12 @@ class _OutputPageState extends State<OutputPage> {
                   onPressed: () {
                     CustomWidgets.showTextfieldDialog(
                         context, theme, inputXTitle, Constants.CHANGE_X_TITLE,
-                            (newText) {
-                          setState(() {
-                            inputXTitle = newText;
-                            html.window.localStorage["inputXTitle"] = newText;
-                          });
-                        });
+                        (newText) {
+                      setState(() {
+                        inputXTitle = newText;
+                        html.window.localStorage["inputXTitle"] = newText;
+                      });
+                    });
                   }),
             ),
             const SizedBox(width: 10),
@@ -146,12 +136,12 @@ class _OutputPageState extends State<OutputPage> {
                   onPressed: () {
                     CustomWidgets.showTextfieldDialog(
                         context, theme, inputYTitle, Constants.CHANGE_Y_TITLE,
-                            (newText) {
-                          setState(() {
-                            inputYTitle = newText;
-                            html.window.localStorage["inputYTitle"] = newText;
-                          });
-                        });
+                        (newText) {
+                      setState(() {
+                        inputYTitle = newText;
+                        html.window.localStorage["inputYTitle"] = newText;
+                      });
+                    });
                   }),
             )
           ],
@@ -187,127 +177,130 @@ class _OutputPageState extends State<OutputPage> {
         ),
         manager!.calculateFinished
             ? Column(children: [
-          const SizedBox(width: 10),
-          Wrap(
-            runSpacing: 5,
-            children: [
-              for(var color in colors.entries)
+                const SizedBox(width: 10),
                 Wrap(
-                  spacing: 5,
+                  runSpacing: 5,
                   children: [
-                    Container(height: 15, width: 40, color: color.value),
-                    Text("Cluster ${color.key}"),
-                    const SizedBox(width: 10),
+                    for (var color in colors.entries)
+                      Wrap(
+                        spacing: 5,
+                        children: [
+                          Container(height: 15, width: 40, color: color.value),
+                          Text("Cluster ${color.key}"),
+                          const SizedBox(width: 10),
+                        ],
+                      ),
                   ],
                 ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              const SizedBox(width: 10),
-              Expanded(
-                child: CustomWidgets.customElevatedButton(
-                    text: Constants.CHANGE_TITLE,
-                    onPressed: () {
-                      CustomWidgets.showTextfieldDialog(
-                          context,
-                          theme,
-                          outputChartTitle,
-                          Constants.CHANGE_TITLE, (newText) {
-                        setState(() {
-                          outputChartTitle = newText;
-                          html.window.localStorage["outputChartTitle"] =
-                              newText;
-                        });
-                      });
-                    }),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: CustomWidgets.customElevatedButton(
-                    text: Constants.CHANGE_X_TITLE,
-                    onPressed: () {
-                      CustomWidgets.showTextfieldDialog(
-                          context,
-                          theme,
-                          outputXTitle,
-                          Constants.CHANGE_X_TITLE, (newText) {
-                        setState(() {
-                          outputXTitle = newText;
-                          html.window.localStorage["outputXTitle"] =
-                              newText;
-                        });
-                      });
-                    }),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: CustomWidgets.customElevatedButton(
-                    text: Constants.CHANGE_Y_TITLE,
-                    onPressed: () {
-                      CustomWidgets.showTextfieldDialog(
-                          context,
-                          theme,
-                          outputYTitle,
-                          Constants.CHANGE_Y_TITLE, (newText) {
-                        setState(() {
-                          outputYTitle = newText;
-                          html.window.localStorage["outputYTitle"] =
-                              newText;
-                        });
-                      });
-                    }),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: CustomWidgets.customElevatedButton(
-                    text: Constants.BTN_EXPORT,
-                    onPressed: () {
-                      var clustersTxt = "";
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: CustomWidgets.customElevatedButton(
+                          text: Constants.CHANGE_TITLE,
+                          onPressed: () {
+                            CustomWidgets.showTextfieldDialog(
+                                context,
+                                theme,
+                                outputChartTitle,
+                                Constants.CHANGE_TITLE, (newText) {
+                              setState(() {
+                                outputChartTitle = newText;
+                                html.window.localStorage["outputChartTitle"] =
+                                    newText;
+                              });
+                            });
+                          }),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: CustomWidgets.customElevatedButton(
+                          text: Constants.CHANGE_X_TITLE,
+                          onPressed: () {
+                            CustomWidgets.showTextfieldDialog(
+                                context,
+                                theme,
+                                outputXTitle,
+                                Constants.CHANGE_X_TITLE, (newText) {
+                              setState(() {
+                                outputXTitle = newText;
+                                html.window.localStorage["outputXTitle"] =
+                                    newText;
+                              });
+                            });
+                          }),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: CustomWidgets.customElevatedButton(
+                          text: Constants.CHANGE_Y_TITLE,
+                          onPressed: () {
+                            CustomWidgets.showTextfieldDialog(
+                                context,
+                                theme,
+                                outputYTitle,
+                                Constants.CHANGE_Y_TITLE, (newText) {
+                              setState(() {
+                                outputYTitle = newText;
+                                html.window.localStorage["outputYTitle"] =
+                                    newText;
+                              });
+                            });
+                          }),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: CustomWidgets.customElevatedButton(
+                          text: Constants.BTN_EXPORT,
+                          onPressed: () {
+                            var clustersTxt = "";
 
-                      for (int i = 0; i <
-                          outputDataPoints!.centroids.length; i++) {
-                        clustersTxt += "{ ";
+                            for (int i = 0;
+                                i < outputDataPoints!.centroids.length;
+                                i++) {
+                              clustersTxt += "{ ";
 
-                        String centroidCoords = outputDataPoints!.centroids[i]
-                            .coords.join(",");
+                              String centroidCoords = outputDataPoints!
+                                  .centroids[i].coords
+                                  .join(",");
 
-                        String pointsStr = "";
+                              String pointsStr = "";
 
-                        for (int k = 0; k <
-                            outputDataPoints!.points.length; k++) {
-                          if (i + 1 !=
-                              outputDataPoints!.points[k].clusterNumber) {
-                            continue;
-                          }
+                              for (int k = 0;
+                                  k < outputDataPoints!.points.length;
+                                  k++) {
+                                if (i + 1 !=
+                                    outputDataPoints!.points[k].clusterNumber)
+                                  continue;
 
-                          pointsStr += "[";
-                          pointsStr +=
-                              outputDataPoints!.points[k].coords.join(",");
-                          pointsStr += "]";
+                                pointsStr += "[";
+                                pointsStr += outputDataPoints!.points[k].coords
+                                    .join(",");
+                                pointsStr += "]";
 
-                          pointsStr += ",";
-                        }
-                        pointsStr =
-                            pointsStr.substring(0, pointsStr.length - 1);
+                                pointsStr += ",";
+                              }
+                              pointsStr =
+                                  pointsStr.substring(0, pointsStr.length - 1);
 
-                        clustersTxt +=
-                        "\"centroid\": [$centroidCoords], \"points\": [$pointsStr]";
+                              clustersTxt +=
+                                  "\"centroid\": [$centroidCoords], \"points\": [$pointsStr]";
 
-                        clustersTxt += " }";
-                        if (i != outputDataPoints!.centroids.length - 1) {
-                          clustersTxt += ",";
-                        }
-                      }
+                              clustersTxt += " }";
+                              if (i != outputDataPoints!.centroids.length - 1) {
+                                clustersTxt += ",";
+                              }
+                            }
 
-                      var jsonText = "{ \"clusters\": [ $clustersTxt ] }";
+                            var jsonText = "{ \"clusters\": [ $clustersTxt ] }";
 
-                      html.Blob blob = html.Blob([jsonText], "text/plain");
-                      var url = html.Url.createObjectUrlFromBlob(blob);
+                            html.Blob blob =
+                                html.Blob([jsonText], "text/plain");
+                            var url = html.Url.createObjectUrlFromBlob(blob);
 
-                      js.context.callMethod("eval", [
-                        """
+                            js.context.callMethod("eval", [
+                              """
                   const csvDownload = document.createElement('a');
                   csvDownload.id = "csvDownload";
                   csvDownload.href = "$url";
@@ -318,118 +311,54 @@ class _OutputPageState extends State<OutputPage> {
 
                   csvDownload.remove();
                 """
-                      ]);
+                            ]);
 
-                      html.Url.revokeObjectUrl(url);
-                    }),
-              )
-            ],
-          ),
-          SfCartesianChart(
-            title: ChartTitle(text: outputChartTitle),
-            primaryXAxis: NumericAxis(
-                title: AxisTitle(text: outputXTitle),
-                labelIntersectAction:
-                AxisLabelIntersectAction.multipleRows,
-                majorGridLines: const MajorGridLines(width: 1),
-                axisLine: const AxisLine(width: 1)),
-            primaryYAxis: NumericAxis(
-                title: AxisTitle(text: outputYTitle),
-                axisLine: const AxisLine(width: 1),
-                majorGridLines: const MajorGridLines(width: 1)),
-            tooltipBehavior: TooltipBehavior(enable: false),
-            series: [
-              ScatterSeries(
-                dataSource: outputDataPoints!.points,
-                xValueMapper: (singlePoint, index) => singlePoint.coords[0],
-                yValueMapper: (singlePoint, index) => singlePoint.coords[1],
-                pointColorMapper: (singlePoint, index) =>
-                colors[singlePoint.clusterNumber],
-              )
-            ],
-          )
-        ])
+                            html.Url.revokeObjectUrl(url);
+                          }),
+                    )
+                  ],
+                ),
+                SfCartesianChart(
+                  title: ChartTitle(text: outputChartTitle),
+                  primaryXAxis: NumericAxis(
+                      title: AxisTitle(text: outputXTitle),
+                      labelIntersectAction:
+                          AxisLabelIntersectAction.multipleRows,
+                      majorGridLines: const MajorGridLines(width: 1),
+                      axisLine: const AxisLine(width: 1)),
+                  primaryYAxis: NumericAxis(
+                      title: AxisTitle(text: outputYTitle),
+                      axisLine: const AxisLine(width: 1),
+                      majorGridLines: const MajorGridLines(width: 1)),
+                  tooltipBehavior: TooltipBehavior(enable: false),
+                  series: [
+                    ScatterSeries(
+                      dataSource: outputDataPoints!.points,
+                      xValueMapper: (singlePoint, index) =>
+                          singlePoint.coords[0],
+                      yValueMapper: (singlePoint, index) =>
+                          singlePoint.coords[1],
+                      pointColorMapper: (singlePoint, index) =>
+                          colors[singlePoint.clusterNumber],
+                    )
+                  ],
+                )
+              ])
             : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            manager!.calculateFinished == false
-                ? const CircularProgressIndicator()
-                : const SizedBox()
-          ],
-        )
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  manager!.calculateFinished == false
+                      ? const CircularProgressIndicator()
+                      : const SizedBox()
+                ],
+              )
+      ];
+    } else {
+      return [
+        //TODO: BildGrafik anzeigen
       ];
     }
-      return [
-        const SizedBox(height: 8,),
-        Visibility(
-          visible: !manager!.operatingMode && outputDataPoints!.centroids.isNotEmpty,
-          child: Expanded(
-            child: CustomWidgets.customElevatedButton(
-                text: Constants.BTN_EXPORT,
-                onPressed: () {
-                  var clustersTxt = "";
-
-                  for (int i = 0; i <
-                      outputDataPoints!.centroids.length; i++) {
-                    clustersTxt += "{ ";
-
-                    String centroidCoords = outputDataPoints!.centroids[i]
-                        .coords.join(",");
-
-                    String pointsStr = "";
-
-                    for (int k = 0; k <
-                        outputDataPoints!.points.length; k++) {
-                      if (i + 1 !=
-                          outputDataPoints!.points[k].clusterNumber) {
-                        continue;
-                      }
-
-                      pointsStr += "[";
-                      pointsStr +=
-                          outputDataPoints!.points[k].coords.join(",");
-                      pointsStr += "]";
-
-                      pointsStr += ",";
-                    }
-                    pointsStr =
-                        pointsStr.substring(0, pointsStr.length - 1);
-
-                    clustersTxt +=
-                    "\"centroid\": [$centroidCoords], \"points\": [$pointsStr]";
-
-                    clustersTxt += " }";
-                    if (i != outputDataPoints!.centroids.length - 1) {
-                      clustersTxt += ",";
-                    }
-                  }
-
-                  var jsonText = "{ \"clusters\": [ $clustersTxt ] }";
-
-                  html.Blob blob = html.Blob([jsonText], "text/plain");
-                  var url = html.Url.createObjectUrlFromBlob(blob);
-
-                  js.context.callMethod("eval", [
-                    """
-                    const csvDownload = document.createElement('a');
-                    csvDownload.id = "csvDownload";
-                    csvDownload.href = "$url";
-                    csvDownload.style = "display:hidden;";
-
-                    document.body.append(csvDownload);
-                    csvDownload.click();
-
-                    csvDownload.remove();
-                  """
-                  ]);
-
-                  html.Url.revokeObjectUrl(url);
-                }),
-          ),
-        ),
-        const SizedBox(height: 8,),
-      ];
   }
 
   /// KMeans Lokal ausrechnen
