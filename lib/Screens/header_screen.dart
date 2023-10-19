@@ -74,13 +74,16 @@ class _HeaderScreenState extends State<HeaderScreen> {
             ),
           ),
           //Operationsmodus wechseln
-          Expanded(
-            child: CustomWidgets.customListTile(
-              title: const Text(Constants.BTN_CHANGE_MODE),
-              subtitle: Text(
-                  "Ausführungsmodus: ${manager!.operatingMode == false ? Constants.OPERATING_MODE_SERVER : Constants.OPERATING_MODE_LOCAL}"),
-              onTap: _changeOperatingMode,
-              backgroundColor: Colors.indigo,
+          Visibility(
+            visible: manager!.algorithmType == 0,
+            child: Expanded(
+              child: CustomWidgets.customListTile(
+                title: const Text(Constants.BTN_CHANGE_MODE),
+                subtitle: Text(
+                    "Ausführungsmodus: ${manager!.operatingMode == false ? Constants.OPERATING_MODE_SERVER : Constants.OPERATING_MODE_LOCAL}"),
+                onTap: _changeOperatingMode,
+                backgroundColor: Colors.indigo,
+              ),
             ),
           ),
           Expanded(
@@ -136,6 +139,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
                               Constants.DLG_TITLE_NO_CONNECTION,
                               Constants.DLG_CNT_SERVER_NOT_AVAILABLE);
                         }
+<<<<<<< HEAD
                       } else {
                         print(manager!.kClusterController);
                         DataPoints output = localKmeans(inputDataPoints,
@@ -152,6 +156,32 @@ class _HeaderScreenState extends State<HeaderScreen> {
                               output.points[i].clusterNumber,
                               output.points[i].coords));
                         }
+=======
+                      } catch (e) {
+                        error = true;
+                        //print(e);
+                        // ignore: use_build_context_synchronously
+                        CustomWidgets.showAlertDialog(
+                            context,
+                            Theme.of(context),
+                            Constants.DLG_TITLE_NO_CONNECTION,
+                            Constants.DLG_CNT_SERVER_NOT_AVAILABLE);
+                      }
+                    } else {
+                      DataPoints output = localKmeans(inputDataPoints,
+                          kCluster: manager!.kClusterController);
+
+                      for (int i = 0; i < output.centroids.length; i++) {
+                        outputDataPoints!.addCentroid(
+                            output.centroids[i].clusterNumber,
+                            output.centroids[i].coords);
+                      }
+
+                      for (int i = 0; i < output.points.length; i++) {
+                        outputDataPoints!.add(DataPointModel(
+                            output.points[i].clusterNumber,
+                            output.points[i].coords));
+>>>>>>> 7b5bc8b459b24bdccdc6715b2e4ce243d757e5f2
                       }
                     } else {
                       noFileSelectedDialog();
@@ -236,6 +266,7 @@ class _HeaderScreenState extends State<HeaderScreen> {
         displayFileTooBigDialog();
         return;
       }
+
       final decodedData = utf8.decode(file.bytes as List<int>);
       List<String> lines = decodedData
           .replaceAll("\r\n", "\n")

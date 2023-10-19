@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart';
 import 'package:programmierprojekt/Util/constants.dart';
@@ -38,3 +39,5 @@ Future<Response> performCart(
   }
   return cartReponse;
 }
+=======
+>>>>>>> 7b5bc8b459b24bdccdc6715b2e4ce243d757e5f2
