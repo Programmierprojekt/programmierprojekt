@@ -278,8 +278,9 @@ class _OutputPageState extends State<OutputPage> {
                         for (int k = 0; k <
                             outputDataPoints!.points.length; k++) {
                           if (i + 1 !=
-                              outputDataPoints!.points[k].clusterNumber)
+                              outputDataPoints!.points[k].clusterNumber) {
                             continue;
+                          }
 
                           pointsStr += "[";
                           pointsStr +=

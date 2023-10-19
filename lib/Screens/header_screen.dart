@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:programmierprojekt/api/backend_cart.dart';
 import 'package:programmierprojekt/api/frontend_kmeans.dart';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
@@ -140,7 +139,6 @@ class _HeaderScreenState extends State<HeaderScreen> {
                             Constants.DLG_CNT_SERVER_NOT_AVAILABLE);
                       }
                     } else {
-                      print(manager!.kClusterController);
                       DataPoints output = localKmeans(inputDataPoints,
                           kCluster: manager!.kClusterController);
 
