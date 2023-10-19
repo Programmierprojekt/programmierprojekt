@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:programmierprojekt/api/frontend_kmeans.dart';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -126,13 +126,25 @@ class _HeaderScreenState extends State<HeaderScreen> {
                         }
                       } catch (e) {
                         error = true;
-                        print(e);
+                        //print(e);
                         // ignore: use_build_context_synchronously
                         CustomWidgets.showAlertDialog(
                             context,
                             Theme.of(context),
                             Constants.DLG_TITLE_NO_CONNECTION,
                             Constants.DLG_CNT_SERVER_NOT_AVAILABLE);
+                      }
+                    }
+                    else {
+                      print(manager!.kClusterController);
+                      DataPoints output = localKmeans(inputDataPoints, kCluster: manager!.kClusterController);
+
+                      for(int i = 0; i < output.centroids.length; i++) {
+                        outputDataPoints!.addCentroid(output.centroids[i].clusterNumber, output.centroids[i].coords);
+                      }
+
+                      for(int i = 0; i < output.points.length; i++) {
+                        outputDataPoints!.add(DataPointModel(output.points[i].clusterNumber, output.points[i].coords));
                       }
                     }
                   } else {
