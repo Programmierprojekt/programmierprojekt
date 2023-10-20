@@ -38,7 +38,7 @@ Nachdem Sie diese Schritte abgeschlossen haben, sollten Sie in der Lage sein, da
 ```bash
 git clone https://github.com/Programmierprojekt/programmierprojekt.git && cd programmierprojekt
 ```
-3. Führen Sie den folgenden Befehl aus, um die Abhängigkeiten des Projekts zu aktualisieren:
+3. Installieren aller notwendigen Pakete
 ```bash
 flutter pub get
 ```
