@@ -42,7 +42,7 @@ git clone https://github.com/Programmierprojekt/programmierprojekt.git && cd pro
 ```bash
 flutter pub get
 ```
-5. Um die Webseite zu starten, führen Sie den folgenden Befehl aus.
+4. Um die Webseite zu starten, führen Sie den folgenden Befehl aus.
 ```bash
 flutter run
 ```
