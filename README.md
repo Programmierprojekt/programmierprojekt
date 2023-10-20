@@ -7,24 +7,25 @@ Ein benutzerfreundliches Frontend für die Berechnung von KMeans-Clustering und 
 ### KMeans-Clustering
 Server
 - Distanzmetriken:
-  - Euklidisch, Manhattan, Jaccard-Index
+  - Euklidisch, Manhattan, Jaccard
 - Klusterbestimmungsmethoden:
   - Silhouette-Methode
-- Lokal
+
+Lokal
   - Distanzmetriken:
       - Euklidisch
   - Klusterbestimmungsmethoden:
       - Elbow-Methode
-- Benutzerdefinierte Anzahl von Clustern (optional)
+
+Benutzerdefinierte Anzahl von Clustern (optional)
 
 ### Decision Trees (CART)
-- Entscheidungsbaum-Erstellung (nur Serverseitig) und als Json abspeichern
+Entscheidungsbaum-Erstellung (nur serverseitig) und als Json abspeichern.
 
 ## Voraussetzungen
 Bevor Sie das Repository verwenden können, müssen Sie sicherstellen, dass die folgenden Voraussetzungen erfüllt sind:
 
-- **Flutter**: Stellen Sie sicher, dass Flutter auf Ihrem lokalen System installiert ist. Weitere Informationen zur Flutter-
-Installation finden Sie unter [Flutter Installationsanleitung](https://flutter.dev/docs/get-started/install).
+- **Flutter**: Stellen Sie sicher, dass Flutter auf Ihrem lokalen System installiert ist. Weitere Informationen zur  Flutter-Installation finden Sie unter [Flutter Installationsanleitung](https://flutter.dev/docs/get-started/install).
 
 - **Lokales Backend (nur für serverseitige Berechnungen)**:
 Wenn Sie die serverseitige Berechnungsoption nutzen möchten, müssen Sie das Backend [progback](https://github.com/axellotl22/progback) lokal installieren. Beachten Sie, dass das Backend auf Windows-Systemen nur mit [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/de-de/windows/wsl/install) funktioniert.
@@ -42,9 +43,9 @@ git clone https://github.com/Programmierprojekt/programmierprojekt.git && cd pro
 flutter run
 ```
 4. Verwenden Sie die Benutzeroberfläche, um die gewünschten Einstellungen für KMeans oder CART festzulegen.
-5. Klicken Sie auf "Berechnen", um die Ergebnisse zu erhalten.
+5. Klicken Sie auf „Berechnen“, um die Ergebnisse zu erhalten.
 
-## Instalation von Lokalen Backend
+## Installation von lokalen Backend
 Um das lokale Backend [progback](https://github.com/axellotl22/progback) zum Laufen zu bekommen müssen folgende Schritte gemacht werden:
 
 1. WSL installieren
@@ -55,7 +56,7 @@ Um das lokale Backend [progback](https://github.com/axellotl22/progback) zum Lau
 6. Backend herunterladen und die .env kon­fi­gu­rie­ren
 
 ### 1. WSL installieren
-Bitte stellen Sie sicher, dass Sie die erforderlichen Windows-Feature installiert sind:
+Bitte stellen Sie sicher, dass Sie die erforderlichen Windows-Features installiert sind:
 - **VM-Plattform (Virtual Machine Platform)**
 - **Windows-Subsystem für Linux (Windows Subsystem for Linux)**
 
@@ -133,9 +134,9 @@ Laden Sie das Backend herunter und wechseln Sie in das entsprechende Verzeichnis
 git clone https://github.com/axellotl22/progback && cd progback
 ```
 
-Entnehmen sie den Port von MariaDB aus dem Befehl **systemctl status mariadb.service** raus. Standardmäßig ist der Port **3306**.
+Entnehmen Sie den Port von MariaDB aus dem Befehl **systemctl status mariadb.service** raus. Standardmäßig ist der Port **3306**.
 
-In Docker gibt es eine Bridge-Gateway-Adresse, die standardmäßig für Container-Netzwerke verwendet wird. Standardmäßig lautet die IP-Adresse **172.17.0.1** für den Container-Gateway. Wenn Sie die IP-Adresse dieses Gateways herausfinden möchten, können Sie dies mit folgendem Befhel tun:
+In Docker gibt es eine Bridge-Gateway-Adresse, die standardmäßig für Container-Netzwerke verwendet wird. Standardmäßig lautet die IP-Adresse **172.17.0.1** für das Container-Gateway. Wenn Sie die IP-Adresse dieses Gateways herausfinden möchten, können Sie dies mit folgendem Befehl tun:
 ```bash
 ip -4 addr show docker0
 ```
@@ -145,7 +146,7 @@ Jetzt können Sie die Datei **.env.example** kopieren, um sie zu bearbeiten.
 cp .env.example .env
 ```
 
-Mit folgenden Befehl können Sie die **.env** öffnen:
+Mit folgendem Befehl können Sie die **.env** öffnen:
 ```bash
 nano .env
 ```
@@ -165,8 +166,12 @@ DB_SCHEMA=your_database
 APP_SECRET=
 VERIFICATION_SECRET=
 ```
-Jetzt können Sie den Container starten. Wenn Lazydocker nicht installiert wird, können Sie die Anleitung zur Installation [hier](https://lindevs.com/install-lazydocker-on-ubuntu/) ansehen.
-
+Bevor der Container gestartet werden kann, muss **docker-compose** installiert werden.
+```bash
+sudo apt install docker-compose
+```
+Jetzt können Sie den Container starten. 
 ```bash
 sudo ./deploy.sh
 ```
+Wenn **Lazydocker** nicht installiert wird, können Sie die Anleitung zur Installation [hier](https://lindevs.com/install-lazydocker-on-ubuntu/) ansehen.
