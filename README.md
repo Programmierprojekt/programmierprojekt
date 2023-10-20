@@ -50,7 +50,7 @@ flutter run
 6. Klicken Sie auf „Berechnen“, um die Ergebnisse zu erhalten.
 
 ## Installation von lokalen Backend
-Um das lokale Backend [progback](https://github.com/axellotl22/progback) zum Laufen zu bekommen müssen folgende Schritte gemacht werden:
+Dieser Leitfaden wurde aufgrund der unzureichenden Installationsanleitung des Backends [progback](https://github.com/axellotl22/progback) erstellt. Um das lokale Backend [progback](https://github.com/axellotl22/progback) zum Laufen zu bekommen müssen folgende Schritte gemacht werden:
 
 1. WSL installieren
 2. Ubuntu (oder eine ähnliche Linux-Distribution) installieren
