@@ -38,12 +38,16 @@ Nachdem Sie diese Schritte abgeschlossen haben, sollten Sie in der Lage sein, da
 ```bash
 git clone https://github.com/Programmierprojekt/programmierprojekt.git && cd programmierprojekt
 ```
-3. Um die Webseite zu starten, führen Sie den folgenden Befehl aus.
+3. Installieren aller notwendigen Pakete
+```bash
+flutter pub get
+```
+5. Um die Webseite zu starten, führen Sie den folgenden Befehl aus.
 ```bash
 flutter run
 ```
-4. Verwenden Sie die Benutzeroberfläche, um die gewünschten Einstellungen für KMeans oder CART festzulegen.
-5. Klicken Sie auf „Berechnen“, um die Ergebnisse zu erhalten.
+5. Verwenden Sie die Benutzeroberfläche, um die gewünschten Einstellungen für KMeans oder CART festzulegen.
+6. Klicken Sie auf „Berechnen“, um die Ergebnisse zu erhalten.
 
 ## Installation von lokalen Backend
 Um das lokale Backend [progback](https://github.com/axellotl22/progback) zum Laufen zu bekommen müssen folgende Schritte gemacht werden:
