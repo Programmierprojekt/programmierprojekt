@@ -38,12 +38,16 @@ Nachdem Sie diese Schritte abgeschlossen haben, sollten Sie in der Lage sein, da
 ```bash
 git clone https://github.com/Programmierprojekt/programmierprojekt.git && cd programmierprojekt
 ```
-3. Um die Webseite zu starten, führen Sie den folgenden Befehl aus.
+3. Führen Sie den folgenden Befehl aus, um die Abhängigkeiten des Projekts zu aktualisieren:
+```bash
+flutter pub get
+```
+4. Um die Webseite zu starten, führen Sie den folgenden Befehl aus.
 ```bash
 flutter run
 ```
-4. Verwenden Sie die Benutzeroberfläche, um die gewünschten Einstellungen für KMeans oder CART festzulegen.
-5. Klicken Sie auf „Berechnen“, um die Ergebnisse zu erhalten.
+5. Verwenden Sie die Benutzeroberfläche, um die gewünschten Einstellungen für KMeans oder CART festzulegen.
+6. Klicken Sie auf „Berechnen“, um die Ergebnisse zu erhalten.
 
 ## Installation von lokalen Backend
 Um das lokale Backend [progback](https://github.com/axellotl22/progback) zum Laufen zu bekommen müssen folgende Schritte gemacht werden:
@@ -56,7 +60,12 @@ Um das lokale Backend [progback](https://github.com/axellotl22/progback) zum Lau
 6. Backend herunterladen und die .env kon­fi­gu­rie­ren
 
 ### 1. WSL installieren
-Bitte stellen Sie sicher, dass Sie die erforderlichen Windows-Features installiert sind:
+Um WSL vollständig zu nutzen, muss die Virtualisierungstechnologie im BIOS/UEFI aktiviert sein (**Intel Virtualization Technology** oder **SVM Mode in AMD**). Sie können überprüfen, ob sie aktiviert ist, indem Sie in den **Task-Manager** gehen und den Reiter **Leistung** aufrufen. Stellen Sie sicher, dass die Virtualisierung als **Aktiviert** angezeigt wird.
+
+![BIOS/ UEFI Virtualisierung](/reamd_assets/virtualization.png)
+
+
+Stellen Sie sicher, dass Sie die erforderlichen Windows-Features installiert sind:
 - **VM-Plattform (Virtual Machine Platform)**
 - **Windows-Subsystem für Linux (Windows Subsystem for Linux)**
 
@@ -67,7 +76,7 @@ dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux 
 ```PowerShell
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 ```
-
+()
 Darüber hinaus sollten Sie WSL2 als die Standardversion festlegen.
 ```bash
 wsl --set-default-version 2
@@ -124,7 +133,7 @@ Um den Remote-Zugriff auf MariaDB zu ermöglichen, müssen Sie eine Zeile in der
 ```bash
 sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
 ```
-Die Zeile *bind-address = 127.0.0.1* mit zu **bind-address = 0.0.0.0** geändert werden. Anschließend ist ein Neustart des Dienstes erforderlich.
+Die Zeile **bind-address = 127.0.0.1** mit zu **bind-address = 0.0.0.0** geändert werden. Anschließend ist ein Neustart des Dienstes erforderlich.
 ```bash
 sudo systemctl restart mariadb.service
 ```
@@ -133,7 +142,10 @@ Laden Sie das Backend herunter und wechseln Sie in das entsprechende Verzeichnis
 ```bash
 git clone https://github.com/axellotl22/progback && cd progback
 ```
-
+**Docker-compose** muss installiert werden.
+```bash
+sudo apt install docker-compose
+```
 Entnehmen Sie den Port von MariaDB aus dem Befehl **systemctl status mariadb.service** raus. Standardmäßig ist der Port **3306**.
 
 In Docker gibt es eine Bridge-Gateway-Adresse, die standardmäßig für Container-Netzwerke verwendet wird. Standardmäßig lautet die IP-Adresse **172.17.0.1** für das Container-Gateway. Wenn Sie die IP-Adresse dieses Gateways herausfinden möchten, können Sie dies mit folgendem Befehl tun:
@@ -165,10 +177,6 @@ DB_SCHEMA=your_database
 #User Config
 APP_SECRET=
 VERIFICATION_SECRET=
-```
-Bevor der Container gestartet werden kann, muss **docker-compose** installiert werden.
-```bash
-sudo apt install docker-compose
 ```
 Jetzt können Sie den Container starten. 
 ```bash
